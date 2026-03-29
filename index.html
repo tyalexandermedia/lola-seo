@@ -251,123 +251,61 @@
         <!-- ── STEP 4: FULL REPORT ─────────────────────────────── -->
         <div class="tool-card hidden" id="step-report">
 
-          <!-- Report top bar -->
-          <div class="report-topbar">
-            <div class="report-lola-mark">
-              <img src="lola-logo.png" alt="LOLA SEO" class="report-lola-img" />
+          <!-- SCORE HERO -->
+          <div class="rpt-hero" id="rpt-hero">
+            <div class="rpt-hero-left">
+              <img src="lola-logo.png" alt="LOLA SEO" class="rpt-lola" />
+              <div class="rpt-grade-pill" id="rpt-grade-pill">--</div>
             </div>
-            <div class="report-score-col">
-              <div class="report-ring-wrap">
-                <svg viewBox="0 0 140 140" class="score-svg-lg">
-                  <circle cx="70" cy="70" r="56" fill="none" stroke="rgba(212,161,23,0.1)" stroke-width="12"/>
-                  <circle cx="70" cy="70" r="56" fill="none" stroke="url(#lolaGradLg)" stroke-width="12"
-                    stroke-dasharray="352" stroke-dashoffset="352"
-                    stroke-linecap="round" transform="rotate(-90 70 70)"
+            <div class="rpt-hero-score">
+              <div class="rpt-score-ring-wrap">
+                <svg viewBox="0 0 120 120" class="rpt-ring-svg">
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="url(#rptGrad)" stroke-width="8"
+                    stroke-dasharray="314" stroke-dashoffset="314"
+                    stroke-linecap="round" transform="rotate(-90 60 60)"
                     id="report-ring-fill" />
                   <defs>
-                    <linearGradient id="lolaGradLg" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#d4a117"/>
-                      <stop offset="100%" stop-color="#1a3a8f"/>
+                    <linearGradient id="rptGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#e4b118"/>
+                      <stop offset="100%" stop-color="#4a72d8"/>
                     </linearGradient>
                   </defs>
                 </svg>
-                <div class="score-center">
-                  <span class="report-score-num" id="report-score-num">--</span>
-                  <span class="report-score-denom">/100</span>
-                  <span class="report-grade-badge" id="report-badge">--</span>
+                <div class="rpt-ring-center">
+                  <span class="rpt-score-num" id="report-score-num">--</span>
+                  <span class="rpt-score-sub">/100</span>
                 </div>
               </div>
             </div>
-            <div class="report-meta">
-              <div class="report-status-badge" id="report-status-badge">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                ✓ Lola's Done Sniffing
-              </div>
-              <h2 id="report-headline">Your Local SEO Report</h2>
-              <p id="report-subline">Here's exactly what's helping and hurting your ranking.</p>
-              <div class="report-info-row">
-                <span id="report-biz-name-display"></span>
-                <span class="dot-sep">·</span>
-                <span id="report-city-display"></span>
-                <span class="dot-sep">·</span>
-                <span id="report-date-display"></span>
-              </div>
+            <div class="rpt-hero-text">
+              <p class="rpt-label" id="rpt-label">--</p>
+              <h2 class="rpt-headline" id="report-headline">Your SEO Report</h2>
+              <div class="rpt-meta" id="rpt-meta"></div>
             </div>
           </div>
 
-          <!-- 5 Category Scores -->
-          <div class="report-section">
-            <h3 class="report-section-title">🐾 Lola's Score Breakdown</h3>
-            <div class="score-legend">
-              <span class="legend-item"><span class="legend-dot legend-good"></span> Strong (70+)</span>
-              <span class="legend-item"><span class="legend-dot legend-ok"></span> Needs Work (45–69)</span>
-              <span class="legend-item"><span class="legend-dot legend-bad"></span> Critical Gap (&lt;45)</span>
-            </div>
-            <div id="categories-grid"></div>
+          <!-- BENTO CATEGORY GRID -->
+          <div class="rpt-cats" id="categories-grid"></div>
+
+          <!-- ISSUES -->
+          <div id="issues-section">
+            <div class="rpt-section-label">🚨 What Lola Found</div>
+            <div class="rpt-issues" id="issues-list"></div>
           </div>
 
-          <!-- Issues -->
-          <div class="report-section" id="issues-section">
-            <h3 class="report-section-title">🚨 What Lola Sniffed Out</h3>
-            <div id="issues-list"></div>
-          </div>
+          <!-- QUICK WINS -->
+          <div class="rpt-section-label" style="margin-top:1.5rem">🎾 Do These First</div>
+          <div class="rpt-wins" id="quickwins-list"></div>
 
-          <!-- Instagram Section (injected dynamically) -->
-          <div class="report-section hidden" id="ig-section">
-            <h3 class="report-section-title">📲 Social Signal Check — Instagram</h3>
+          <!-- INSTAGRAM (injected) -->
+          <div class="hidden" id="ig-section">
+            <div class="rpt-section-label" style="margin-top:1.5rem">📲 Social Signal Check</div>
             <div id="ig-results"></div>
           </div>
 
-          <!-- Quick Wins -->
-          <div class="report-section">
-            <h3 class="report-section-title">🎾 Quick Fetches — Do These First</h3>
-            <div id="quickwins-list"></div>
-          </div>
-
-          <!-- ── UPSELL — Hormozi / Martell / Golden level ── -->
-          <div class="upsell-block">
-            <div class="upsell-lola">
-              <img src="lola-logo.png" alt="" aria-hidden="true" class="upsell-lola-img" />
-            </div>
-
-            <div class="upsell-eyebrow">The Report Is Free. The Problem Is Expensive.</div>
-            <h3>Every Day You're Not on Page 1,<br>Your Competitor Gets the Sale.</h3>
-            <p>Lola just showed you the holes. But knowing about them and closing them are two different things. Most business owners read SEO reports, feel overwhelmed, and do nothing. That's exactly why their competitors keep winning.</p>
-
-            <!-- Value equation block -->
-            <div class="value-equation">
-              <div class="ve-item">
-                <div class="ve-num">97%</div>
-                <div class="ve-label">of customers check Google before buying local</div>
-              </div>
-              <div class="ve-divider"></div>
-              <div class="ve-item">
-                <div class="ve-num">#1</div>
-                <div class="ve-label">Google result gets 10× more clicks than #10</div>
-              </div>
-              <div class="ve-divider"></div>
-              <div class="ve-item">
-                <div class="ve-num">28%</div>
-                <div class="ve-label">of local searches result in a purchase within 24 hours</div>
-              </div>
-            </div>
-
-            <div class="upsell-divider"></div>
-
-            <p class="upsell-sub-head">Here's what Ty's team does that the DIY list can't:</p>
-            <div class="upsell-bullets">
-              <div class="upsell-bullet"><span class="ub-check">✓</span> <div><strong>Local keyword domination</strong> — we find the exact searches your buyers type when they're ready to spend money in your city</div></div>
-              <div class="upsell-bullet"><span class="ub-check">✓</span> <div><strong>Google Business Profile optimization</strong> — the single highest-ROI move in local SEO, fully done for you</div></div>
-              <div class="upsell-bullet"><span class="ub-check">✓</span> <div><strong>On-page fixes, speed &amp; citations</strong> — we implement everything in Lola's report and more, so you can run your business</div></div>
-              <div class="upsell-bullet"><span class="ub-check">✓</span> <div><strong>Transparent monthly reporting</strong> — you see exactly what moved, what ranked, and what revenue it drove. No black box.</div></div>
-            </div>
-
-            <div class="upsell-ctas">
-              <a href="https://www.tyalexandermedia.com/contact" class="btn btn-gold btn-lg" target="_blank">Book Your Free Strategy Call →</a>
-              <a href="https://www.tyalexandermedia.com/services" class="btn btn-outline btn-lg" target="_blank">See Our Work</a>
-            </div>
-            <p class="upsell-note">30 minutes. No sales pressure. We'll walk through Lola's report live and show you exactly what we'd do — yours to keep even if you never hire us. 🐾</p>
-          </div>
+          <!-- UPSELL -->
+          <div class="rpt-upsell" id="rpt-upsell"></div>
 
           <div class="restart-row">
             <button class="btn btn-ghost" id="restart-btn">🐾 Audit Another Business</button>
