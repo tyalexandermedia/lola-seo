@@ -681,3 +681,272 @@ a { color: inherit; }
   margin-bottom: 0.5rem;
   width: fit-content;
 }
+
+/* ══════════════════════════════════════════════════════════════
+   PROOF STRIP
+══════════════════════════════════════════════════════════════ */
+.proof-strip {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.proof-item {
+  font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 0.3rem 0.875rem; border-radius: var(--r-full);
+}
+.proof-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--border-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   GATE — what's inside teaser
+══════════════════════════════════════════════════════════════ */
+.gate-inside-teaser {
+  background: var(--surface-3); border: 1px solid var(--border-2);
+  border-radius: var(--r-md); padding: 0.875rem 1.125rem;
+  margin-bottom: 1.25rem;
+}
+.git-label {
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--gold); margin-bottom: 0.5rem;
+}
+.git-items {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+}
+.git-item {
+  font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+  background: rgba(212,161,23,0.07); border: 1px solid rgba(212,161,23,0.2);
+  padding: 0.25rem 0.7rem; border-radius: var(--r-full);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ISSUE — upgraded layout with steps + CTA
+══════════════════════════════════════════════════════════════ */
+.issue-item {
+  display: flex; flex-direction: column; gap: 0;
+  margin-bottom: 1rem;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 4px solid var(--error); border-radius: var(--r-md);
+  overflow: hidden;
+}
+.issue-item.warn { border-left-color: var(--warning); }
+
+.issue-header {
+  display: flex; align-items: flex-start; gap: 0.875rem;
+  padding: 1.125rem 1.125rem 0.875rem;
+}
+.issue-icon { font-size: 1.25rem; flex-shrink: 0; padding-top: 2px; }
+.issue-header-text { flex: 1; min-width: 0; }
+
+.issue-title-row {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: 0.4rem; margin-bottom: 0.35rem;
+}
+.issue-title-row strong {
+  font-size: 0.9375rem; font-weight: 700; color: var(--text);
+  line-height: 1.3; flex: 1; min-width: 0;
+}
+.issue-body-text {
+  font-size: 0.8125rem; color: var(--text-muted);
+  line-height: 1.65; margin: 0;
+}
+
+/* Impact + time badges */
+.impact-badge {
+  display: inline-block; font-size: 0.6875rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.2rem 0.55rem; border-radius: var(--r-full);
+  white-space: nowrap; flex-shrink: 0;
+}
+.impact-critical { background: rgba(239,68,68,0.15); color: var(--error); border: 1px solid rgba(239,68,68,0.3); }
+.impact-high     { background: rgba(245,158,11,0.12); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); }
+.impact-medium   { background: rgba(148,163,184,0.1); color: var(--text-muted); border: 1px solid var(--border-2); }
+
+.time-badge {
+  display: inline-block; font-size: 0.6875rem; font-weight: 600;
+  color: var(--text-faint); white-space: nowrap; flex-shrink: 0;
+}
+
+/* Step-by-step fix plan */
+.issue-steps {
+  padding: 0.875rem 1.125rem 0.875rem calc(1.125rem + 1.25rem + 0.875rem);
+  background: rgba(212,161,23,0.04);
+  border-top: 1px solid rgba(212,161,23,0.1);
+}
+.steps-label {
+  font-size: 0.75rem; font-weight: 700; color: var(--gold);
+  text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.625rem;
+}
+.steps-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 0.45rem;
+  counter-reset: step-counter;
+}
+.steps-list li {
+  display: flex; align-items: flex-start; gap: 0.625rem;
+  font-size: 0.8125rem; color: var(--text-muted); line-height: 1.6;
+  counter-increment: step-counter;
+}
+.steps-list li::before {
+  content: counter(step-counter);
+  width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(212,161,23,0.15); border: 1px solid rgba(212,161,23,0.3);
+  color: var(--gold); font-size: 0.6875rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.steps-list a { color: var(--gold); text-decoration: underline; text-underline-offset: 2px; }
+.steps-list code {
+  background: var(--surface-3); border: 1px solid var(--border-2);
+  padding: 0.1em 0.4em; border-radius: 4px;
+  font-size: 0.8em; font-family: 'SF Mono', 'Fira Code', monospace; color: var(--gold-pale);
+}
+
+/* Ty CTA inside issue */
+.issue-ty-cta {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem;
+  padding: 0.75rem 1.125rem 0.75rem calc(1.125rem + 1.25rem + 0.875rem);
+  background: rgba(26,58,143,0.12);
+  border-top: 1px solid rgba(26,58,143,0.2);
+}
+.ty-label {
+  font-size: 0.78rem; color: var(--text-muted); flex: 1; min-width: 180px;
+}
+.btn-inline-cta {
+  display: inline-block; padding: 0.4rem 0.9rem;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #0a0c14; font-size: 0.78rem; font-weight: 700;
+  border-radius: var(--r-full); text-decoration: none;
+  white-space: nowrap; transition: transform var(--t), box-shadow var(--t);
+}
+.btn-inline-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(212,161,23,0.4); }
+
+/* ══════════════════════════════════════════════════════════════
+   CATEGORY ROW — upgraded with status label + why
+══════════════════════════════════════════════════════════════ */
+.category-row {
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: start; gap: 0.75rem;
+  padding: 1rem 1.125rem;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--r-md); margin-bottom: 0.625rem;
+}
+.cat-left { display: flex; flex-direction: column; gap: 0.35rem; }
+.cat-title-row { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; }
+.cat-emoji { font-size: 1rem; }
+.cat-name  { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+.cat-status {
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; padding: 0.18rem 0.5rem;
+  border-radius: var(--r-full); margin-left: auto;
+}
+.status-good { background: rgba(34,197,94,0.1);  color: var(--success); border: 1px solid rgba(34,197,94,0.25); }
+.status-ok   { background: rgba(245,158,11,0.1); color: var(--warning); border: 1px solid rgba(245,158,11,0.25); }
+.status-bad  { background: rgba(239,68,68,0.1);  color: var(--error);   border: 1px solid rgba(239,68,68,0.2); }
+
+.cat-bar-wrap { height: 5px; background: var(--surface-3); border-radius: 3px; overflow: hidden; }
+.cat-bar { height: 100%; border-radius: 3px; width: 0; transition: width 1.3s cubic-bezier(0.16,1,0.3,1); }
+.bar-good { background: linear-gradient(90deg, var(--success), #4ade80); }
+.bar-ok   { background: linear-gradient(90deg, var(--warning), var(--gold-light)); }
+.bar-bad  { background: linear-gradient(90deg, var(--error), #f97316); }
+
+.cat-desc { font-size: 0.75rem; color: var(--text-faint); }
+.cat-why  { font-size: 0.75rem; color: var(--text-muted); font-style: italic; line-height: 1.5; }
+
+.cat-score-badge {
+  font-size: 1.375rem; font-weight: 800; min-width: 44px;
+  text-align: right; line-height: 1; padding-top: 3px;
+}
+.score-good { color: var(--success); }
+.score-ok   { color: var(--warning); }
+.score-bad  { color: var(--error); }
+
+/* ══════════════════════════════════════════════════════════════
+   QUICK WINS — upgraded with steps + CTA
+══════════════════════════════════════════════════════════════ */
+.qw-item {
+  display: flex; flex-direction: column; gap: 0;
+  margin-bottom: 1rem;
+  background: rgba(34,197,94,0.04); border: 1px solid rgba(34,197,94,0.15);
+  border-radius: var(--r-md); overflow: hidden;
+}
+.qw-header {
+  display: flex; align-items: flex-start; gap: 0.875rem;
+  padding: 1.125rem 1.125rem 0.75rem;
+}
+.qw-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--success); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8125rem; font-weight: 800; flex-shrink: 0; margin-top: 2px;
+}
+.qw-title-wrap { display: flex; flex-direction: column; gap: 0.3rem; }
+.qw-title-wrap strong { font-size: 0.9375rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+.qw-meta { display: flex; align-items: center; gap: 0.5rem; }
+.qw-effort {
+  display: inline-block; font-size: 0.6875rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 0.18rem 0.55rem; border-radius: var(--r-full);
+  background: rgba(34,197,94,0.1); color: var(--success);
+  border: 1px solid rgba(34,197,94,0.25);
+}
+.qw-effort.medium { background: rgba(245,158,11,0.1); color: var(--warning); border-color: rgba(245,158,11,0.3); }
+.qw-time { font-size: 0.6875rem; color: var(--text-faint); }
+
+.qw-body {
+  font-size: 0.8125rem; color: var(--text-muted);
+  padding: 0 1.125rem 0.75rem calc(1.125rem + 28px + 0.875rem);
+  line-height: 1.65; margin: 0;
+}
+.qw-steps {
+  padding: 0.875rem 1.125rem 0.875rem calc(1.125rem + 28px + 0.875rem);
+  background: rgba(34,197,94,0.04);
+  border-top: 1px solid rgba(34,197,94,0.12);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   VALUE EQUATION + UPSELL ENHANCEMENTS
+══════════════════════════════════════════════════════════════ */
+.value-equation {
+  display: flex; align-items: stretch; gap: 0;
+  background: var(--surface-3); border: 1px solid var(--border-2);
+  border-radius: var(--r-lg); overflow: hidden;
+  margin: 1.5rem 0;
+}
+.ve-item {
+  flex: 1; padding: 1.25rem 1rem; text-align: center;
+  display: flex; flex-direction: column; gap: 0.35rem;
+}
+.ve-num  { font-size: 1.875rem; font-weight: 800; color: var(--gold); line-height: 1; }
+.ve-label { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; }
+.ve-divider { width: 1px; background: var(--border-2); flex-shrink: 0; }
+@media (max-width: 480px) {
+  .value-equation { flex-direction: column; }
+  .ve-divider { width: auto; height: 1px; }
+}
+
+.upsell-divider { height: 1px; background: var(--border-2); margin: 1.5rem 0; }
+.upsell-sub-head {
+  font-size: 0.875rem; font-weight: 700; color: var(--text);
+  margin-bottom: 1rem; text-align: left;
+}
+.upsell-bullets { display: flex; flex-direction: column; gap: 0.75rem; max-width: 480px; margin: 0 auto 1.5rem; text-align: left; }
+.upsell-bullet { display: flex; align-items: flex-start; gap: 0.625rem; font-size: 0.875rem; color: var(--text-muted); }
+.upsell-bullet strong { color: var(--text); }
+.ub-check { color: var(--success); font-weight: 800; flex-shrink: 0; padding-top: 1px; }
+
+/* ══════════════════════════════════════════════════════════════
+   PAIN BLOCK (how it works section)
+══════════════════════════════════════════════════════════════ */
+.pain-block { margin-top: 1.5rem; }
+.pain-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem; margin-top: 1.5rem; text-align: left;
+}
+.pain-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 1.25rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+}
+.pain-icon { font-size: 1.5rem; }
+.pain-item p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+.pain-item em { color: var(--text); font-style: normal; font-weight: 600; }
