@@ -1,22 +1,40 @@
 const RESEND_API_KEY = 're_Ar7MjxPa_HzuGzAD9Qwq6nRHVw4PMp5yD';
+const NOTIFY_EMAIL  = 'ty@tyalexandermedia.com'; // lead notifications go here
 
-async function sendEmail(to, subject, html) {
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${RESEND_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: 'LOLA SEO <onboarding@resend.dev>',
-      to,
-      subject,
-      html,
-    }),
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(JSON.stringify(data));
-  return data;
+// Small sleep helper to space out API calls
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+async function sendEmail(to, subject, html, retries = 3) {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'LOLA SEO <lola@tyalexandermedia.com>',
+          to,
+          subject,
+          html,
+        }),
+      });
+      const data = await res.json();
+      if (res.status === 429) {
+        // Rate limited — wait and retry
+        const wait = attempt * 1200;
+        console.log(`429 rate limit — retrying in ${wait}ms (attempt ${attempt})`);
+        await sleep(wait);
+        continue;
+      }
+      if (!res.ok) throw new Error(JSON.stringify(data));
+      return data;
+    } catch (err) {
+      if (attempt === retries) throw err;
+      await sleep(attempt * 800);
+    }
+  }
 }
 
 module.exports = async (req, res) => {
@@ -53,7 +71,7 @@ module.exports = async (req, res) => {
       return `<tr><td style="padding:8px 0;color:#94a3b8;font-size:14px">${name}</td><td style="padding:8px 0;text-align:right;font-weight:700;color:${color}">${score}/100</td></tr>`;
     }).join('');
 
-    // ── Email to Ty (lead notification) ──
+    // ── Email 1: Lead notification to Ty ──
     await sendEmail(
       'ty@tyalexandermedia.com',
       `🐾 Lola sniffed a new lead! ${bizName} scored ${total}/100`,
@@ -76,7 +94,10 @@ module.exports = async (req, res) => {
       </div>`
     );
 
-    // ── Email to client (full report) ──
+    // ── Space out the two sends (avoid 429) ──
+    await sleep(400);
+
+    // ── Email 2: Full report to client ──
     await sendEmail(
       email,
       `🐾 Lola's SEO Report for ${bizName} — Score: ${total}/100`,
