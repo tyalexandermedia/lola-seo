@@ -372,147 +372,130 @@ function scoreContent(s, bizName, city) {
   return Math.min(score, 100);
 }
 
-// ── ISSUE BUILDER — compact, one clear action per issue ─────────
+// ── ISSUE BUILDER — diagnosis only, no free tutorials ───────────
 function buildIssues(scores, siteData, speedData, url, bizName, city) {
   const issues = [];
   const cityName = city.split(',')[0];
 
+  // Impact labels: what this costs them in plain language
   if (!siteData.httpsOk) {
-    issues.push({ icon: '🔓', severity: 'error', impactClass: 'critical',
-      title: 'No HTTPS — Google marks your site "Not Secure"',
-      fix: 'Enable the free SSL certificate in your hosting dashboard. Force HTTPS redirects so every visitor lands on a secure URL.',
-      action: { label: 'Test SSL at SSLLabs.com →', url: 'https://www.ssllabs.com/ssltest/' },
-      upsell: null });
+    issues.push({ icon: '🔓', impactClass: 'critical',
+      title: 'Your site is flagged "Not Secure" by Google',
+      impact: 'Google actively demotes non-HTTPS sites and shows a security warning to every visitor. You\'re losing trust and rankings before anyone reads a word.',
+      ctaType: 'consult' });
   }
 
   if (!siteData.title || siteData.title.length < 10) {
-    issues.push({ icon: '📄', severity: 'error', impactClass: 'critical',
-      title: 'Missing page title — your #1 Google ranking signal',
-      fix: `Write a title under 60 chars: "[Your Service] in ${cityName} | ${bizName}". Add it in your CMS under SEO Settings.`,
-      action: { label: 'Preview title length →', url: 'https://www.seoptimer.com/title-tag-preview' },
-      upsell: { label: 'We write and implement all title tags.', cta: 'On-Page SEO Service →', url: 'https://www.tyalexandermedia.com/contact' } });
+    issues.push({ icon: '📄', impactClass: 'critical',
+      title: 'No page title — Google doesn\'t know what you do',
+      impact: `Your homepage has no title tag, which is the single most important ranking signal. Google literally cannot determine what service you offer or where you\'re located in ${cityName}.`,
+      ctaType: 'quickfix' });
   } else if (siteData.title.length > 65) {
-    issues.push({ icon: '📄', severity: 'warn', impactClass: 'high',
-      title: `Title too long (${siteData.title.length} chars) — gets cut off in Google`,
-      fix: `Trim to under 60 characters. Keep your primary keyword and city. Current: "${siteData.title.substring(0,50)}…"`,
-      action: { label: 'Check the preview →', url: 'https://www.seoptimer.com/title-tag-preview' },
-      upsell: null });
+    issues.push({ icon: '📄', impactClass: 'high',
+      title: `Page title cut off at ${siteData.title.length} characters`,
+      impact: 'Google truncates your title in search results, cutting off your message mid-sentence. You\'re paying for impressions but delivering a broken first impression.',
+      ctaType: 'quickfix' });
   }
 
   if (!siteData.metaDesc || siteData.metaDesc.length < 50) {
-    issues.push({ icon: '📝', severity: 'error', impactClass: 'high',
-      title: 'No meta description — Google writes one for you (badly)',
-      fix: `Write 140–155 characters: "Top [service] in ${cityName}. [Differentiator]. Call for a free quote today." Add it in your CMS page settings.`,
-      action: { label: 'Check length →', url: 'https://www.seoptimer.com/meta-description-preview' },
-      upsell: null });
+    issues.push({ icon: '📝', impactClass: 'high',
+      title: 'No meta description — Google picks random text for your listing',
+      impact: `Without a meta description, Google auto-generates the 2-line preview under your search result — usually a random sentence that does nothing to sell your business to ${cityName} customers.`,
+      ctaType: 'quickfix' });
   }
 
   if (siteData.noindex) {
-    issues.push({ icon: '🚫', severity: 'error', impactClass: 'critical',
-      title: 'noindex tag detected — Google is told to hide this page',
-      fix: 'Open your CMS SEO settings and turn "Search Visibility" ON. This is often left on from development mode.',
-      action: { label: 'Inspect in Search Console →', url: 'https://search.google.com/search-console' },
-      upsell: { label: 'Technical SEO audit in our onboarding.', cta: 'Fix My Site →', url: 'https://www.tyalexandermedia.com/contact' } });
+    issues.push({ icon: '🚫', impactClass: 'critical',
+      title: 'noindex tag found — this page is hidden from Google',
+      impact: 'Your site has a tag that explicitly tells Google not to show this page in search results. This is often left on accidentally after a site build. Until it\'s removed, you don\'t exist on Google.',
+      ctaType: 'consult' });
   }
 
   if (!siteData.hasPhone) {
-    issues.push({ icon: '📞', severity: 'error', impactClass: 'critical',
-      title: "No phone number — Google can't verify your business location",
-      fix: 'Add your phone as plain HTML text in your header AND footer. Use a tel: link so mobile visitors tap to call instantly.',
-      action: null,
-      upsell: { label: 'NAP consistency across 50+ citations in our Local SEO package.', cta: 'Fix My Local SEO →', url: 'https://www.tyalexandermedia.com/contact' } });
+    issues.push({ icon: '📞', impactClass: 'critical',
+      title: 'No phone number detected on your site',
+      impact: `Google verifies local businesses using Name, Address, and Phone (NAP). Without a readable phone number, Google can\'t confirm you\'re a real ${cityName} business — directly suppressing your local ranking.`,
+      ctaType: 'consult' });
   }
 
   if (!siteData.hasAddress) {
-    issues.push({ icon: '📍', severity: 'error', impactClass: 'critical',
-      title: "No address found — Google can't place you on the map",
-      fix: `Add your full address as visible text in your footer: "123 Main St, ${cityName}, FL." Embed a Google Map on your Contact page.`,
-      action: null,
-      upsell: { label: 'Full local footprint — site, GBP, and citations.', cta: 'Get My Local SEO Fixed →', url: 'https://www.tyalexandermedia.com/contact' } });
+    issues.push({ icon: '📍', impactClass: 'critical',
+      title: 'No address found — Google can\'t tie you to your city',
+      impact: `Local SEO depends on Google knowing exactly where you operate. Without a visible address, you\'re invisible in "${cityName} near me" searches — which is where your customers are.`,
+      ctaType: 'consult' });
   }
 
   if (!siteData.schemaJson) {
-    issues.push({ icon: '🗂️', severity: 'warn', impactClass: 'high',
-      title: "No schema markup — Google doesn't know what type of business you are",
-      fix: "Generate a LocalBusiness JSON-LD snippet and paste it into your site's head. The free tool below takes 20 minutes.",
-      action: { label: 'Generate schema free →', url: 'https://technicalseo.com/tools/schema-markup-generator/' },
-      upsell: null });
+    issues.push({ icon: '🗂️', impactClass: 'high',
+      title: 'No structured data — Google is guessing what type of business you are',
+      impact: 'Schema markup tells Google your business type, hours, service area, and phone number in a language it understands perfectly. Without it, you\'re missing rich results and local ranking signals your competitors may already have.',
+      ctaType: 'quickfix' });
   }
 
   if (speedData.ok && speedData.performance < 50) {
-    issues.push({ icon: '⚡', severity: 'error', impactClass: 'critical',
-      title: `Critical page speed (${speedData.performance}/100) — you're losing 53% of visitors before they read a word`,
-      fix: 'Run PageSpeed Insights now. Biggest quick win: compress all images to WebP at squoosh.app — typically moves the needle 20–30 points.',
-      action: { label: 'Run PageSpeed Insights →', url: 'https://pagespeed.web.dev' },
-      upsell: { label: 'Full speed optimization in our technical SEO service.', cta: 'Fix My Speed →', url: 'https://www.tyalexandermedia.com/contact' } });
+    issues.push({ icon: '⚡', impactClass: 'critical',
+      title: `Page speed critical (${speedData.performance}/100) — most visitors leave before the page loads`,
+      impact: `Google data: 53% of mobile visitors abandon a site that takes over 3 seconds to load. Your score is ${speedData.performance}/100. Every slow second is customers choosing your competitor instead.`,
+      ctaType: 'consult' });
   } else if (speedData.ok && speedData.performance < 75) {
-    issues.push({ icon: '⚡', severity: 'warn', impactClass: 'medium',
-      title: `Page speed (${speedData.performance}/100) — below Google's 90+ threshold`,
-      fix: "Compress images at TinyPNG.com and convert to WebP. Check the Opportunities tab in PageSpeed Insights for your specific bottlenecks.",
-      action: { label: 'Check your full report →', url: 'https://pagespeed.web.dev' },
-      upsell: null });
+    issues.push({ icon: '⚡', impactClass: 'high',
+      title: `Page speed below threshold (${speedData.performance}/100)`,
+      impact: `Google's threshold for "good" is 90+. At ${speedData.performance}/100, you\'re slower than competitors who rank above you. Speed is a direct ranking factor — this is costing you positions.`,
+      ctaType: 'consult' });
   }
 
   if (siteData.h1Count === 0) {
-    issues.push({ icon: '🔤', severity: 'warn', impactClass: 'high',
-      title: "No H1 heading — Google doesn't know what your page is about",
-      fix: `Add one H1 to your homepage with your service and city: "${cityName} Pressure Washing" or similar. One per page, make it the biggest text.`,
-      action: null,
-      upsell: null });
+    issues.push({ icon: '🔤', impactClass: 'high',
+      title: 'No H1 heading — Google can\'t identify your main topic',
+      impact: `Your homepage has no primary heading, which is one of the top 3 on-page signals Google uses to understand your page. It doesn\'t know if you\'re a pressure washer, a plumber, or a restaurant in ${cityName}.`,
+      ctaType: 'quickfix' });
   } else if (siteData.h1Count > 2) {
-    issues.push({ icon: '🔤', severity: 'warn', impactClass: 'medium',
-      title: `${siteData.h1Count} H1 tags — diluting your ranking signal`,
-      fix: "Keep exactly one H1 per page. Change all extras to H2 or H3. Open page source (Ctrl+U) and search for '<h1' to find them.",
-      action: null,
-      upsell: null });
+    issues.push({ icon: '🔤', impactClass: 'medium',
+      title: `${siteData.h1Count} H1 tags found — splitting your ranking signal`,
+      impact: 'Having multiple H1 tags dilutes the signal. Google expects one clear primary topic declaration per page. Multiple H1s create confusion about what you actually want to rank for.',
+      ctaType: 'quickfix' });
   }
 
   if (siteData.ok && siteData.wordCount < 200) {
-    issues.push({ icon: '✍️', severity: 'warn', impactClass: 'medium',
+    issues.push({ icon: '✍️', impactClass: 'medium',
       title: `Thin content (~${siteData.wordCount} words) — not enough for Google to trust you`,
-      fix: `Target 400–600 words on your homepage. Cover: what you do, who you serve in ${cityName}, why customers choose you. A FAQ section is easy content.`,
-      action: null,
-      upsell: { label: 'We write SEO copy built around your city search terms.', cta: 'Get Content Written →', url: 'https://www.tyalexandermedia.com/contact' } });
+      impact: `Your homepage has fewer words than this paragraph. Google uses content depth as a trust signal. Thin pages rank below competitors with substantive content about their services in ${cityName}.`,
+      ctaType: 'consult' });
   }
 
   if (siteData.robotsOk === false) {
-    issues.push({ icon: '🤖', severity: 'error', impactClass: 'critical',
-      title: 'robots.txt may be blocking Google from crawling your site',
-      fix: "Visit your-site.com/robots.txt. If you see 'Disallow: /' under 'User-agent: *', change it to just 'Disallow:' (blank). This allows all crawlers in.",
-      action: { label: "Test with Google's Robots Tool →", url: 'https://www.google.com/webmasters/tools/robots-testing-tool' },
-      upsell: { label: 'Full crawl audit in our technical SEO package.', cta: 'Fix My Crawlability →', url: 'https://www.tyalexandermedia.com/contact' } });
+    issues.push({ icon: '🤖', impactClass: 'critical',
+      title: 'robots.txt is blocking Google from crawling your site',
+      impact: 'Your robots.txt file contains a rule that prevents Google from accessing your pages. This is one of the most damaging technical errors possible — Google may not be indexing you at all.',
+      ctaType: 'consult' });
   }
 
   if (siteData.sitemapFound === false) {
-    issues.push({ icon: '🗺️', severity: 'warn', impactClass: 'high',
-      title: 'No sitemap.xml — Google has no roadmap to your pages',
-      fix: 'Most CMS platforms auto-generate sitemaps. Wix has it built in. WordPress uses Yoast SEO (free). Submit it in Google Search Console.',
-      action: { label: 'Submit in Search Console →', url: 'https://search.google.com/search-console' },
-      upsell: null });
+    issues.push({ icon: '🗺️', impactClass: 'high',
+      title: 'No XML sitemap — Google has no roadmap to your pages',
+      impact: 'Without a sitemap, Google has to discover your pages by crawling links. New pages may take weeks to get indexed, or never get found at all — especially service and location pages.',
+      ctaType: 'quickfix' });
   }
 
   if (!siteData.hasAnalytics && !siteData.hasGTM) {
-    issues.push({ icon: '📊', severity: 'warn', impactClass: 'high',
-      title: "No analytics — you're optimizing blind",
-      fix: "Install Google Analytics 4 (free). Go to analytics.google.com, create a property, paste the tracking code into your site head. 15 minutes.",
-      action: { label: 'Set up GA4 →', url: 'https://analytics.google.com' },
-      upsell: null });
+    issues.push({ icon: '📊', impactClass: 'high',
+      title: 'No analytics — you have no data on who\'s visiting or converting',
+      impact: 'Without tracking, you can\'t know what\'s working, where visitors drop off, or whether any SEO improvements are having an effect. You\'re flying blind on every marketing decision.',
+      ctaType: 'quickfix' });
   }
 
   if (!siteData.ogTags) {
-    issues.push({ icon: '🔗', severity: 'warn', impactClass: 'medium',
-      title: 'No Open Graph tags — site looks broken when shared on social',
-      fix: "Add og:title, og:description, and og:image to your page head. Your og:image should be 1200×630px. Test the result at opengraph.xyz.",
-      action: { label: 'Test your share preview →', url: 'https://www.opengraph.xyz' },
-      upsell: null });
+    issues.push({ icon: '🔗', impactClass: 'medium',
+      title: 'No social sharing tags — your site looks broken on social media',
+      impact: 'When someone shares your link on social media or texts it, it appears as an unstyled URL with no image or description. That\'s free referral traffic you\'re actively destroying.',
+      ctaType: 'quickfix' });
   }
 
   if (siteData.altMissingPct > 40 && siteData.imgCount > 3) {
-    issues.push({ icon: '🖼️', severity: 'warn', impactClass: 'medium',
-      title: `${siteData.altMissingPct}% of images missing alt text — invisible to Google Images`,
-      fix: `Click each image in your CMS and add a description: "${bizName} team serving ${cityName}." Use your service and city naturally.`,
-      action: null,
-      upsell: null });
+    issues.push({ icon: '🖼️', impactClass: 'medium',
+      title: `${siteData.altMissingPct}% of your images are invisible to Google`,
+      impact: 'Alt text is how Google reads images. Images without it are completely ignored — that\'s lost keyword relevance, lost Google Images traffic, and an accessibility penalty all at once.',
+      ctaType: 'quickfix' });
   }
 
   const order = { critical: 0, high: 1, medium: 2 };
@@ -520,60 +503,55 @@ function buildIssues(scores, siteData, speedData, url, bizName, city) {
   return issues.slice(0, 8);
 }
 
-// ── QUICK WINS BUILDER — tight, scannable ────────────────────────
+// ── QUICK WINS — teaser value, CTA to low-ticket offer ──────────
 function buildQuickWins(scores, siteData, city, bizType) {
   const wins = [];
   const cityName = city.split(',')[0];
 
   wins.push({
-    title: 'Claim & fully optimize your Google Business Profile',
-    why: 'This is the single fastest move to get into the Google Local Pack — the 3 businesses shown at the top of every local search. Nothing else comes close.',
-    action: 'Go to business.google.com. Fill every field: hours, services, description with your city, 10+ photos. Ask your last 3 customers for a Google review this week.',
-    link: { label: 'Open Google Business →', url: 'https://business.google.com' },
+    title: 'Google Business Profile Optimization',
+    why: `The Google Local Pack — the 3 businesses at the top of every local "${cityName}" search — is driven almost entirely by your GBP. A fully optimized profile gets 5× more direction requests and calls than a bare listing.`,
+    what: 'Fill every field, add 10+ photos, set your service area, get your first 5 reviews this week.',
     effort: 'Highest ROI', time: '1–2 hrs',
-    upsell: { label: 'Full GBP optimization in our Local SEO package.', cta: 'Get My GBP Done →', url: 'https://www.tyalexandermedia.com/contact' }
+    ctaType: 'consult'
   });
 
   if (!siteData.metaDesc || siteData.metaDesc.length < 50) {
     wins.push({
-      title: 'Write a click-worthy meta description',
-      why: "The 2-line preview under your Google result. A strong one doubles click-through rate without moving a single ranking.",
-      action: `Formula: "[Service] in ${cityName} — [differentiator]. [Social proof]. Free quote today." Under 155 chars.`,
-      link: { label: 'Check length at SEOptimer →', url: 'https://www.seoptimer.com/meta-description-preview' },
-      effort: 'Easy Win', time: '15 min',
-      upsell: null
+      title: 'Meta Description — Your Google Pitch',
+      why: 'The 2-line preview under your search result is the last thing between a searcher and a click. Most local businesses leave it blank and let Google pick random text. A strong one can double your click-through rate overnight.',
+      what: 'Write one sentence that includes your service, city, and a reason to click.',
+      effort: 'Quick Win', time: '15 min',
+      ctaType: 'quickfix'
     });
   }
 
   if (!siteData.schemaJson) {
     wins.push({
-      title: 'Add LocalBusiness Schema (free, 20 minutes)',
-      why: 'Tells Google exactly what your business is — can trigger star ratings and hours directly in search results. Most local businesses skip this, which means doing it puts you ahead.',
-      action: "Use the free generator at technicalseo.com. Select LocalBusiness, fill in your details, paste the JSON-LD code into your site head.",
-      link: { label: 'Generate schema free →', url: 'https://technicalseo.com/tools/schema-markup-generator/' },
-      effort: 'Easy Win', time: '20 min',
-      upsell: null
+      title: 'LocalBusiness Schema Markup',
+      why: 'Schema is invisible code that gives Google a direct line to your business details — hours, service area, phone, type of business. It can unlock rich results (star ratings, phone numbers) that your competitors already have.',
+      what: 'Add a LocalBusiness JSON-LD snippet to your site head.',
+      effort: 'Quick Win', time: '20 min',
+      ctaType: 'quickfix'
     });
   }
 
   if (scores.speed < 60) {
     wins.push({
-      title: 'Compress your images — the #1 speed fix',
-      why: 'Images cause 80% of slow load times. Compressing to WebP cuts file size 60–80% with zero visible quality difference.',
-      action: 'Go to squoosh.app. Upload each image, switch to WebP, quality 80%. Download and replace originals on your site.',
-      link: { label: 'Compress at Squoosh.app →', url: 'https://squoosh.app' },
-      effort: 'Easy Win', time: '30 min',
-      upsell: null
+      title: 'Image Compression & Speed',
+      why: `Your page speed is costing you Google rankings and customers. 53% of mobile visitors leave if a page takes over 3 seconds. Images are the #1 culprit — fixing them alone can push your speed score up significantly.`,
+      what: 'Convert all images to WebP format and enable lazy loading.',
+      effort: 'Quick Win', time: '30 min',
+      ctaType: 'consult'
     });
   }
 
   wins.push({
-    title: `Create a city page: "[Your Service] in ${cityName}"`,
-    why: 'A single location page targeting your service + city can rank for dozens of local searches. This is how small businesses outrank big competitors.',
-    action: `New page, title: "[Service] in ${cityName}, [State]." Write 400–600 words. Include "${cityName}" in the H1, first paragraph, and meta description.`,
-    link: null,
-    effort: 'Medium Win', time: '1–2 hrs',
-    upsell: { label: "We write and optimize location pages built around your buyers' exact searches.", cta: 'Get Location Pages Built →', url: 'https://www.tyalexandermedia.com/contact' }
+    title: `City Landing Page for ${cityName}`,
+    why: `A page specifically targeting "[your service] in ${cityName}" can rank for dozens of local search terms. This is the #1 content move for local businesses — small businesses outrank national chains with this strategy every day.`,
+    what: 'Create a dedicated page with your service, city, and why locals choose you.',
+    effort: 'High Impact', time: '1–2 hrs',
+    ctaType: 'consult'
   });
 
   return wins.slice(0, 4);
@@ -937,11 +915,11 @@ function showReport() {
 
   // ── Hero text ──
   const headlines = {
-    A: `${bizName} is dialed in. Here's how to stay there.`,
-    B: `Solid base, ${bizName}. These fixes push you ahead of the pack.`,
-    C: `${bizName} is competing but leaving rankings on the table.`,
-    D: `${bizName} has gaps costing real customers every day.`,
-    F: `${bizName} is effectively invisible on Google right now.`
+    A: `${bizName} is dialed in. Here's how to stay ahead.`,
+    B: `${bizName} has a solid base — these fixes are the difference between good and dominant.`,
+    C: `${bizName} is competing but leaving rankings on the table every single day.`,
+    D: `${bizName} has real gaps that are costing customers right now.`,
+    F: `${bizName} is effectively invisible on Google. The fix list below is your playbook.`
   };
   const rptLabel = $('rpt-label');
   if (rptLabel) { rptLabel.textContent = `Grade ${grade} · ${getGradeLabel(total)}`; rptLabel.style.color = gradeColor; }
@@ -982,20 +960,37 @@ function showReport() {
     }).join('');
   }
 
+  // ── Count quick fixes vs consult items ──
+  const quickFixCount  = issues.filter(i => i.ctaType === 'quickfix').length;
+  const consultCount   = issues.filter(i => i.ctaType === 'consult').length;
+
+  // ── Inline CTA logic ──
+  // quickfix issues → low-ticket offer
+  // consult issues  → strategy call
+  function issueCtaHtml(ctaType) {
+    if (ctaType === 'quickfix') {
+      return `<div class="rpt-issue-upsell">
+        <span>Ty's team can implement this for you — fast.</span>
+        <a href="https://www.tyalexandermedia.com/contact" class="rpt-upsell-pill" target="_blank">Get It Fixed →</a>
+      </div>`;
+    }
+    if (ctaType === 'consult') {
+      return `<div class="rpt-issue-upsell rpt-issue-upsell--consult">
+        <span>This needs a strategy — not a template.</span>
+        <a href="https://www.tyalexandermedia.com/contact" class="rpt-upsell-pill rpt-upsell-pill--blue" target="_blank">Book a Free Call →</a>
+      </div>`;
+    }
+    return '';
+  }
+
   // ── Issues ──
   const issuesEl = $('issues-list');
   if (issuesEl) {
     if (!issues || issues.length === 0) {
       $('issues-section').style.display = 'none';
     } else {
-      issuesEl.innerHTML = issues.map(issue => {
-        const actionHtml = issue.action
-          ? `<a href="${issue.action.url}" class="rpt-issue-action" target="_blank" rel="noopener">${issue.action.label}</a>`
-          : '';
-        const upsellHtml = issue.upsell
-          ? `<div class="rpt-issue-upsell"><span>${issue.upsell.label}</span><a href="${issue.upsell.url}" class="rpt-upsell-pill" target="_blank">${issue.upsell.cta}</a></div>`
-          : '';
-        return `<div class="rpt-issue rpt-issue--${issue.impactClass}">
+      issuesEl.innerHTML = issues.map(issue => `
+        <div class="rpt-issue rpt-issue--${issue.impactClass}">
           <div class="rpt-issue-top">
             <span class="rpt-issue-icon">${issue.icon}</span>
             <div class="rpt-issue-right">
@@ -1003,13 +998,11 @@ function showReport() {
                 <span class="rpt-issue-title">${issue.title}</span>
                 <span class="rpt-badge rpt-badge--${issue.impactClass}">${issue.impactClass === 'critical' ? 'Critical' : issue.impactClass === 'high' ? 'High' : 'Medium'}</span>
               </div>
-              <p class="rpt-issue-fix">${issue.fix}</p>
-              ${actionHtml}
+              <p class="rpt-issue-fix">${issue.impact}</p>
             </div>
           </div>
-          ${upsellHtml}
-        </div>`;
-      }).join('');
+          ${issueCtaHtml(issue.ctaType)}
+        </div>`).join('');
     }
   }
 
@@ -1017,12 +1010,9 @@ function showReport() {
   const winsEl = $('quickwins-list');
   if (winsEl) {
     winsEl.innerHTML = quickWins.map((win, i) => {
-      const linkHtml = win.link
-        ? `<a href="${win.link.url}" class="rpt-win-link" target="_blank" rel="noopener">${win.link.label}</a>`
-        : '';
-      const upsellHtml = win.upsell
-        ? `<div class="rpt-issue-upsell"><span>${win.upsell.label}</span><a href="${win.upsell.url}" class="rpt-upsell-pill" target="_blank">${win.upsell.cta}</a></div>`
-        : '';
+      const ctaHtml = win.ctaType === 'quickfix'
+        ? `<a href="https://www.tyalexandermedia.com/contact" class="rpt-win-cta rpt-win-cta--fix" target="_blank">Have Us Implement This →</a>`
+        : `<a href="https://www.tyalexandermedia.com/contact" class="rpt-win-cta rpt-win-cta--call" target="_blank">Discuss This on a Free Call →</a>`;
       return `<div class="rpt-win">
         <div class="rpt-win-top">
           <span class="rpt-win-num">${i + 1}</span>
@@ -1032,44 +1022,53 @@ function showReport() {
               <span class="rpt-win-badge">${win.effort} · ${win.time}</span>
             </div>
             <p class="rpt-win-why">${win.why}</p>
-            <p class="rpt-win-action">→ ${win.action}</p>
-            ${linkHtml}
+            <p class="rpt-win-action">${win.what}</p>
+            ${ctaHtml}
           </div>
         </div>
-        ${upsellHtml}
       </div>`;
     }).join('');
   }
 
-  // ── Tiered upsell ──
+  // ── Upsell block ── score-aware, 3-tier
   const upsellEl = $('rpt-upsell');
   if (upsellEl) {
+    // Count how many quick-fixable issues they have
+    const fixableCount = issues.filter(i => i.ctaType === 'quickfix').length;
+    const urgencyLine = total < 40
+      ? 'Your site is bleeding customers to competitors right now.'
+      : total < 60
+      ? 'You\'re losing local searches you should be winning.'
+      : 'You have a solid base — the right moves now compound fast.';
+
     upsellEl.innerHTML = `
       <div class="rpt-upsell-block">
         <img src="lola-logo.png" class="rpt-upsell-lola" alt="" aria-hidden="true" />
-        <div class="rpt-upsell-eyebrow">The report is free. The problem is expensive.</div>
-        <h3 class="rpt-upsell-h3">Every day you're not on page 1,<br>your competitor gets the sale.</h3>
-        <p class="rpt-upsell-body">Lola just showed you exactly where you're losing revenue. Two ways to fix it — pick yours:</p>
+        <div class="rpt-upsell-eyebrow">Lola has done her job. Now what?</div>
+        <h3 class="rpt-upsell-h3">${urgencyLine}</h3>
+        <p class="rpt-upsell-body">Knowing what's broken is step one. Getting it fixed is where the revenue is. Ty Alexander Media handles all of it — from quick technical fixes to full local SEO domination.</p>
+
         <div class="rpt-offer-grid">
           <div class="rpt-offer">
-            <div class="rpt-offer-tag starter">Free Starting Point</div>
-            <div class="rpt-offer-name">30-Min Strategy Call</div>
-            <p class="rpt-offer-desc">Walk through Lola's report live with Ty. Get a prioritized action plan, exact fix steps, and tool recommendations — no pitch, no obligation. Yours to keep.</p>
+            <div class="rpt-offer-tag starter">Free · 30 Minutes</div>
+            <div class="rpt-offer-name">Strategy Call with Ty</div>
+            <p class="rpt-offer-desc">Walk through your report live. Get a prioritized action plan built around your specific business, city, and competitors. No pitch. Yours to keep.</p>
             <a href="https://www.tyalexandermedia.com/contact" class="rpt-offer-btn rpt-offer-btn--soft" target="_blank">Book Free Call →</a>
           </div>
           <div class="rpt-offer rpt-offer--featured">
             <div class="rpt-offer-tag featured-tag">Done For You</div>
-            <div class="rpt-offer-name">Local SEO Management</div>
-            <p class="rpt-offer-desc">Ty's team handles everything: GBP, on-page, citations, speed, content, and monthly reports. You run your business. We get you found.</p>
+            <div class="rpt-offer-name">Full Local SEO Management</div>
+            <p class="rpt-offer-desc">We handle GBP, on-page, citations, speed, content, and monthly reports. You run your business. We get you found, called, and chosen.</p>
             <a href="https://www.tyalexandermedia.com/contact" class="rpt-offer-btn rpt-offer-btn--gold" target="_blank">Get a Custom Proposal →</a>
           </div>
         </div>
+
         <div class="rpt-stats-row">
           <div class="rpt-stat"><span class="rpt-stat-num">97%</span><span class="rpt-stat-label">of buyers Google before buying local</span></div>
           <div class="rpt-stat"><span class="rpt-stat-num">#1</span><span class="rpt-stat-label">result gets 10× more clicks than #10</span></div>
           <div class="rpt-stat"><span class="rpt-stat-num">28%</span><span class="rpt-stat-label">of local searches lead to a purchase within 24 hrs</span></div>
         </div>
-        <p class="rpt-upsell-note">30 minutes. Zero pressure. Lola's report reviewed live with you. 🐾</p>
+        <p class="rpt-upsell-note">Ty Alexander Media · Tampa Bay, FL · <a href="tel:+17273006573" style="color:var(--gold-400);text-decoration:none">727-300-6573</a></p>
       </div>`;
   }
 

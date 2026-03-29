@@ -1159,3 +1159,33 @@ a { color: inherit; }
 @media (max-width: 420px) { .rpt-stats-row { flex-direction: column; } .rpt-stat { border-right: none; border-bottom: 1px solid var(--b2); } .rpt-stat:last-child { border-bottom: none; } }
 
 .rpt-upsell-note { font-size: 0.75rem; color: var(--t4); }
+
+/* ── Consult upsell variant (blue) ── */
+.rpt-issue-upsell--consult { background: rgba(26,58,143,0.07); border-top-color: rgba(26,58,143,0.12); }
+.rpt-upsell-pill--blue {
+  background: transparent; color: var(--navy-300);
+  border: 1px solid rgba(74,114,216,0.4);
+  box-shadow: none;
+}
+.rpt-upsell-pill--blue:hover { background: rgba(74,114,216,0.12); transform: translateY(-1px); }
+
+/* ── Quick win CTAs ── */
+.rpt-win-cta {
+  display: inline-block; margin-top: 0.5rem;
+  padding: 0.375rem 0.875rem; border-radius: var(--r-pill);
+  font-size: 0.75rem; font-weight: 700; text-decoration: none;
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+.rpt-win-cta--fix {
+  background: linear-gradient(135deg, var(--gold-300), var(--gold-400));
+  color: #07100a; box-shadow: 0 2px 10px rgba(228,177,24,0.22);
+}
+.rpt-win-cta--fix:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(228,177,24,0.38); }
+.rpt-win-cta--call {
+  background: transparent; color: var(--navy-200);
+  border: 1px solid rgba(74,114,216,0.35);
+}
+.rpt-win-cta--call:hover { background: rgba(74,114,216,0.1); transform: translateY(-1px); }
+
+/* ── Phone link in upsell note ── */
+.rpt-upsell-note a:hover { text-decoration: underline; }
