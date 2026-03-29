@@ -96,77 +96,37 @@ module.exports = async (req, res) => {
     const issuesHtml = issues?.length
       ? issues.map(issue => {
           const ic = impactColor(issue.impactClass);
-          const stepsHtml = issue.steps?.length
-            ? `<div style="margin-top:10px;padding:10px 12px;background:#0a0f1f;border-radius:6px;border-left:2px solid #d4a117">
-                <div style="font-size:11px;font-weight:700;color:#d4a117;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">🐾 Fix it — step by step</div>
-                <ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">
-                  ${issue.steps.map(s => `<li style="font-size:13px;color:#7a8db8;line-height:1.6">${s.replace(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g, '<a href="$1" style="color:#d4a117">$2</a>').replace(/<code>([^<]+)<\/code>/g, '<code style="background:#162035;padding:1px 5px;border-radius:3px;font-size:12px;color:#f5d97a">$1</code>').replace(/<strong>([^<]+)<\/strong>/g, '<strong style="color:#dde4f5">$1</strong>')}</li>`).join('')}
-                </ol>
-               </div>`
-            : '';
-          const tyHtml = issue.ty
-            ? `<div style="margin-top:10px;padding:10px 12px;background:#0d1f4a;border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-                <span style="font-size:12px;color:#7a8db8">💼 ${issue.ty.label}</span>
-                <a href="https://www.tyalexandermedia.com/contact" style="display:inline-block;padding:6px 14px;background:#d4a117;color:#000;font-size:12px;font-weight:700;border-radius:99px;text-decoration:none">${issue.ty.cta}</a>
-               </div>`
-            : '';
           return `
-            <div style="margin-bottom:14px;border:1px solid #1c2b4a;border-left:4px solid ${ic};border-radius:8px;overflow:hidden">
-              <div style="padding:14px 14px 10px">
-                <div style="display:flex;align-items:flex-start;gap:10px">
-                  <span style="font-size:20px">${issue.icon}</span>
-                  <div style="flex:1">
-                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:6px">
-                      <strong style="font-size:14px;color:#dde4f5;line-height:1.3">${issue.title}</strong>
-                      <span style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:99px;background:${ic}20;color:${ic};border:1px solid ${ic}44;white-space:nowrap">${issue.impact || ''} Impact</span>
-                      <span style="font-size:11px;color:#4a5d80;white-space:nowrap">⏱ ${issue.time || ''}</span>
-                    </div>
-                    <p style="font-size:13px;color:#7a8db8;line-height:1.65;margin:0">${issue.body}</p>
+            <div style="margin-bottom:10px;border:1px solid #1c2b4a;border-left:3px solid ${ic};border-radius:8px;padding:12px 14px">
+              <div style="display:flex;align-items:flex-start;gap:10px">
+                <span style="font-size:18px;flex-shrink:0">${issue.icon || '•'}</span>
+                <div style="flex:1">
+                  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:5px">
+                    <strong style="font-size:14px;color:#dde4f5;line-height:1.3">${issue.title}</strong>
+                    <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:${ic}20;color:${ic};border:1px solid ${ic}44;white-space:nowrap">${issue.impactClass === 'critical' ? 'Critical' : issue.impactClass === 'high' ? 'High' : 'Medium'}</span>
                   </div>
+                  <p style="font-size:13px;color:#7a8db8;line-height:1.65;margin:0">${issue.impact || issue.body || ''}</p>
                 </div>
-                ${stepsHtml}
-                ${tyHtml}
               </div>
             </div>`;
         }).join('')
       : '<p style="color:#22c55e;font-size:14px">No critical issues found — Lola approves! 🐾</p>';
 
-    // ── Quick wins HTML ──
+    // ── Quick wins HTML — no DIY steps, Ty's team framing ──
     const winsHtml = quickWins?.length
-      ? quickWins.map((win, n) => {
-          const stepsHtml = win.steps?.length
-            ? `<div style="margin-top:10px;padding:10px 12px;background:#0a1228;border-radius:6px;border-left:2px solid #22c55e">
-                <div style="font-size:11px;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">How to do it</div>
-                <ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">
-                  ${win.steps.map(s => `<li style="font-size:13px;color:#7a8db8;line-height:1.6">${s.replace(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g, '<a href="$1" style="color:#d4a117">$2</a>').replace(/<code>([^<]+)<\/code>/g, '<code style="background:#162035;padding:1px 5px;border-radius:3px;font-size:12px;color:#f5d97a">$1</code>').replace(/<strong>([^<]+)<\/strong>/g, '<strong style="color:#dde4f5">$1</strong>')}</li>`).join('')}
-                </ol>
-               </div>`
-            : '';
-          const tyHtml = win.ty
-            ? `<div style="margin-top:10px;padding:10px 12px;background:#0d1f4a;border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-                <span style="font-size:12px;color:#7a8db8">💼 ${win.ty.label}</span>
-                <a href="https://www.tyalexandermedia.com/contact" style="display:inline-block;padding:6px 14px;background:#d4a117;color:#000;font-size:12px;font-weight:700;border-radius:99px;text-decoration:none">${win.ty.cta}</a>
-               </div>`
-            : '';
-          return `
-            <div style="margin-bottom:14px;border:1px solid rgba(34,197,94,0.2);border-radius:8px;overflow:hidden;background:rgba(34,197,94,0.03)">
-              <div style="padding:14px 14px 10px">
-                <div style="display:flex;align-items:flex-start;gap:10px">
-                  <div style="width:26px;height:26px;border-radius:50%;background:#22c55e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;margin-top:2px">${n+1}</div>
-                  <div style="flex:1">
-                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:6px">
-                      <strong style="font-size:14px;color:#dde4f5;line-height:1.3">${win.title}</strong>
-                      <span style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:99px;background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid rgba(34,197,94,0.25)">${win.effort}</span>
-                      <span style="font-size:11px;color:#4a5d80">⏱ ${win.time || ''}</span>
-                    </div>
-                    <p style="font-size:13px;color:#7a8db8;line-height:1.65;margin:0">${win.body}</p>
-                  </div>
+      ? quickWins.map((win, n) => `
+          <div style="margin-bottom:12px;border:1px solid rgba(34,197,94,0.2);border-radius:8px;overflow:hidden;background:rgba(34,197,94,0.03)">
+            <div style="padding:14px">
+              <div style="display:flex;align-items:flex-start;gap:10px">
+                <div style="width:24px;height:24px;min-width:24px;border-radius:50%;background:#22c55e;color:#061410;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;margin-top:2px">${n+1}</div>
+                <div style="flex:1">
+                  <strong style="font-size:14px;color:#dde4f5;line-height:1.3;display:block;margin-bottom:6px">${win.title}</strong>
+                  <p style="font-size:13px;color:#7a8db8;line-height:1.65;margin:0 0 8px">${win.why || win.body || ''}</p>
+                  <p style="font-size:13px;color:#e4b118;line-height:1.55;margin:0;font-style:italic">${win.action || ''}</p>
                 </div>
-                ${stepsHtml}
-                ${tyHtml}
               </div>
-            </div>`;
-        }).join('')
+            </div>
+          </div>`).join('')
       : '';
 
     // ── Context-aware grade message ──
@@ -264,9 +224,20 @@ module.exports = async (req, res) => {
           <p style="font-size:13px;color:#7a8db8;margin:0 0 16px">These are the highest-leverage moves ranked by speed and impact. Each one includes a how-to.</p>
           ${winsHtml}` : ''}
 
+          <!-- Quick Fix Offer -->
+          <div style="background:linear-gradient(135deg,#0f1d3a,#091020);border:1px solid rgba(228,177,24,0.3);border-radius:12px;padding:24px;margin-top:24px;margin-bottom:16px">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#e4b118;margin-bottom:10px">⚡ Instant Fix Available</div>
+            <h2 style="font-size:20px;font-weight:800;color:#fff;margin:0 0 10px">The Quick Fix Package — $97</h2>
+            <p style="font-size:13px;color:#94a8cc;margin:0 0 16px;line-height:1.7">Ty's team implements your fixable items — title tags, meta descriptions, schema markup, and Open Graph tags — directly on your site within 24 hours. No call needed.</p>
+            <div style="margin-bottom:16px">
+              <div style="font-size:12px;color:#94a8cc;margin-bottom:8px">✓ Title tag optimized for your city + service<br>✓ Meta description written to convert clicks<br>✓ Schema markup installed<br>✓ Open Graph tags for social sharing</div>
+            </div>
+            <a href="https://www.tyalexandermedia.com/contact?offer=quick-fix" style="display:inline-block;padding:14px 28px;background:linear-gradient(135deg,#f0c840,#e4b118);color:#07100a;font-weight:800;border-radius:8px;text-decoration:none;font-size:15px">Get It Fixed for $97 →</a>
+          </div>
+
           <!-- Upsell block -->
-          <div style="background:linear-gradient(135deg,#111828,rgba(26,58,143,0.25));border:1px solid rgba(212,161,23,0.2);border-radius:12px;padding:24px;margin-top:28px;text-align:center">
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#d4a117;margin-bottom:10px">The Report Is Free. The Problem Is Expensive.</div>
+          <div style="background:linear-gradient(135deg,#111828,rgba(26,58,143,0.25));border:1px solid rgba(212,161,23,0.2);border-radius:12px;padding:24px;margin-top:0;text-align:center">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#d4a117;margin-bottom:10px">Want the Full Strategy?</div>
             <h2 style="font-size:20px;font-weight:800;color:#fff;margin:0 0 12px;line-height:1.3">Every Day You're Not on Page 1,<br>Your Competitor Gets the Sale.</h2>
             <p style="font-size:13px;color:#7a8db8;margin:0 0 20px;line-height:1.7">Lola just handed you the full playbook. But most business owners read reports like this, feel overwhelmed, and do nothing — which is exactly why their competitors keep winning. Ty's team implements everything in this report for you.</p>
 

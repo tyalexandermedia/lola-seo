@@ -1032,7 +1032,10 @@ function showReport() {
 // ── QUICK FIX OFFER CARD ──────────────────────────────────────────
 // The one purchase moment — shown right after issues, before wins.
 // BEACONS_LINK: replace with your actual Beacons payment page URL.
-const BEACONS_QUICK_FIX_URL = 'https://beacons.ai/tyalexandermedia'; // ← swap with your Beacons payment link
+// ── Payment destination — update to your Beacons/Stripe checkout URL ──
+// For now routes to tyalexandermedia.com contact with pre-filled context.
+// Swap BEACONS_QUICK_FIX_URL with your actual Beacons payment link when live.
+const BEACONS_QUICK_FIX_URL = 'https://www.tyalexandermedia.com/contact';
 
 function buildQuickFixOffer(fixCount, total, grade, bizName) {
   // Grade-aware urgency
@@ -1056,40 +1059,51 @@ function buildQuickFixOffer(fixCount, total, grade, bizName) {
             <div class="qf-item">✓ Open Graph tags for social sharing</div>
             <div class="qf-item">✓ Any other quick wins from your report</div>
           </div>
-          <div class="qf-timeline">⏱ Implemented on your site within 24 hrs · No access needed until after payment</div>
+          <div class="qf-timeline">⏱ 24-hr turnaround · We reach out for site access after payment</div>
         </div>
         <div class="qf-offer-right">
           <div class="qf-price-block">
             <span class="qf-price">$97</span>
             <span class="qf-price-sub">one-time</span>
           </div>
-          <a href="${BEACONS_QUICK_FIX_URL}" class="qf-buy-btn" target="_blank" id="qf-buy-btn"
-             onclick="trackQuickFixClick()">
+          <button class="qf-buy-btn" id="qf-buy-btn" onclick="handleQuickFixClick(event)">
             Get It Fixed →
-          </a>
+          </button>
           <p class="qf-guarantee">🐾 Not satisfied? Full refund. No questions.</p>
         </div>
       </div>
     </div>`;
 }
 
-// ── PURCHASE INTENT TRACKER ───────────────────────────────────────
-// Fires when user clicks the buy button — logs intent + sends Ty an email.
-async function trackQuickFixClick() {
+// ── PURCHASE INTENT HANDLER ───────────────────────────────────────
+// 1. Notifies Ty instantly via email with full lead context
+// 2. Redirects user to payment destination
+async function handleQuickFixClick(evt) {
+  if (evt) evt.preventDefault();
+  const btn = document.getElementById('qf-buy-btn');
+  if (btn) { btn.textContent = 'Opening…'; btn.disabled = true; }
+
+  // Non-blocking — fire and forget
   try {
-    const { email, bizName, city, website, total, issues } = analysisData;
-    if (!email || !bizName) return;
-    await fetch('/api/purchase-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email, bizName, city, website, total,
-        grade: getLetterGrade(total),
-        issues: issues?.map(i => ({ icon: i.icon, title: i.title, impactClass: i.impactClass })),
-        offer: 'Quick Fix Package — $97'
-      })
-    });
+    const { email, bizName, city, website, total, issues } = analysisData || {};
+    if (email && bizName) {
+      fetch('/api/purchase-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email, bizName, city, website: website || '', total: total || 0,
+          grade: getLetterGrade(total || 0),
+          issues: (issues || []).slice(0,5).map(i => ({ icon: i.icon || '', title: i.title, impactClass: i.impactClass })),
+          offer: 'Quick Fix Package — $97'
+        })
+      });
+    }
   } catch(e) { /* non-blocking */ }
+
+  // Small delay so fetch fires, then open payment page
+  await sleep(350);
+  window.open(BEACONS_QUICK_FIX_URL, '_blank');
+  if (btn) { btn.textContent = 'Get It Fixed →'; btn.disabled = false; }
 }
 
 // ── BOTTOM UPSELL — shown AFTER the quick fix offer ──────────────

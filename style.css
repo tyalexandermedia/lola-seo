@@ -1301,3 +1301,37 @@ a { color: inherit; }
   .qf-offer-right { width: 100%; }
   .qf-buy-btn { font-size: 0.9375rem; }
 }
+
+/* ── Quick win "what" line — Ty's team framing ── */
+.rpt-win-what {
+  font-size: 0.8125rem; color: var(--gold-300); font-weight: 600;
+  line-height: 1.55; margin: 0 0 0.5rem;
+  font-style: italic;
+}
+
+/* ── qf-timeline fix — prevent clip ── */
+.qf-timeline {
+  font-size: 0.6875rem !important; white-space: normal !important;
+  padding: 0.375rem 0.75rem !important;
+}
+
+/* ── Mobile: rpt-hero stack better ── */
+@media (max-width: 580px) {
+  .rpt-hero { padding: 1.25rem; gap: 1rem; }
+  .rpt-hero-left { flex-direction: row; align-items: center; gap: 0.75rem; }
+  .rpt-lola { width: 44px; height: 44px; }
+  .rpt-headline { font-size: 1rem; }
+  .rpt-score-ring-wrap { width: 80px; height: 80px; }
+  .rpt-score-num { font-size: 1.5rem; }
+  .rpt-cats { grid-template-columns: repeat(3, 1fr) !important; }
+}
+
+/* ── Issue cards: ensure left rail color stays on mobile ── */
+.rpt-issue { border-left-width: 3px !important; }
+
+/* ── Bottom upsell: single offer centered ── */
+.rpt-offer-grid--single {
+  grid-template-columns: 1fr !important;
+  max-width: 420px;
+  margin: 0 auto 1.25rem;
+}
