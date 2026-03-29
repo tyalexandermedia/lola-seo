@@ -892,143 +892,263 @@ $('ig-skip-btn').addEventListener('click', () => {
 
 async function fetchInstagramProfile(handle) {
   try {
-    // Try to fetch the public profile HTML and parse meta description for follower count
-    const igUrl = `https://www.instagram.com/${handle}/`;
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(igUrl)}`;
-    const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
-    if (!res.ok) throw new Error('ig fetch failed');
-    const json = await res.json();
-    const html = json.contents || '';
-
-    // Parse meta description: "X Followers, Y Following, Z Posts..."
-    const descMatch = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)
-      || html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']description["']/i);
-    const rawDesc = descMatch ? descMatch[1] : '';
-
-    // Parse: "12.5K Followers, 891 Following, 234 Posts"
-    const fMatch   = rawDesc.match(/([\d.,]+[KkMm]?)\s*Followers?/i);
-    const fwMatch  = rawDesc.match(/([\d.,]+[KkMm]?)\s*Following/i);
-    const postsMatch = rawDesc.match(/([\d.,]+[KkMm]?)\s*Posts?/i);
-
-    // Check verified badge in HTML
-    const isVerified = html.includes('"is_verified":true') || html.includes('"verified":true');
-
-    // Extract bio from og:description or title
-    const ogDescMatch = html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i)
-      || html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:description["']/i);
-    const bio = ogDescMatch ? ogDescMatch[1].substring(0, 150) : '';
-
-    const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-    const fullName = titleMatch ? titleMatch[1].replace('\u2022 Instagram', '').replace('Instagram', '').trim() : handle;
-
-    const hasProfilePic = html.includes('profile_pic_url') || html.includes('og:image');
-
-    // Profile completeness checks
-    const hasBio = bio.length > 20;
-    const hasLink = html.includes('"external_url"') && !html.includes('"external_url":null') && !html.includes('"external_url":""');
-    const hasHighlights = html.includes('highlight_reel');
-
-    const followers = fMatch ? fMatch[1] : null;
-    const following = fwMatch ? fwMatch[1] : null;
-    const postCount = postsMatch ? postsMatch[1] : null;
-
-    // Follower-to-engagement estimate (industry standard: local biz avg 1.5-3%)
-    let followerNum = 0;
-    if (followers) {
-      const n = followers.replace(/,/g,'');
-      if (n.toLowerCase().includes('k')) followerNum = parseFloat(n) * 1000;
-      else if (n.toLowerCase().includes('m')) followerNum = parseFloat(n) * 1000000;
-      else followerNum = parseInt(n) || 0;
-    }
-    const engagementEst = followerNum > 0 ? Math.round(followerNum * 0.02) : null;
-
-    return {
-      ok: true, handle, fullName, followers, following, postCount,
-      bio, hasBio, hasLink, hasHighlights, isVerified, hasProfilePic,
-      followerNum, engagementEst
-    };
+    const res = await fetch(`/api/ig-profile?username=${encodeURIComponent(handle)}`, {
+      signal: AbortSignal.timeout(12000)
+    });
+    if (!res.ok) throw new Error('proxy failed');
+    return await res.json();
   } catch(e) {
-    return { ok: false, handle, error: 'Could not fetch public profile data. Instagram may be blocking the request.' };
+    return { ok: false, handle, error: 'Could not reach the profile check. Try again in a moment.' };
   }
 }
 
 function renderInstagramResults(igData, handle) {
   const section = $('ig-section');
   const results = $('ig-results');
-  if (!igData || !section || !results) return;
+  if (!section || !results) return;
   section.classList.remove('hidden');
 
-  if (!igData.ok) {
+  if (!igData || !igData.ok) {
+    const errMsg = igData?.error || 'Instagram blocked the request.';
+    const isNotFound = errMsg.includes('not found') || errMsg.includes('404');
     results.innerHTML = `
       <div class="ig-error">
-        <div class="ig-error-icon">🐾</div>
-        <p>Lola couldn't sniff <strong>@${handle}</strong>'s profile right now. Instagram keeps their data locked down tight. Here's what we know: a fully optimized IG profile with a link in bio, consistent posting, and 500+ engaged followers is a local trust signal Google notices.</p>
-        <a href="https://www.tyalexandermedia.com/contact" class="btn btn-outline btn-sm" target="_blank">Get a Social Strategy Session →</a>
+        <div class="ig-error-icon">👃</div>
+        <p>${isNotFound
+          ? `<strong>@${handle}</strong> wasn't found. Double-check the handle — no spaces, no @.`
+          : `Lola couldn't sniff <strong>@${handle}</strong> right now. ${errMsg}`
+        }</p>
+        <a href="https://www.tyalexandermedia.com/contact" class="btn btn-outline btn-sm" target="_blank">Book a Social Strategy Session →</a>
       </div>`;
     return;
   }
 
-  const { followers, following, postCount, bio, hasBio, hasLink, isVerified, followerNum, engagementEst, fullName } = igData;
+  const {
+    username, fullName, followers, following, postCount, bio, website,
+    isProfessional, isBusiness, isVerified, highlightCount, hasReels,
+    avgLikes, avgComments, engagementRate, postFreqPerWeek,
+    mostRecentDaysAgo, recentPostCount30, recentPostCount90,
+    contentMix, ffRatio,
+    bioLength, bioHasEmoji, bioHasKeyword, bioHasCity, bioHasCTA
+  } = igData;
 
-  // Score the profile
+  // ── Score (0–100) ───────────────────────────────────────────────────────
   let igScore = 0;
-  if (followers) igScore += 20;
-  if (followerNum >= 500) igScore += 15;
-  if (followerNum >= 2000) igScore += 10;
-  if (hasBio) igScore += 20;
-  if (hasLink) igScore += 20;
-  if (postCount && parseInt(postCount) >= 12) igScore += 15;
-  const igGrade = igScore >= 80 ? 'Strong' : igScore >= 50 ? 'Needs Work' : 'Weak Signal';
-  const igGradeClass = igScore >= 80 ? 'status-good' : igScore >= 50 ? 'status-ok' : 'status-bad';
+  // Followers
+  if (followers >= 2000)  igScore += 20;
+  else if (followers >= 500) igScore += 14;
+  else if (followers >= 100) igScore += 8;
+  else                   igScore += 3;
+  // Engagement rate (industry benchmarks)
+  if (engagementRate >= 6)       igScore += 20;
+  else if (engagementRate >= 3)  igScore += 15;
+  else if (engagementRate >= 1)  igScore += 8;
+  else if (engagementRate > 0)   igScore += 3;
+  // Posting frequency
+  if (postFreqPerWeek >= 3)     igScore += 15;
+  else if (postFreqPerWeek >= 1) igScore += 10;
+  else if (postFreqPerWeek > 0)  igScore += 4;
+  // Recency
+  if (mostRecentDaysAgo !== null) {
+    if (mostRecentDaysAgo <= 7)  igScore += 15;
+    else if (mostRecentDaysAgo <= 30) igScore += 10;
+    else if (mostRecentDaysAgo <= 90) igScore += 4;
+  }
+  // Bio
+  if (bioLength >= 80)   igScore += 8;
+  else if (bioLength >= 30) igScore += 5;
+  if (bioHasCTA)         igScore += 4;
+  if (bioHasKeyword)     igScore += 3;
+  // Website link
+  if (website)           igScore += 10;
+  // Highlights
+  if (highlightCount > 0) igScore += 5;
 
+  igScore = Math.min(igScore, 100);
+  const igGrade = igScore >= 75 ? 'Strong' : igScore >= 45 ? 'Needs Work' : 'Weak Signal';
+  const igGradeClass = igScore >= 75 ? 'status-good' : igScore >= 45 ? 'status-ok' : 'status-bad';
+
+  // ── Engagement rate label ──
+  const erLabel = engagementRate >= 6 ? 'Excellent' :
+                  engagementRate >= 3 ? 'Above Avg' :
+                  engagementRate >= 1 ? 'Average' :
+                  engagementRate > 0  ? 'Below Avg' : '—';
+  const erColor = engagementRate >= 3 ? 'var(--green)' : engagementRate >= 1 ? 'var(--amber)' : 'var(--red)';
+
+  // ── Posting frequency label ──
+  const freqLabel = postFreqPerWeek >= 4 ? 'Very Active' :
+                    postFreqPerWeek >= 2 ? 'Consistent' :
+                    postFreqPerWeek >= 0.5 ? 'Irregular' : 'Inactive';
+  const freqColor = postFreqPerWeek >= 2 ? 'var(--green)' : postFreqPerWeek >= 0.5 ? 'var(--amber)' : 'var(--red)';
+
+  // ── Last post label ──
+  const lastPostLabel = mostRecentDaysAgo === null ? 'Unknown' :
+    mostRecentDaysAgo === 0 ? 'Today' :
+    mostRecentDaysAgo === 1 ? 'Yesterday' :
+    mostRecentDaysAgo <= 7 ? `${mostRecentDaysAgo}d ago` :
+    mostRecentDaysAgo <= 30 ? `${Math.floor(mostRecentDaysAgo/7)}w ago` :
+    `${Math.floor(mostRecentDaysAgo/30)}mo ago`;
+  const lastPostColor = mostRecentDaysAgo !== null && mostRecentDaysAgo <= 14 ? 'var(--green)' :
+    mostRecentDaysAgo !== null && mostRecentDaysAgo <= 60 ? 'var(--amber)' : 'var(--red)';
+
+  // ── Stats grid ──
   const statsHtml = `
     <div class="ig-stats">
       <div class="ig-stat">
-        <div class="ig-stat-num">${followers || '—'}</div>
+        <div class="ig-stat-num">${followers?.toLocaleString() ?? '—'}</div>
         <div class="ig-stat-label">Followers</div>
       </div>
       <div class="ig-stat">
-        <div class="ig-stat-num">${postCount || '—'}</div>
-        <div class="ig-stat-label">Posts</div>
+        <div class="ig-stat-num">${postCount?.toLocaleString() ?? '—'}</div>
+        <div class="ig-stat-label">Total Posts</div>
+      </div>
+      <div class="ig-stat ig-stat-colored" style="--ig-stat-color:${erColor}">
+        <div class="ig-stat-num" style="color:${erColor}">${engagementRate > 0 ? engagementRate + '%' : '—'}</div>
+        <div class="ig-stat-label">Engagement Rate <span class="ig-stat-badge" style="color:${erColor}">${erLabel}</span></div>
+      </div>
+      <div class="ig-stat ig-stat-colored" style="--ig-stat-color:${freqColor}">
+        <div class="ig-stat-num" style="color:${freqColor}">${postFreqPerWeek > 0 ? postFreqPerWeek + '/wk' : '0'}</div>
+        <div class="ig-stat-label">Post Frequency <span class="ig-stat-badge" style="color:${freqColor}">${freqLabel}</span></div>
+      </div>
+      <div class="ig-stat ig-stat-colored" style="--ig-stat-color:${lastPostColor}">
+        <div class="ig-stat-num" style="color:${lastPostColor}">${lastPostLabel}</div>
+        <div class="ig-stat-label">Last Post</div>
       </div>
       <div class="ig-stat">
-        <div class="ig-stat-num">${following || '—'}</div>
-        <div class="ig-stat-label">Following</div>
-      </div>
-      <div class="ig-stat">
-        <div class="ig-stat-num">${engagementEst ? '~' + engagementEst.toLocaleString() : '—'}</div>
-        <div class="ig-stat-label">Est. Engagements/post</div>
+        <div class="ig-stat-num">${avgLikes > 0 ? avgLikes.toLocaleString() : '—'}</div>
+        <div class="ig-stat-label">Avg Likes/Post</div>
       </div>
     </div>`;
 
-  const checksHtml = [
-    { label: 'Profile bio written', pass: hasBio, fix: 'Add a bio that includes your service + city (e.g. "Tampa\'s top pressure washing crew 🐾")' },
-    { label: 'Link in bio set', pass: hasLink, fix: 'Add your website or booking link in the bio field — this is the only clickable link on IG' },
-    { label: '12+ posts published', pass: postCount && parseInt(postCount.replace(/[KkMm,]/g,'')) >= 12, fix: 'Post consistently: 3–4× per week minimum to build algorithm trust' },
-    { label: '500+ followers', pass: followerNum >= 500, fix: 'Focus on local followers: engage with nearby businesses, local hashtags, and city-tagged posts' },
-    { label: 'Verified account', pass: isVerified, fix: 'Build credibility first — verification comes after consistent branding, presence, and follower growth' }
-  ].map(c => `
+  // ── Actionable checklist ──
+  const checks = [
+    {
+      label: 'Active posting schedule',
+      pass: postFreqPerWeek >= 2,
+      detail: postFreqPerWeek > 0
+        ? `Posting ${postFreqPerWeek}x/week in the last 90 days.`
+        : 'No recent posts detected in the last 90 days.',
+      fix: 'The Instagram algorithm rewards consistency above all. 3–4 posts/week is the local business sweet spot. Batch-create content one day a month and schedule it out.',
+    },
+    {
+      label: 'Last post within 14 days',
+      pass: mostRecentDaysAgo !== null && mostRecentDaysAgo <= 14,
+      detail: mostRecentDaysAgo !== null ? `Last post was ${lastPostLabel}.` : 'Could not determine last post date.',
+      fix: 'A dormant account loses algorithmic reach fast. Post something today — even a quick behind-the-scenes clip takes 5 minutes and resets your distribution.',
+    },
+    {
+      label: 'Engagement rate ≥1% (avg: 1–3%)',
+      pass: engagementRate >= 1,
+      detail: engagementRate > 0
+        ? `Your engagement rate is ${engagementRate}% (industry avg for local business: 1–3%).`
+        : 'Not enough post data to calculate engagement rate.',
+      fix: 'Boost engagement by: (1) asking a question in every caption, (2) responding to every comment within 1 hour, (3) posting more Reels — they get 3–5× more reach than static images.',
+    },
+    {
+      label: 'Bio includes keywords + CTA',
+      pass: bioHasKeyword && bioHasCTA,
+      detail: bioHasKeyword && bioHasCTA
+        ? 'Bio has relevant keywords and a call to action.'
+        : `Bio is ${bioLength} characters. ${!bioHasKeyword ? 'Missing service/industry keyword.' : ''} ${!bioHasCTA ? 'Missing CTA (link, book, DM, free).' : ''}`,
+      fix: `Formula: [Who you serve] + [What you do] + [Location] + [CTA]. Example: “Helping Tampa businesses dominate Google Maps 📍 | Free SEO audit ↓”`,
+    },
+    {
+      label: 'Website link in bio',
+      pass: !!website,
+      detail: website ? `Links to: ${website.replace('https://','').replace('http://','').split('/')[0]}` : 'No website link found in bio.',
+      fix: 'Your bio link is the only clickable link on Instagram. It should go to a booking page, landing page, or your website. Use Linktree or Beacons if you have multiple destinations.',
+    },
+    {
+      label: '500+ followers',
+      pass: followers >= 500,
+      detail: `${followers.toLocaleString()} followers. ${followers >= 500 ? 'Above the 500 local authority threshold.' : `Need ${(500 - followers).toLocaleString()} more.`}`,
+      fix: 'Grow local followers by: (1) engaging with top local hashtags (#TampaBusiness, #YourCityEats, etc.), (2) tagging your location on every post, (3) collaborating with complementary local businesses on Reels.',
+    },
+    {
+      label: 'Has Instagram Highlights',
+      pass: highlightCount > 0,
+      detail: highlightCount > 0 ? `${highlightCount} highlight reel${highlightCount > 1 ? 's' : ''} set up.` : 'No Story Highlights found.',
+      fix: 'Highlights are the first thing profile visitors see. Create at least 3: “About Us”, “Services”, and “Reviews/Results” — these build instant trust before someone even scrolls.',
+    },
+    {
+      label: 'Professional/Creator account',
+      pass: isProfessional || isBusiness,
+      detail: isProfessional ? 'Set up as a Professional account — you have access to analytics.' : isBusiness ? 'Set up as a Business account.' : 'Personal account — no analytics access.',
+      fix: 'Switch to a Professional or Creator account (free). You get access to: post reach data, audience demographics, best posting times, and the ability to run ads.',
+    },
+  ];
+
+  const checksHtml = checks.map(c => `
     <div class="ig-check ${c.pass ? 'pass' : 'fail'}">
       <span class="ig-check-icon">${c.pass ? '✓' : '✗'}</span>
       <div class="ig-check-text">
         <span class="ig-check-label">${c.label}</span>
-        ${!c.pass ? `<span class="ig-check-fix">${c.fix}</span>` : ''}
+        <span class="ig-check-detail">${c.detail}</span>
+        ${!c.pass ? `<span class="ig-check-fix">🐾 Fix: ${c.fix}</span>` : ''}
       </div>
     </div>`).join('');
 
+  // ── Content mix bar ──
+  const totalPosts = contentMix?.total || 0;
+  const contentMixHtml = totalPosts > 0 ? `
+    <div class="ig-content-mix">
+      <div class="ig-mix-label">Content Mix (last ${totalPosts} posts)</div>
+      <div class="ig-mix-bars">
+        ${contentMix.video > 0 ? `<div class="ig-mix-bar video" style="flex:${contentMix.video}"><span>🎥 Reels/Video (${contentMix.video})</span></div>` : ''}
+        ${contentMix.carousel > 0 ? `<div class="ig-mix-bar carousel" style="flex:${contentMix.carousel}"><span>🖼️ Carousels (${contentMix.carousel})</span></div>` : ''}
+        ${contentMix.image > 0 ? `<div class="ig-mix-bar image" style="flex:${contentMix.image}"><span>📸 Photos (${contentMix.image})</span></div>` : ''}
+      </div>
+      <p class="ig-mix-note">Reels get 3–5× more organic reach than static images. If you're not posting Reels, you're leaving free reach on the table.</p>
+    </div>` : '';
+
+  // ── Strategy tip (context-aware) ──
+  let strategyTip = '';
+  if (postFreqPerWeek === 0 && (mostRecentDaysAgo === null || mostRecentDaysAgo > 90)) {
+    strategyTip = `<strong>🚨 Dead account alert:</strong> No posts in the last 90 days. Instagram's algorithm has likely deprioritized @${username} entirely. The fastest recovery: post a Reel today, then commit to 3 posts/week for 30 days straight. Don't buy followers — buy time and consistency.`;
+  } else if (engagementRate > 0 && engagementRate < 1) {
+    strategyTip = `<strong>📉 Low engagement despite ${followers.toLocaleString()} followers:</strong> This usually means followers aren't genuinely local or interested. Don't chase vanity metrics. Focus on 3 things: local hashtags (#${(analysisData.city || 'YourCity').split(',')[0].replace(/\s+/g,'')}Business), location tags on every post, and ending every caption with a direct question.`;
+  } else if (postFreqPerWeek >= 3 && engagementRate >= 3) {
+    strategyTip = `<strong>📈 Strong foundation:</strong> Consistent posting + solid engagement rate is exactly the profile that converts to real business. Next level: add a lead magnet in bio ("Free audit ↓"), use Reels to demonstrate your work, and reply to every comment within 60 minutes to maximize algorithmic distribution.`;
+  } else {
+    strategyTip = `<strong>👃 Lola's read:</strong> Instagram doesn't directly move your Google rank — but a credible, active local profile signals authority to both humans and algorithms. Consistency beats virality every time. Pick 3 posts/week and commit for 90 days.`;
+  }
+
+  // ── Score bar ──
+  const scoreBarColor = igScore >= 75 ? 'var(--green)' : igScore >= 45 ? 'var(--amber)' : 'var(--red)';
+
   results.innerHTML = `
     <div class="ig-profile-header">
-      <div class="ig-handle-tag">@${handle}</div>
-      <span class="cat-status ${igGradeClass}">${igGrade}</span>
+      <div class="ig-handle-tag">
+        ${igData.profilePicUrl ? `<img src="${igData.profilePicUrl}" class="ig-avatar" alt="" onerror="this.style.display='none'" />` : ''}
+        <div>
+          <div class="ig-handle-name">@${username}</div>
+          ${fullName ? `<div class="ig-full-name">${fullName}</div>` : ''}
+        </div>
+      </div>
+      <div class="ig-score-wrap">
+        <div class="ig-score-ring">
+          <svg viewBox="0 0 60 60" width="60" height="60">
+            <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="5"/>
+            <circle cx="30" cy="30" r="24" fill="none" stroke="${scoreBarColor}" stroke-width="5"
+              stroke-dasharray="150.8" stroke-dashoffset="${150.8 - (150.8 * igScore / 100)}"
+              stroke-linecap="round" transform="rotate(-90 30 30)"
+              style="transition:stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1)"/>
+          </svg>
+          <div class="ig-score-center">
+            <span class="ig-score-num" style="color:${scoreBarColor}">${igScore}</span>
+          </div>
+        </div>
+        <span class="cat-status ${igGradeClass}">${igGrade}</span>
+      </div>
     </div>
-    ${bio ? `<p class="ig-bio">“${bio}”</p>` : ''}
+    ${bio ? `<div class="ig-bio-block"><span class="ig-bio-icon">📝</span><p class="ig-bio">${bio.replace(/\n/g,'<br>')}</p>${website ? `<a href="${website}" class="ig-website-link" target="_blank" rel="noopener">🔗 ${website.replace('https://','').replace('http://','').replace(/\/$/,'')}</a>` : ''}</div>` : ''}
     ${statsHtml}
+    ${contentMixHtml}
+    <div class="ig-section-head">Profile Audit — 8 Checks</div>
     <div class="ig-checklist">${checksHtml}</div>
-    <div class="ig-tip">
-      <strong>💡 Lola\'s Local IG Strategy:</strong> Instagram doesn\'t directly impact Google rankings — but a strong, active local profile builds the brand authority and trust signals that do. 3–4 posts/week with geo-tags, local hashtags, and before/after content is the playbook.
-    </div>
+    <div class="ig-tip"><p>${strategyTip}</p></div>
     <div class="ig-upsell">
-      <span>📲 Want a full social + SEO strategy built around ${analysisData.bizName || 'your business'}?</span>
+      <span>📲 Want Ty's team to run your social + SEO together?</span>
       <a href="https://www.tyalexandermedia.com/contact" class="btn-inline-cta" target="_blank">Book a Strategy Call →</a>
     </div>`;
 }
