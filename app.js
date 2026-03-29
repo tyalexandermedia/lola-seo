@@ -893,7 +893,7 @@ function renderInstagramResults(igData, handle) {
     </div>`;
 }
 
-// ── SHOW FULL REPORT ─────────────────────────────────────────────
+// ── SHOW FULL REPORT — purchase-first, no per-card calendar CTAs ─
 function showReport() {
   const { bizName, city, total, scores, issues, quickWins } = analysisData;
   const grade = getLetterGrade(total);
@@ -960,30 +960,11 @@ function showReport() {
     }).join('');
   }
 
-  // ── Count quick fixes vs consult items ──
-  const quickFixCount  = issues.filter(i => i.ctaType === 'quickfix').length;
-  const consultCount   = issues.filter(i => i.ctaType === 'consult').length;
+  // ── Count fixable vs strategic issues ──
+  const fixableIssues  = issues.filter(i => i.ctaType === 'quickfix');
+  const strategicIssues = issues.filter(i => i.ctaType === 'consult');
 
-  // ── Inline CTA logic ──
-  // quickfix issues → low-ticket offer
-  // consult issues  → strategy call
-  function issueCtaHtml(ctaType) {
-    if (ctaType === 'quickfix') {
-      return `<div class="rpt-issue-upsell">
-        <span>Ty's team can implement this for you — fast.</span>
-        <a href="https://www.tyalexandermedia.com/contact" class="rpt-upsell-pill" target="_blank">Get It Fixed →</a>
-      </div>`;
-    }
-    if (ctaType === 'consult') {
-      return `<div class="rpt-issue-upsell rpt-issue-upsell--consult">
-        <span>This needs a strategy — not a template.</span>
-        <a href="https://www.tyalexandermedia.com/contact" class="rpt-upsell-pill rpt-upsell-pill--blue" target="_blank">Book a Free Call →</a>
-      </div>`;
-    }
-    return '';
-  }
-
-  // ── Issues ──
+  // ── Issues — diagnosis only, no per-card CTAs ──
   const issuesEl = $('issues-list');
   if (issuesEl) {
     if (!issues || issues.length === 0) {
@@ -1001,19 +982,25 @@ function showReport() {
               <p class="rpt-issue-fix">${issue.impact}</p>
             </div>
           </div>
-          ${issueCtaHtml(issue.ctaType)}
         </div>`).join('');
     }
   }
 
-  // ── Quick Wins ──
+  // ── QUICK FIX OFFER — injected between issues and quick wins ──
+  // Only show if there are fixable items
+  const offerEl = $('rpt-quick-fix-offer');
+  if (offerEl) {
+    if (fixableIssues.length > 0) {
+      offerEl.classList.remove('hidden');
+      offerEl.innerHTML = buildQuickFixOffer(fixableIssues.length, total, grade, bizName);
+    }
+  }
+
+  // ── Quick Wins — what's possible, no tool links ──
   const winsEl = $('quickwins-list');
   if (winsEl) {
-    winsEl.innerHTML = quickWins.map((win, i) => {
-      const ctaHtml = win.ctaType === 'quickfix'
-        ? `<a href="https://www.tyalexandermedia.com/contact" class="rpt-win-cta rpt-win-cta--fix" target="_blank">Have Us Implement This →</a>`
-        : `<a href="https://www.tyalexandermedia.com/contact" class="rpt-win-cta rpt-win-cta--call" target="_blank">Discuss This on a Free Call →</a>`;
-      return `<div class="rpt-win">
+    winsEl.innerHTML = quickWins.map((win, i) => `
+      <div class="rpt-win">
         <div class="rpt-win-top">
           <span class="rpt-win-num">${i + 1}</span>
           <div class="rpt-win-right">
@@ -1023,53 +1010,15 @@ function showReport() {
             </div>
             <p class="rpt-win-why">${win.why}</p>
             <p class="rpt-win-action">${win.what}</p>
-            ${ctaHtml}
           </div>
         </div>
-      </div>`;
-    }).join('');
+      </div>`).join('');
   }
 
-  // ── Upsell block ── score-aware, 3-tier
+  // ── Bottom upsell — after purchase context ──
   const upsellEl = $('rpt-upsell');
   if (upsellEl) {
-    // Count how many quick-fixable issues they have
-    const fixableCount = issues.filter(i => i.ctaType === 'quickfix').length;
-    const urgencyLine = total < 40
-      ? 'Your site is bleeding customers to competitors right now.'
-      : total < 60
-      ? 'You\'re losing local searches you should be winning.'
-      : 'You have a solid base — the right moves now compound fast.';
-
-    upsellEl.innerHTML = `
-      <div class="rpt-upsell-block">
-        <img src="lola-logo.png" class="rpt-upsell-lola" alt="" aria-hidden="true" />
-        <div class="rpt-upsell-eyebrow">Lola has done her job. Now what?</div>
-        <h3 class="rpt-upsell-h3">${urgencyLine}</h3>
-        <p class="rpt-upsell-body">Knowing what's broken is step one. Getting it fixed is where the revenue is. Ty Alexander Media handles all of it — from quick technical fixes to full local SEO domination.</p>
-
-        <div class="rpt-offer-grid">
-          <div class="rpt-offer">
-            <div class="rpt-offer-tag starter">Free · 30 Minutes</div>
-            <div class="rpt-offer-name">Strategy Call with Ty</div>
-            <p class="rpt-offer-desc">Walk through your report live. Get a prioritized action plan built around your specific business, city, and competitors. No pitch. Yours to keep.</p>
-            <a href="https://www.tyalexandermedia.com/contact" class="rpt-offer-btn rpt-offer-btn--soft" target="_blank">Book Free Call →</a>
-          </div>
-          <div class="rpt-offer rpt-offer--featured">
-            <div class="rpt-offer-tag featured-tag">Done For You</div>
-            <div class="rpt-offer-name">Full Local SEO Management</div>
-            <p class="rpt-offer-desc">We handle GBP, on-page, citations, speed, content, and monthly reports. You run your business. We get you found, called, and chosen.</p>
-            <a href="https://www.tyalexandermedia.com/contact" class="rpt-offer-btn rpt-offer-btn--gold" target="_blank">Get a Custom Proposal →</a>
-          </div>
-        </div>
-
-        <div class="rpt-stats-row">
-          <div class="rpt-stat"><span class="rpt-stat-num">97%</span><span class="rpt-stat-label">of buyers Google before buying local</span></div>
-          <div class="rpt-stat"><span class="rpt-stat-num">#1</span><span class="rpt-stat-label">result gets 10× more clicks than #10</span></div>
-          <div class="rpt-stat"><span class="rpt-stat-num">28%</span><span class="rpt-stat-label">of local searches lead to a purchase within 24 hrs</span></div>
-        </div>
-        <p class="rpt-upsell-note">Ty Alexander Media · Tampa Bay, FL · <a href="tel:+17273006573" style="color:var(--gold-400);text-decoration:none">727-300-6573</a></p>
-      </div>`;
+    upsellEl.innerHTML = buildBottomUpsell(total, grade, strategicIssues.length);
   }
 
   // ── Instagram ──
@@ -1078,6 +1027,98 @@ function showReport() {
   }
 
   goToStep('step-report');
+}
+
+// ── QUICK FIX OFFER CARD ──────────────────────────────────────────
+// The one purchase moment — shown right after issues, before wins.
+// BEACONS_LINK: replace with your actual Beacons payment page URL.
+const BEACONS_QUICK_FIX_URL = 'https://beacons.ai/tyalexandermedia'; // ← swap with your Beacons payment link
+
+function buildQuickFixOffer(fixCount, total, grade, bizName) {
+  // Grade-aware urgency
+  const urgency = total < 40
+    ? `Lola found <strong>${fixCount} things we can fix on your site within 24 hours</strong> — no call needed, no waiting around.`
+    : total < 65
+    ? `<strong>${fixCount} of Lola's findings are quick implementations</strong> — things that move your score fast once someone actually makes the change.`
+    : `Even at this score, <strong>${fixCount} optimizations</strong> are sitting undone. Each one is a missed ranking opportunity.`;
+
+  return `
+    <div class="qf-offer">
+      <div class="qf-offer-top">
+        <div class="qf-offer-left">
+          <div class="qf-eyebrow">⚡ Instant Fix Available</div>
+          <h3 class="qf-title">The Quick Fix Package</h3>
+          <p class="qf-desc">${urgency}</p>
+          <div class="qf-deliverables">
+            <div class="qf-item">✓ Title tag optimized for your city + service</div>
+            <div class="qf-item">✓ Meta description written to convert clicks</div>
+            <div class="qf-item">✓ Schema markup added to your site</div>
+            <div class="qf-item">✓ Open Graph tags for social sharing</div>
+            <div class="qf-item">✓ Any other quick wins from your report</div>
+          </div>
+          <div class="qf-timeline">⏱ Implemented on your site within 24 hrs · No access needed until after payment</div>
+        </div>
+        <div class="qf-offer-right">
+          <div class="qf-price-block">
+            <span class="qf-price">$97</span>
+            <span class="qf-price-sub">one-time</span>
+          </div>
+          <a href="${BEACONS_QUICK_FIX_URL}" class="qf-buy-btn" target="_blank" id="qf-buy-btn"
+             onclick="trackQuickFixClick()">
+            Get It Fixed →
+          </a>
+          <p class="qf-guarantee">🐾 Not satisfied? Full refund. No questions.</p>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ── PURCHASE INTENT TRACKER ───────────────────────────────────────
+// Fires when user clicks the buy button — logs intent + sends Ty an email.
+async function trackQuickFixClick() {
+  try {
+    const { email, bizName, city, website, total, issues } = analysisData;
+    if (!email || !bizName) return;
+    await fetch('/api/purchase-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email, bizName, city, website, total,
+        grade: getLetterGrade(total),
+        issues: issues?.map(i => ({ icon: i.icon, title: i.title, impactClass: i.impactClass })),
+        offer: 'Quick Fix Package — $97'
+      })
+    });
+  } catch(e) { /* non-blocking */ }
+}
+
+// ── BOTTOM UPSELL — shown AFTER the quick fix offer ──────────────
+function buildBottomUpsell(total, grade, strategicCount) {
+  const note = strategicCount > 0
+    ? `Beyond the quick wins, Lola flagged <strong style="color:var(--t1)">${strategicCount} strategic issues</strong> that need a deeper approach — content, local authority, competitive positioning. That's the conversation for a strategy call.`
+    : `The quick wins are the foundation. Dominating your local market from here is a strategy conversation — that's what the call is for.`;
+
+  return `
+    <div class="rpt-upsell-block">
+      <img src="lola-logo.png" class="rpt-upsell-lola" alt="" aria-hidden="true" />
+      <div class="rpt-upsell-eyebrow">After your quick fixes are live —</div>
+      <h3 class="rpt-upsell-h3">Ready to dominate your market, not just fix your score?</h3>
+      <p class="rpt-upsell-body">${note}</p>
+      <div class="rpt-offer-grid rpt-offer-grid--single">
+        <div class="rpt-offer rpt-offer--featured" style="max-width:380px;margin:0 auto">
+          <div class="rpt-offer-tag featured-tag">Free · After Quick Fix</div>
+          <div class="rpt-offer-name">Strategy Call with Ty</div>
+          <p class="rpt-offer-desc">Once the quick fixes are live, we'll review your results together and map out what it actually takes to own page 1 in your market. This is where the real growth plan gets built.</p>
+          <a href="https://www.tyalexandermedia.com/contact" class="rpt-offer-btn rpt-offer-btn--gold" target="_blank">Book Your Strategy Call →</a>
+        </div>
+      </div>
+      <div class="rpt-stats-row">
+        <div class="rpt-stat"><span class="rpt-stat-num">97%</span><span class="rpt-stat-label">of buyers Google before buying local</span></div>
+        <div class="rpt-stat"><span class="rpt-stat-num">#1</span><span class="rpt-stat-label">result gets 10× more clicks than #10</span></div>
+        <div class="rpt-stat"><span class="rpt-stat-num">28%</span><span class="rpt-stat-label">of local searches lead to a purchase within 24 hrs</span></div>
+      </div>
+      <p class="rpt-upsell-note">Ty Alexander Media · Tampa Bay, FL · <a href="tel:+17273006573" style="color:var(--gold-400);text-decoration:none">727-300-6573</a></p>
+    </div>`;
 }
 
 // ── HELPERS ───────────────────────────────────────────────────
