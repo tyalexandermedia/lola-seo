@@ -13,14 +13,14 @@ const hide = id => { const el = $(id); if (el) el.classList.add('hidden'); };
 
 // ── STEP TRANSITIONS ──────────────────────────────────────────
 function goToStep(step) {
-  ['step-input','step-loading','step-gate','step-report'].forEach(hide);
+  ['step-input','step-loading','step-gate','step-ig','step-report'].forEach(hide);
   show(step);
   window.scrollTo({ top: 0, behavior: 'smooth' });
   updateStepIndicators(step);
 }
 
 function updateStepIndicators(step) {
-  const stepMap = { 'step-input': 1, 'step-loading': 1, 'step-gate': 2, 'step-report': 3 };
+  const stepMap = { 'step-input': 1, 'step-loading': 1, 'step-gate': 2, 'step-ig': 2, 'step-report': 3 };
   const current = stepMap[step] || 1;
   document.querySelectorAll('.step-pill').forEach((el, i) => {
     const num = i + 1;
@@ -52,10 +52,11 @@ $('seo-form').addEventListener('submit', async (e) => {
   const headlines = [
     'Lola is on the scent… 🐽',
     'Sniffing your title tags… 👃',
+    'Digging for robots.txt and sitemap… 🗂️',
     'Chasing down your page speed… 🏃',
     'Digging up your local signals… 🦮',
-    'Fetching your SEO score… 🎾',
-    'Almost got it! Good girl, Lola… 🐾',
+    'Sniffing your schema and OG tags… 📝',
+    'Almost got it! Lola\'s closing in… 🐾',
   ];
   let hIdx = 0;
   const hInterval = setInterval(() => {
@@ -99,17 +100,32 @@ async function runAnalysis() {
   const { bizName, website, city, bizType } = analysisData;
 
   setProgress(5);
-  animateLoadCheck('lc1', 300,  18);
-  animateLoadCheck('lc2', 900,  35);
-  animateLoadCheck('lc3', 1600, 52);
-  animateLoadCheck('lc4', 2300, 68);
-  animateLoadCheck('lc5', 3000, 82);
-  animateLoadCheck('lc6', 3700, 95);
+  animateLoadCheck('lc1', 300,  12);
+  animateLoadCheck('lc2', 800,  24);
+  animateLoadCheck('lc3', 1400, 36);
+  animateLoadCheck('lc4', 2000, 50);
+  animateLoadCheck('lc5', 2600, 64);
+  animateLoadCheck('lc6', 3200, 76);
+  animateLoadCheck('lc7', 3700, 88);
+  animateLoadCheck('lc8', 4200, 95);
 
   const timeout = new Promise(resolve => setTimeout(resolve, 9000));
+  const fallbackSite = {
+    ok: false, httpsOk: website.startsWith('https://'), title: '', metaDesc: '',
+    metaViewport: false, h1Text: '', h1Count: 0, h2Count: 0, canonicalTag: false,
+    canonicalSelf: false, noindex: false, ogTitle: false, ogDesc: false, ogImage: false,
+    ogTags: false, schemaJson: false, wordCount: 0, imgCount: 0, altMissing: 0,
+    altMissingPct: 0, internalLinks: 0, externalLinks: 0, hasPhone: false,
+    hasAddress: false, hasMaps: false, hasGBP: false, hasAnalytics: false,
+    hasGTM: false, hasPrivacyLink: false, robotsOk: null, sitemapFound: null,
+    isRedirect: false, headingHierarchyOk: true
+  };
+  const fallbackSpeed = { ok: false, performance: 50, accessibility: 50, seo: 50,
+    isMobileOk: true, hasViewport: true, isCrawlable: true, fcp: '', lcp: '', cls: '' };
+
   const [siteData, speedData] = await Promise.all([
-    Promise.race([fetchSiteData(website), timeout.then(() => ({ ok: false, httpsOk: website.startsWith('https://'), title: '', metaDesc: '', metaViewport: false, h1Text: '', h1Count: 0, canonicalTag: false, ogTags: false, schemaJson: false, wordCount: 0, imgCount: 0, altMissing: 0, internalLinks: 0, hasPhone: false, hasAddress: false, hasMaps: false, hasGBP: false }))]),
-    Promise.race([fetchPageSpeed(website), timeout.then(() => ({ ok: false, performance: 50, accessibility: 50, seo: 50, isMobileOk: true, hasViewport: true, isCrawlable: true }))])
+    Promise.race([fetchSiteData(website), timeout.then(() => fallbackSite)]),
+    Promise.race([fetchPageSpeed(website), timeout.then(() => fallbackSpeed)]),
   ]);
 
   await sleep(1000);
@@ -149,46 +165,123 @@ async function fetchSiteData(url) {
     if (!res.ok) throw new Error('fetch failed');
     const json = await res.json();
     const html = json.contents || '';
+    const lowerHtml = html.toLowerCase();
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    const title     = doc.querySelector('title')?.textContent?.trim() || '';
-    const metaDesc  = doc.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() || '';
+    // ── Core tags ──
+    const title      = doc.querySelector('title')?.textContent?.trim() || '';
+    const metaDesc   = doc.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() || '';
     const metaViewport = !!doc.querySelector('meta[name="viewport"]');
-    const h1s       = doc.querySelectorAll('h1');
-    const h1Text    = h1s[0]?.textContent?.trim() || '';
-    const bodyText  = doc.body?.innerText || doc.body?.textContent || '';
-    const canonicalTag = !!doc.querySelector('link[rel="canonical"]');
-    const ogTags    = !!doc.querySelector('meta[property^="og:"]');
+    const httpsOk    = url.startsWith('https://');
+
+    // ── Headings ──
+    const h1s    = doc.querySelectorAll('h1');
+    const h2s    = doc.querySelectorAll('h2');
+    const h3s    = doc.querySelectorAll('h3');
+    const h1Text = h1s[0]?.textContent?.trim() || '';
+    // Heading hierarchy: H2 should come after H1, H3 after H2
+    const headingHierarchyOk = h1s.length === 1; // simplified check
+
+    // ── Canonical ──
+    const canonicalEl  = doc.querySelector('link[rel="canonical"]');
+    const canonicalTag = !!canonicalEl;
+    const canonicalHref = canonicalEl?.getAttribute('href') || '';
+    // Self-referencing canonical = correct practice
+    const canonicalSelf = canonicalTag && (canonicalHref.includes(new URL(url).hostname) || canonicalHref.startsWith('/'));
+
+    // ── Noindex check ──
+    const robotsMeta  = doc.querySelector('meta[name="robots"]')?.getAttribute('content') || '';
+    const noindex     = robotsMeta.toLowerCase().includes('noindex');
+
+    // ── Open Graph completeness ──
+    const ogTitle  = !!doc.querySelector('meta[property="og:title"]');
+    const ogDesc   = !!doc.querySelector('meta[property="og:description"]');
+    const ogImage  = !!doc.querySelector('meta[property="og:image"]');
+    const ogTags   = ogTitle || ogDesc || ogImage;
+    const ogComplete = ogTitle && ogDesc && ogImage;
+
+    // ── Schema ──
     const schemaJson = !!doc.querySelector('script[type="application/ld+json"]');
-    const httpsOk   = url.startsWith('https://');
+
+    // ── Content ──
+    const bodyText  = doc.body?.innerText || doc.body?.textContent || '';
     const wordCount = bodyText.split(/\s+/).filter(Boolean).length;
-    const imgCount  = doc.querySelectorAll('img').length;
-    const altMissing = Array.from(doc.querySelectorAll('img')).filter(img => !img.getAttribute('alt')).length;
-    const internalLinks = Array.from(doc.querySelectorAll('a[href]')).filter(a => {
-      try { const href = a.getAttribute('href'); return href && !href.startsWith('http') && !href.startsWith('mailto'); }
+
+    // ── Images & alt ──
+    const imgs       = Array.from(doc.querySelectorAll('img'));
+    const imgCount   = imgs.length;
+    const altMissing = imgs.filter(img => !img.getAttribute('alt') || img.getAttribute('alt').trim() === '').length;
+    const altMissingPct = imgCount > 0 ? Math.round((altMissing / imgCount) * 100) : 0;
+
+    // ── Links ──
+    const allLinks = Array.from(doc.querySelectorAll('a[href]'));
+    const internalLinks = allLinks.filter(a => {
+      try { const href = a.getAttribute('href'); return href && !href.startsWith('http') && !href.startsWith('mailto') && !href.startsWith('tel'); }
+      catch { return false; }
+    }).length;
+    const externalLinks = allLinks.filter(a => {
+      try { const href = a.getAttribute('href'); return href && href.startsWith('http'); }
       catch { return false; }
     }).length;
 
-    const lowerHtml = html.toLowerCase();
+    // ── Local signals ──
     const hasPhone   = /(\d{3}[-.\s]?\d{3}[-.\s]?\d{4}|\(\d{3}\)\s?\d{3}[-.\s]?\d{4})/.test(html);
     const hasAddress = /(street|avenue|blvd|drive|road|suite|\bst\b|\bave\b|\bdr\b)/i.test(html);
     const hasMaps    = lowerHtml.includes('google.com/maps') || lowerHtml.includes('maps.google') || lowerHtml.includes('goo.gl/maps');
     const hasGBP     = lowerHtml.includes('business.google') || lowerHtml.includes('g.page') || lowerHtml.includes('g.co/');
 
+    // ── Analytics & tracking ──
+    const hasAnalytics = lowerHtml.includes('google-analytics.com') || lowerHtml.includes('gtag(') || lowerHtml.includes('ga.js') || lowerHtml.includes('analytics.js') || lowerHtml.includes('googletagmanager.com/gtag');
+    const hasGTM       = lowerHtml.includes('googletagmanager.com/gtm');
+    const hasPixel     = lowerHtml.includes('connect.facebook.net') || lowerHtml.includes('fbq(');
+    const hasPrivacyLink = lowerHtml.includes('privacy') || lowerHtml.includes('terms');
+
+    // ── Robots.txt & Sitemap (parallel fetch, non-blocking) ──
+    let robotsOk    = null;
+    let sitemapFound = null;
+    try {
+      const origin = new URL(url).origin;
+      const [robotsRes, sitemapRes] = await Promise.allSettled([
+        fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(origin + '/robots.txt')}`, { signal: AbortSignal.timeout(4000) }),
+        fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(origin + '/sitemap.xml')}`, { signal: AbortSignal.timeout(4000) })
+      ]);
+      if (robotsRes.status === 'fulfilled' && robotsRes.value.ok) {
+        const rb = await robotsRes.value.json();
+        const rbText = (rb.contents || '').toLowerCase();
+        robotsOk = rbText.includes('user-agent') && !rbText.includes('disallow: /');
+      }
+      if (sitemapRes.status === 'fulfilled' && sitemapRes.value.ok) {
+        const sm = await sitemapRes.value.json();
+        sitemapFound = (sm.contents || '').length > 50 && (sm.contents || '').includes('urlset');
+      }
+    } catch(e) { /* non-blocking */ }
+
     return {
-      ok: true, title, metaDesc, metaViewport, h1Text, h1Count: h1s.length,
-      canonicalTag, ogTags, schemaJson, httpsOk, wordCount, imgCount, altMissing,
-      internalLinks, hasPhone, hasAddress, hasMaps, hasGBP
+      ok: true, title, metaDesc, metaViewport, h1Text,
+      h1Count: h1s.length, h2Count: h2s.length, h3Count: h3s.length,
+      headingHierarchyOk,
+      canonicalTag, canonicalSelf, noindex,
+      ogTitle, ogDesc, ogImage, ogTags, ogComplete,
+      schemaJson, httpsOk, wordCount, imgCount, altMissing, altMissingPct,
+      internalLinks, externalLinks,
+      hasPhone, hasAddress, hasMaps, hasGBP,
+      hasAnalytics, hasGTM, hasPixel, hasPrivacyLink,
+      robotsOk, sitemapFound
     };
   } catch (err) {
     const httpsOk = url.startsWith('https://');
     return {
       ok: false, httpsOk, title: '', metaDesc: '', metaViewport: false,
-      h1Text: '', h1Count: 0, canonicalTag: false, ogTags: false, schemaJson: false,
-      wordCount: 0, imgCount: 0, altMissing: 0, internalLinks: 0,
-      hasPhone: false, hasAddress: false, hasMaps: false, hasGBP: false
+      h1Text: '', h1Count: 0, h2Count: 0, h3Count: 0, headingHierarchyOk: true,
+      canonicalTag: false, canonicalSelf: false, noindex: false,
+      ogTitle: false, ogDesc: false, ogImage: false, ogTags: false, ogComplete: false,
+      schemaJson: false, wordCount: 0, imgCount: 0, altMissing: 0, altMissingPct: 0,
+      internalLinks: 0, externalLinks: 0,
+      hasPhone: false, hasAddress: false, hasMaps: false, hasGBP: false,
+      hasAnalytics: false, hasGTM: false, hasPixel: false, hasPrivacyLink: false,
+      robotsOk: null, sitemapFound: null
     };
   }
 }
@@ -223,14 +316,18 @@ async function fetchPageSpeed(url) {
 // ── SCORING LOGIC ─────────────────────────────────────────────
 function scoreSiteHealth(s, url) {
   let score = 0;
-  if (s.httpsOk) score += 25;
-  if (s.title?.length > 10 && s.title?.length < 70) score += 20;
-  else if (s.title?.length > 0) score += 10;
-  if (s.metaDesc?.length > 50 && s.metaDesc?.length < 160) score += 20;
-  else if (s.metaDesc?.length > 0) score += 8;
-  if (s.canonicalTag) score += 10;
-  if (s.ogTags)       score += 10;
-  if (s.schemaJson)   score += 15;
+  if (s.httpsOk)   score += 20;
+  if (s.title?.length > 10 && s.title?.length < 70) score += 15;
+  else if (s.title?.length > 0) score += 8;
+  if (s.metaDesc?.length > 50 && s.metaDesc?.length < 160) score += 15;
+  else if (s.metaDesc?.length > 0) score += 6;
+  if (s.canonicalTag)   score += 8;
+  if (s.ogComplete)     score += 12;   // all 3 OG tags = full credit
+  else if (s.ogTags)    score += 5;    // partial
+  if (s.schemaJson)     score += 12;
+  if (!s.noindex)       score += 8;    // not blocking indexing
+  if (s.robotsOk === true)  score += 5;
+  if (s.sitemapFound === true) score += 5;
   return Math.min(score, 100);
 }
 
@@ -486,11 +583,139 @@ function buildIssues(scores, siteData, speedData, url, bizName, city) {
     });
   }
 
+  // ── ROBOTS.TXT ──
+  if (siteData.robotsOk === false) {
+    issues.push({
+      icon: '🤖', severity: 'error',
+      title: 'robots.txt May Be Blocking Google From Crawling Your Site',
+      impact: 'Critical', impactClass: 'critical',
+      time: '10 min',
+      body: `Lola sniffed your robots.txt and found a broad \'Disallow: /\' rule — meaning you may have accidentally told Google not to crawl your entire site. This is one of the most common and devastating SEO mistakes local businesses make.`,
+      steps: [
+        `Visit <a href="${url}/robots.txt" target="_blank">${url}/robots.txt</a> in your browser to view it`,
+        'If you see <code>Disallow: /</code> under <code>User-agent: *</code>, that blocks all crawlers — fix it immediately',
+        'The correct version for most sites: <code>User-agent: *</code> then <code>Disallow:</code> (blank = allow all)',
+        'Update in your CMS under SEO/robots settings, or edit the file directly via FTP/cPanel',
+        'Verify with <a href="https://www.google.com/webmasters/tools/robots-testing-tool" target="_blank">Google\'s Robots Testing Tool</a>'
+      ],
+      ty: { label: 'We audit and fix your entire technical crawl setup as part of our SEO onboarding.', cta: 'Fix My Crawlability →' }
+    });
+  }
+
+  // ── SITEMAP ──
+  if (siteData.sitemapFound === false) {
+    issues.push({
+      icon: '🗺️', severity: 'warn',
+      title: 'No XML Sitemap Found — Google Has No Roadmap to Your Pages',
+      impact: 'High', impactClass: 'high',
+      time: '15 min',
+      body: `Your site doesn\'t appear to have a sitemap.xml. A sitemap tells Google every page you want indexed and when they were last updated. Without one, new pages can take weeks to get discovered — or never get indexed at all.`,
+      steps: [
+        'Most CMS platforms generate sitemaps automatically: Wix, WordPress (Yoast SEO plugin), Squarespace, Shopify',
+        'For Wix: go to Marketing & SEO → SEO Tools → Site Booster — sitemap is auto-generated',
+        'For WordPress: install <a href="https://yoast.com" target="_blank">Yoast SEO</a> (free) — it generates and maintains your sitemap',
+        'Submit your sitemap in <a href="https://search.google.com/search-console" target="_blank">Google Search Console</a> under Sitemaps'
+      ],
+      ty: { label: 'Sitemap creation, submission, and Search Console setup is included in our SEO package.', cta: 'Get My Sitemap Set Up →' }
+    });
+  }
+
+  // ── NOINDEX ──
+  if (siteData.noindex) {
+    issues.push({
+      icon: '🚫', severity: 'error',
+      title: 'noindex Tag Found — Google Is Told NOT to Show This Page',
+      impact: 'Critical', impactClass: 'critical',
+      time: '5 min',
+      body: `Your page contains a <code>meta robots noindex</code> tag, which tells Google to remove this page from search results entirely. This is often set during development and accidentally left on live sites.`,
+      steps: [
+        'View your page source (Ctrl+U) and search for <code>noindex</code>',
+        'Remove or change it to <code>&lt;meta name="robots" content="index, follow"&gt;</code>',
+        'In your CMS, check SEO settings for an "Indexing" or "Search Visibility" toggle and ensure it\'s ON',
+        'After fixing, ask Google to re-crawl via <a href="https://search.google.com/search-console" target="_blank">Search Console</a> URL Inspection tool'
+      ],
+      ty: { label: 'We run a full technical audit to catch hidden indexing issues that kill your rankings.', cta: 'Get a Technical SEO Audit →' }
+    });
+  }
+
+  // ── OG TAGS INCOMPLETE ──
+  if (siteData.ogTags && !siteData.ogComplete) {
+    const missing = [!siteData.ogTitle && 'og:title', !siteData.ogDesc && 'og:description', !siteData.ogImage && 'og:image'].filter(Boolean).join(', ');
+    issues.push({
+      icon: '🔗', severity: 'warn',
+      title: `Incomplete Open Graph Tags (Missing: ${missing})`,
+      impact: 'Medium', impactClass: 'medium',
+      time: '10 min',
+      body: `When someone shares your site on Facebook, LinkedIn, or iMessage, the preview is controlled by Open Graph tags. You have some but not all three required tags. Incomplete OG = ugly, unclickable shares that damage your brand.`,
+      steps: [
+        'Add all three to your page head: <code>og:title</code>, <code>og:description</code>, and <code>og:image</code>',
+        `Recommended: <code>&lt;meta property="og:title" content="${bizName} | ${cityName}"&gt;</code>`,
+        'Your og:image should be at least 1200×630px — use your logo on a branded background',
+        'Test your preview at <a href="https://www.opengraph.xyz" target="_blank">opengraph.xyz</a>'
+      ],
+      ty: null
+    });
+  } else if (!siteData.ogTags) {
+    issues.push({
+      icon: '🔗', severity: 'warn',
+      title: 'No Open Graph Tags — Your Site Looks Broken When Shared',
+      impact: 'Medium', impactClass: 'medium',
+      time: '15 min',
+      body: `Zero Open Graph tags detected. Every time someone shares your site link on social media or in text, it shows as an unstyled link with no image, title, or description. That\'s free traffic you\'re actively wasting.`,
+      steps: [
+        'Add these three tags to your <code>&lt;head&gt;</code>:',
+        `<code>&lt;meta property="og:title" content="${bizName} — [Your Main Service] in ${cityName}"&gt;</code>`,
+        '<code>&lt;meta property="og:description" content="[Your 1-sentence value prop]"&gt;</code>',
+        '<code>&lt;meta property="og:image" content="[Full URL to your best branded image]"&gt;</code>',
+        'Validate at <a href="https://www.opengraph.xyz" target="_blank">opengraph.xyz</a>'
+      ],
+      ty: null
+    });
+  }
+
+  // ── ANALYTICS ──
+  if (!siteData.hasAnalytics && !siteData.hasGTM) {
+    issues.push({
+      icon: '📊', severity: 'warn',
+      title: 'No Google Analytics or Tag Manager Detected — Flying Blind',
+      impact: 'High', impactClass: 'high',
+      time: '20 min',
+      body: `No tracking code found on your site. Without analytics, you have no idea who\'s visiting, where they came from, which pages convert, or whether your SEO improvements are working. It\'s impossible to optimize what you can\'t measure.`,
+      steps: [
+        'Go to <a href="https://analytics.google.com" target="_blank">analytics.google.com</a> and create a free GA4 property',
+        'Follow the setup wizard and copy your Measurement ID (starts with G-)',
+        'In your CMS, paste the tracking code into your site\'s <code>&lt;head&gt;</code> or use a tracking plugin',
+        'Better yet: install <a href="https://tagmanager.google.com" target="_blank">Google Tag Manager</a> — it lets you manage all tracking in one place',
+        'Verify it\'s working at <a href="https://analytics.google.com" target="_blank">analytics.google.com</a> under Realtime'
+      ],
+      ty: { label: 'Analytics setup, goal tracking, and conversion measurement is included in our onboarding.', cta: 'Get Analytics Set Up →' }
+    });
+  }
+
+  // ── ALT TEXT ──
+  if (siteData.altMissingPct > 40 && siteData.imgCount > 3) {
+    issues.push({
+      icon: '🖼️', severity: 'warn',
+      title: `${siteData.altMissingPct}% of Images Missing Alt Text — Invisible to Google Images`,
+      impact: 'Medium', impactClass: 'medium',
+      time: '20–40 min',
+      body: `${siteData.altMissing} of your ${siteData.imgCount} images have no alt text. Alt text is how Google reads your images — it\'s a missed keyword opportunity AND an accessibility failure. Google Images is the 2nd largest search engine in the world.`,
+      steps: [
+        'For each image, write a descriptive alt text: what is in the image + relevant keyword if natural',
+        `Example: instead of alt="image1.jpg", use alt="${bizName} team pressure washing driveway in ${cityName}"`,
+        'In Wix/WordPress/Squarespace, click any image and find the alt text field in image settings',
+        'Prioritize hero images and service images first — those carry the most weight',
+        'Check your full list at <a href="https://www.seobility.net/en/seocheck/" target="_blank">seobility.net</a>'
+      ],
+      ty: null
+    });
+  }
+
   // Sort: critical first, then high, then medium
   const order = { critical: 0, high: 1, medium: 2 };
   issues.sort((a, b) => (order[a.impactClass] ?? 3) - (order[b.impactClass] ?? 3));
 
-  return issues.slice(0, 7);
+  return issues.slice(0, 8);
 }
 
 // ── QUICK WINS BUILDER — with exact actions + tools ───────────
@@ -644,8 +869,169 @@ $('email-form').addEventListener('submit', async (e) => {
   } catch(e) {}
 
   await sleep(1400);
+  goToStep('step-ig');
+});
+
+// ── INSTAGRAM STEP ───────────────────────────────────────────────────
+$('ig-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const handle = $('ig-handle').value.trim().replace(/^@/, '');
+  if (!handle) { showReport(); return; }
+  const btn = $('ig-check-btn');
+  btn.disabled = true; btn.textContent = '👃 Sniffing...';
+  const igData = await fetchInstagramProfile(handle);
+  analysisData.igData = igData;
+  analysisData.igHandle = handle;
   showReport();
 });
+
+$('ig-skip-btn').addEventListener('click', () => {
+  analysisData.igData = null;
+  showReport();
+});
+
+async function fetchInstagramProfile(handle) {
+  try {
+    // Try to fetch the public profile HTML and parse meta description for follower count
+    const igUrl = `https://www.instagram.com/${handle}/`;
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(igUrl)}`;
+    const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+    if (!res.ok) throw new Error('ig fetch failed');
+    const json = await res.json();
+    const html = json.contents || '';
+
+    // Parse meta description: "X Followers, Y Following, Z Posts..."
+    const descMatch = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)
+      || html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']description["']/i);
+    const rawDesc = descMatch ? descMatch[1] : '';
+
+    // Parse: "12.5K Followers, 891 Following, 234 Posts"
+    const fMatch   = rawDesc.match(/([\d.,]+[KkMm]?)\s*Followers?/i);
+    const fwMatch  = rawDesc.match(/([\d.,]+[KkMm]?)\s*Following/i);
+    const postsMatch = rawDesc.match(/([\d.,]+[KkMm]?)\s*Posts?/i);
+
+    // Check verified badge in HTML
+    const isVerified = html.includes('"is_verified":true') || html.includes('"verified":true');
+
+    // Extract bio from og:description or title
+    const ogDescMatch = html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i)
+      || html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:description["']/i);
+    const bio = ogDescMatch ? ogDescMatch[1].substring(0, 150) : '';
+
+    const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+    const fullName = titleMatch ? titleMatch[1].replace('\u2022 Instagram', '').replace('Instagram', '').trim() : handle;
+
+    const hasProfilePic = html.includes('profile_pic_url') || html.includes('og:image');
+
+    // Profile completeness checks
+    const hasBio = bio.length > 20;
+    const hasLink = html.includes('"external_url"') && !html.includes('"external_url":null') && !html.includes('"external_url":""');
+    const hasHighlights = html.includes('highlight_reel');
+
+    const followers = fMatch ? fMatch[1] : null;
+    const following = fwMatch ? fwMatch[1] : null;
+    const postCount = postsMatch ? postsMatch[1] : null;
+
+    // Follower-to-engagement estimate (industry standard: local biz avg 1.5-3%)
+    let followerNum = 0;
+    if (followers) {
+      const n = followers.replace(/,/g,'');
+      if (n.toLowerCase().includes('k')) followerNum = parseFloat(n) * 1000;
+      else if (n.toLowerCase().includes('m')) followerNum = parseFloat(n) * 1000000;
+      else followerNum = parseInt(n) || 0;
+    }
+    const engagementEst = followerNum > 0 ? Math.round(followerNum * 0.02) : null;
+
+    return {
+      ok: true, handle, fullName, followers, following, postCount,
+      bio, hasBio, hasLink, hasHighlights, isVerified, hasProfilePic,
+      followerNum, engagementEst
+    };
+  } catch(e) {
+    return { ok: false, handle, error: 'Could not fetch public profile data. Instagram may be blocking the request.' };
+  }
+}
+
+function renderInstagramResults(igData, handle) {
+  const section = $('ig-section');
+  const results = $('ig-results');
+  if (!igData || !section || !results) return;
+  section.classList.remove('hidden');
+
+  if (!igData.ok) {
+    results.innerHTML = `
+      <div class="ig-error">
+        <div class="ig-error-icon">🐾</div>
+        <p>Lola couldn't sniff <strong>@${handle}</strong>'s profile right now. Instagram keeps their data locked down tight. Here's what we know: a fully optimized IG profile with a link in bio, consistent posting, and 500+ engaged followers is a local trust signal Google notices.</p>
+        <a href="https://www.tyalexandermedia.com/contact" class="btn btn-outline btn-sm" target="_blank">Get a Social Strategy Session →</a>
+      </div>`;
+    return;
+  }
+
+  const { followers, following, postCount, bio, hasBio, hasLink, isVerified, followerNum, engagementEst, fullName } = igData;
+
+  // Score the profile
+  let igScore = 0;
+  if (followers) igScore += 20;
+  if (followerNum >= 500) igScore += 15;
+  if (followerNum >= 2000) igScore += 10;
+  if (hasBio) igScore += 20;
+  if (hasLink) igScore += 20;
+  if (postCount && parseInt(postCount) >= 12) igScore += 15;
+  const igGrade = igScore >= 80 ? 'Strong' : igScore >= 50 ? 'Needs Work' : 'Weak Signal';
+  const igGradeClass = igScore >= 80 ? 'status-good' : igScore >= 50 ? 'status-ok' : 'status-bad';
+
+  const statsHtml = `
+    <div class="ig-stats">
+      <div class="ig-stat">
+        <div class="ig-stat-num">${followers || '—'}</div>
+        <div class="ig-stat-label">Followers</div>
+      </div>
+      <div class="ig-stat">
+        <div class="ig-stat-num">${postCount || '—'}</div>
+        <div class="ig-stat-label">Posts</div>
+      </div>
+      <div class="ig-stat">
+        <div class="ig-stat-num">${following || '—'}</div>
+        <div class="ig-stat-label">Following</div>
+      </div>
+      <div class="ig-stat">
+        <div class="ig-stat-num">${engagementEst ? '~' + engagementEst.toLocaleString() : '—'}</div>
+        <div class="ig-stat-label">Est. Engagements/post</div>
+      </div>
+    </div>`;
+
+  const checksHtml = [
+    { label: 'Profile bio written', pass: hasBio, fix: 'Add a bio that includes your service + city (e.g. "Tampa\'s top pressure washing crew 🐾")' },
+    { label: 'Link in bio set', pass: hasLink, fix: 'Add your website or booking link in the bio field — this is the only clickable link on IG' },
+    { label: '12+ posts published', pass: postCount && parseInt(postCount.replace(/[KkMm,]/g,'')) >= 12, fix: 'Post consistently: 3–4× per week minimum to build algorithm trust' },
+    { label: '500+ followers', pass: followerNum >= 500, fix: 'Focus on local followers: engage with nearby businesses, local hashtags, and city-tagged posts' },
+    { label: 'Verified account', pass: isVerified, fix: 'Build credibility first — verification comes after consistent branding, presence, and follower growth' }
+  ].map(c => `
+    <div class="ig-check ${c.pass ? 'pass' : 'fail'}">
+      <span class="ig-check-icon">${c.pass ? '✓' : '✗'}</span>
+      <div class="ig-check-text">
+        <span class="ig-check-label">${c.label}</span>
+        ${!c.pass ? `<span class="ig-check-fix">${c.fix}</span>` : ''}
+      </div>
+    </div>`).join('');
+
+  results.innerHTML = `
+    <div class="ig-profile-header">
+      <div class="ig-handle-tag">@${handle}</div>
+      <span class="cat-status ${igGradeClass}">${igGrade}</span>
+    </div>
+    ${bio ? `<p class="ig-bio">“${bio}”</p>` : ''}
+    ${statsHtml}
+    <div class="ig-checklist">${checksHtml}</div>
+    <div class="ig-tip">
+      <strong>💡 Lola\'s Local IG Strategy:</strong> Instagram doesn\'t directly impact Google rankings — but a strong, active local profile builds the brand authority and trust signals that do. 3–4 posts/week with geo-tags, local hashtags, and before/after content is the playbook.
+    </div>
+    <div class="ig-upsell">
+      <span>📲 Want a full social + SEO strategy built around ${analysisData.bizName || 'your business'}?</span>
+      <a href="https://www.tyalexandermedia.com/contact" class="btn-inline-cta" target="_blank">Book a Strategy Call →</a>
+    </div>`;
+}
 
 // ── SHOW FULL REPORT ──────────────────────────────────────────
 function showReport() {
@@ -822,6 +1208,11 @@ function showReport() {
       </div>
     `;
   }).join('');
+
+  // ── Instagram results (if user checked IG) ──
+  if (analysisData.igData) {
+    renderInstagramResults(analysisData.igData, analysisData.igHandle);
+  }
 
   goToStep('step-report');
 }

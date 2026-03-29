@@ -42,7 +42,7 @@
         <!-- Lola mascot hero -->
         <div class="mascot-wrap">
           <div class="mascot-ring">
-            <img src="lola-logo.png" alt="Lola SEO mascot" class="mascot-img" />
+            <img src="lola-logo-hero.png" alt="Lola SEO mascot" class="mascot-img" />
           </div>
           <div class="mascot-badge">
             <span class="badge-dot"></span>
@@ -136,10 +136,12 @@
             <div class="loading-checks" id="loading-checks">
               <div class="lcheck pending" id="lc1"><span class="lc-icon">○</span> 🔒 Sniffing SSL &amp; HTTPS security</div>
               <div class="lcheck pending" id="lc2"><span class="lc-icon">○</span> 📋 Digging up title tags &amp; meta descriptions</div>
-              <div class="lcheck pending" id="lc3"><span class="lc-icon">○</span> 📱 Testing mobile experience &amp; viewport</div>
-              <div class="lcheck pending" id="lc4"><span class="lc-icon">○</span> ⚡ Clocking your real page speed score</div>
-              <div class="lcheck pending" id="lc5"><span class="lc-icon">○</span> 📍 Tracking local SEO signals &amp; NAP data</div>
-              <div class="lcheck pending" id="lc6"><span class="lc-icon">○</span> ✍️ Auditing content quality &amp; structure</div>
+              <div class="lcheck pending" id="lc3"><span class="lc-icon">○</span> 🗂️ Checking robots.txt, sitemap &amp; crawlability</div>
+              <div class="lcheck pending" id="lc4"><span class="lc-icon">○</span> 📱 Testing mobile experience &amp; viewport</div>
+              <div class="lcheck pending" id="lc5"><span class="lc-icon">○</span> ⚡ Clocking real page speed &amp; Core Web Vitals</div>
+              <div class="lcheck pending" id="lc6"><span class="lc-icon">○</span> 📍 Tracking local SEO signals &amp; NAP data</div>
+              <div class="lcheck pending" id="lc7"><span class="lc-icon">○</span> ✍️ Auditing content, headings &amp; internal links</div>
+              <div class="lcheck pending" id="lc8"><span class="lc-icon">○</span> 📲 Checking Open Graph, Schema &amp; tracking pixels</div>
             </div>
           </div>
         </div>
@@ -225,6 +227,27 @@
           </div>
         </div>
 
+        <!-- ── STEP 5: INSTAGRAM OPTIONAL ────────────────────────── -->
+        <div class="tool-card hidden" id="step-ig">
+          <div class="ig-check-wrap">
+            <div class="ig-icon-wrap">
+              <img src="lola-logo.png" alt="" class="ig-lola-img" aria-hidden="true" />
+            </div>
+            <h3>📲 Bonus: Social Signal Check</h3>
+            <p>Lola can sniff your Instagram too — followers, post count, bio, and how your social presence stacks up as a local authority signal that Google notices.</p>
+            <form id="ig-form" novalidate>
+              <div class="ig-input-row">
+                <span class="ig-at">@</span>
+                <input type="text" id="ig-handle" placeholder="yourbusiness" autocomplete="off" spellcheck="false" />
+              </div>
+              <div class="ig-btns">
+                <button type="submit" class="btn btn-primary" id="ig-check-btn">👃 Sniff My Instagram →</button>
+                <button type="button" class="btn btn-ghost" id="ig-skip-btn">Skip — show my SEO report →</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
         <!-- ── STEP 4: FULL REPORT ─────────────────────────────── -->
         <div class="tool-card hidden" id="step-report">
 
@@ -275,6 +298,11 @@
           <!-- 5 Category Scores -->
           <div class="report-section">
             <h3 class="report-section-title">🐾 Lola's Score Breakdown</h3>
+            <div class="score-legend">
+              <span class="legend-item"><span class="legend-dot legend-good"></span> Strong (70+)</span>
+              <span class="legend-item"><span class="legend-dot legend-ok"></span> Needs Work (45–69)</span>
+              <span class="legend-item"><span class="legend-dot legend-bad"></span> Critical Gap (&lt;45)</span>
+            </div>
             <div id="categories-grid"></div>
           </div>
 
@@ -284,9 +312,15 @@
             <div id="issues-list"></div>
           </div>
 
+          <!-- Instagram Section (injected dynamically) -->
+          <div class="report-section hidden" id="ig-section">
+            <h3 class="report-section-title">📲 Social Signal Check — Instagram</h3>
+            <div id="ig-results"></div>
+          </div>
+
           <!-- Quick Wins -->
           <div class="report-section">
-            <h3 class="report-section-title">🎾 3 Quick Fetches — Do These First</h3>
+            <h3 class="report-section-title">🎾 Quick Fetches — Do These First</h3>
             <div id="quickwins-list"></div>
           </div>
 
