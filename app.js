@@ -51,8 +51,24 @@ $('seo-form').addEventListener('submit', async (e) => {
   analysisData = { bizName, website, city, bizType };
 
   // Go to loading state
+  // Fun rotating headlines while loading
+  const headlines = [
+    'Lola is on the scent… 🐽',
+    'Sniffing your title tags… 👃',
+    'Chasing down your page speed… 🏃',
+    'Digging up your local signals… 🦮',
+    'Fetching your SEO score… 🎾',
+    'Almost got it! Good girl, Lola… 🐾',
+  ];
+  let hIdx = 0;
+  const hInterval = setInterval(() => {
+    hIdx = (hIdx + 1) % headlines.length;
+    const el = $('loading-headline');
+    if (el) el.textContent = headlines[hIdx];
+  }, 1400);
   goToStep('step-loading');
   await runAnalysis();
+  clearInterval(hInterval);
 });
 
 // ── LOADING SEQUENCE ──────────────────────────────────────────
@@ -381,7 +397,7 @@ $('email-form').addEventListener('submit', async (e) => {
   if (unlockText) unlockText.textContent = 'Sending…';
 
   try {
-    await fetch('/.netlify/functions/capture-lead', {
+    await fetch('/api/capture-lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -430,11 +446,11 @@ function showReport() {
 
   // Headline
   const headlines = {
-    'A': 'Strong foundation — here\'s how to keep climbing.',
-    'B': 'Good start — these fixes will push you to the top.',
-    'C': 'Room to grow — your competitors may have an edge.',
-    'D': 'Significant gaps — you\'re likely invisible in local search.',
-    'F': 'Critical issues found — you\'re missing most of your local traffic.'
+    'A': '🏆 Best in show — Lola is impressed! Here\'s how to stay on top.',
+    'B': '🐕 Good dog! A few more tricks and you\'re top of the pack.',
+    'C': '🐾 You\'re in the middle of the pack — your competitors smell blood.',
+    'D': '⚠️ Lola is concerned. Google can barely find you right now.',
+    'F': '🚨 Off the leash! You\'re basically invisible on Google.'
   };
   $('report-headline').textContent = headlines[grade] || 'Here\'s your full breakdown.';
   $('report-subline').textContent = `${bizName} · ${city}`;
@@ -523,11 +539,11 @@ function getLetterGrade(score) {
 }
 
 function getGradeLabel(score) {
-  if (score >= 85) return 'Excellent';
-  if (score >= 70) return 'Good';
-  if (score >= 55) return 'Average';
-  if (score >= 40) return 'Needs Work';
-  return 'Critical';
+  if (score >= 85) return '🐾 Best in Show';
+  if (score >= 70) return '✅ Good Dog';
+  if (score >= 55) return '🐕 Still Learning';
+  if (score >= 40) return '⚠️ Needs Training';
+  return '🚨 Off the Leash';
 }
 
 function getScoreColor(score) {
