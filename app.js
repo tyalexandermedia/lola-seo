@@ -153,6 +153,8 @@ async function runAnalysis() {
   analysisData.speedData = speedData;
   analysisData.issues   = buildIssues(scores, siteData, speedData, website, bizName, city);
   analysisData.quickWins = buildQuickWins(scores, siteData, city, bizType);
+  // Competitors fetched asynchronously — injected later by renderCompetitors if backend available
+  analysisData.competitors = [];
 
   showGate(total, bizName);
 }
@@ -642,6 +644,103 @@ async function fetchInstagramProfile(handle) {
   }
 }
 
+// ── COMPETITOR COMPARISON ─────────────────────────────────────────────────
+function renderCompetitors(competitors, city, bizName) {
+  const section = $('competitor-section');
+  const list = $('competitor-list');
+  if (!section || !list || !competitors.length) return;
+  section.classList.remove('hidden');
+
+  const cityShort = (city || '').split(',')[0];
+  list.innerHTML = `
+    <div class="comp-intro">
+      <p>These businesses are ranking above <strong>${bizName}</strong> for your services in ${cityShort} right now. Every day they hold those spots, they're getting the calls that should go to you.</p>
+    </div>
+    <div class="comp-grid">
+      ${competitors.map((c, i) => `
+        <div class="comp-card">
+          <div class="comp-rank">#${i + 1}</div>
+          <div class="comp-info">
+            <div class="comp-name">${c.title || c.domain || 'Competitor'}</div>
+            <div class="comp-url">${c.url || ''}</div>
+            ${c.snippet ? `<div class="comp-snippet">${c.snippet.substring(0, 100)}…</div>` : ''}
+          </div>
+          <div class="comp-signal">📈 Ranking</div>
+        </div>`).join('')}
+    </div>
+    <div class="comp-cta">
+      <span>Want to outrank them? The fixes are in your report.</span>
+      <a href="https://www.tyalexandermedia.com/contact?offer=quick-fix" class="rpt-upsell-pill" target="_blank">Get It Fixed →</a>
+    </div>`;
+}
+
+// ── GBP BEFORE / AFTER ───────────────────────────────────────────────────
+function renderGBPComparison(bizName, city, siteData) {
+  const section = $('gbp-section');
+  const container = $('gbp-comparison');
+  if (!section || !container) return;
+
+  const cityShort = (city || '').split(',')[0];
+  const hasPhone = siteData?.hasPhone;
+  const hasAddress = siteData?.hasAddress;
+  const hasMaps = siteData?.hasMaps;
+  const hasSchema = siteData?.schemaJson;
+
+  // Only show if there are gaps to highlight
+  const missingCount = [!hasPhone, !hasAddress, !hasMaps, !hasSchema].filter(Boolean).length;
+  if (missingCount === 0) return;
+  section.classList.remove('hidden');
+
+  const checks = [
+    { label: 'Phone number visible', before: hasPhone, fix: 'Add clickable tel: link in header + footer' },
+    { label: 'Address on site', before: hasAddress, fix: `Add "${cityShort}" address in footer` },
+    { label: 'Google Maps embed', before: hasMaps, fix: 'Embed map on Contact page' },
+    { label: 'Schema markup', before: hasSchema, fix: 'Add LocalBusiness JSON-LD to site head' },
+  ];
+
+  container.innerHTML = `
+    <div class="gbp-panel">
+      <div class="gbp-col gbp-before">
+        <div class="gbp-col-label">&#x26A0; Current State</div>
+        <div class="gbp-mock">
+          <div class="gbp-mock-name">${bizName}</div>
+          <div class="gbp-mock-city">${cityShort}</div>
+          ${checks.map(c => `
+            <div class="gbp-mock-row ${c.before ? 'has' : 'missing'}">
+              <span>${c.before ? '✓' : '✗'}</span> ${c.label}
+            </div>`).join('')}
+          <div class="gbp-mock-signal">Google confidence: <strong>Low</strong></div>
+        </div>
+      </div>
+      <div class="gbp-arrow">→</div>
+      <div class="gbp-col gbp-after">
+        <div class="gbp-col-label">✅ Optimized State</div>
+        <div class="gbp-mock gbp-mock--optimized">
+          <div class="gbp-mock-name">${bizName}</div>
+          <div class="gbp-mock-city">${cityShort}</div>
+          ${checks.map(c => `
+            <div class="gbp-mock-row has">
+              <span>✓</span> ${c.label}
+            </div>`).join('')}
+          <div class="gbp-mock-signal">Google confidence: <strong style="color:var(--green)">High</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="gbp-fixes">
+      ${checks.filter(c => !c.before).map(c => `
+        <div class="gbp-fix-row">
+          <span class="gbp-fix-icon">→</span>
+          <span>${c.fix}</span>
+        </div>`).join('')}
+    </div>
+    <div style="text-align:center;margin-top:1rem">
+      <a href="https://www.tyalexandermedia.com/contact?offer=quick-fix" class="qf-buy-btn" style="font-size:0.9375rem;padding:0.75rem 1.75rem" target="_blank">
+        ⚡ Quick-Fix Implementation &mdash; $97 &middot; Done in 24 hrs
+      </a>
+      <p style="font-size:0.75rem;color:var(--t4);margin-top:0.5rem">Every day you wait is another day your competitor gets that call.</p>
+    </div>`;
+}
+
 function renderInstagramResults(igData, handle) {
   const section = $('ig-section');
   const results = $('ig-results');
@@ -1020,6 +1119,14 @@ function showReport() {
   if (upsellEl) {
     upsellEl.innerHTML = buildBottomUpsell(total, grade, strategicIssues.length);
   }
+
+  // ── Competitor comparison ──
+  if (analysisData.competitors && analysisData.competitors.length > 0) {
+    renderCompetitors(analysisData.competitors, analysisData.city, analysisData.bizName);
+  }
+
+  // ── GBP before/after ──
+  renderGBPComparison(analysisData.bizName, analysisData.city, siteData);
 
   // ── Instagram ──
   if (analysisData.igData) {
