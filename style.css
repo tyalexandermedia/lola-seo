@@ -953,3 +953,54 @@ ul { list-style: none; }
   .score-num { font-size: 48px; }
   .gate-score-ring { width: 150px; height: 150px; margin-bottom: 20px; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   GBP GAP HERO CALLOUT — fires when local presence < 30 and others > 60
+══════════════════════════════════════════════════════════ */
+.gbp-gap-hero {
+  background: linear-gradient(135deg, #111111, #0D0D0D);
+  border: 1px solid var(--gold);
+  border-radius: var(--r-md);
+  padding: 24px 20px;
+  margin-bottom: 20px;
+  animation: fadeUp 0.4s var(--ease);
+}
+.gbp-gap-eyebrow { margin-bottom: 8px; }
+.gbp-gap-heading {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px; letter-spacing: 0.02em;
+  color: var(--text); line-height: 1.1;
+  margin-bottom: 10px;
+}
+.gbp-gap-body {
+  font-size: 13px; color: var(--text-muted);
+  line-height: 1.7; margin-bottom: 18px;
+}
+.gbp-gap-scores {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 8px; margin-bottom: 18px;
+}
+.gbp-score-item {
+  background: var(--dark); border: 1px solid var(--dark-border);
+  border-radius: var(--r-sm); padding: 10px 6px;
+  text-align: center; font-size: 11px; color: var(--text-muted);
+  display: flex; flex-direction: column; gap: 3px; align-items: center;
+}
+.gbp-score-item .font-mono { font-size: 20px; font-weight: 500; display: block; }
+.gbp-score-good { border-color: rgba(76,175,128,0.3); }
+.gbp-score-good .font-mono { color: var(--green); }
+.gbp-score-bad  { border-color: rgba(224,82,82,0.4); background: rgba(224,82,82,0.05); }
+.gbp-score-bad  .font-mono { color: var(--critical); }
+.gbp-gap-cta {
+  display: block; width: 100%; padding: 14px;
+  background: var(--gold); color: var(--dark);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 0.04em;
+  border-radius: var(--r-sm); text-align: center;
+  text-decoration: none;
+  transition: background var(--t), box-shadow var(--t);
+}
+.gbp-gap-cta:hover {
+  background: var(--gold-light);
+  box-shadow: 0 0 24px rgba(201,168,76,0.3);
+}

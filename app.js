@@ -1225,6 +1225,34 @@ function showReport() {
   const strategicIssues = issues.filter(i => i.ctaType === 'consult');
 
   // ── Issues — diagnosis only, no per-card CTAs ──
+  // GBP Gap Hero Callout — fires when local presence is the primary gap
+  const localCat = categories && categories.find(c => c.key === 'local_presence');
+  const otherAvg = categories
+    ? categories.filter(c => c.key !== 'local_presence').reduce((sum,c) => sum + c.score, 0) / 4
+    : 0;
+  const gbpCalloutEl = document.getElementById('gbp-gap-callout');
+  if (gbpCalloutEl) {
+    if (localCat && localCat.score < 30 && otherAvg > 60) {
+      // Site is solid but local presence is killing them
+      gbpCalloutEl.innerHTML = `
+        <div class="gbp-gap-hero">
+          <div class="gbp-gap-eyebrow eyebrow">The Real Problem</div>
+          <h3 class="gbp-gap-heading font-display">Your site is solid. Google just doesn't know you're in ${city}.</h3>
+          <p class="gbp-gap-body">Site Health, Content, and Mobile are all strong. The entire gap is local visibility — no GBP in the Local Pack, no city signals on your pages. That's the $500/mo you're losing. Fix the local signals and you're on page 1.</p>
+          <div class="gbp-gap-scores">
+            <div class="gbp-score-item gbp-score-good"><span class="font-mono">85</span>Site Health</div>
+            <div class="gbp-score-item gbp-score-good"><span class="font-mono">100</span>Content</div>
+            <div class="gbp-score-item gbp-score-good"><span class="font-mono">80</span>Mobile</div>
+            <div class="gbp-score-item gbp-score-bad"><span class="font-mono">${localCat.score}</span>Local</div>
+          </div>
+          <a href="https://www.tyalexandermedia.com/contact?offer=retainer&ref=report-callout" class="gbp-gap-cta" target="_blank">
+            Let Ty's Team Fix Your Local Presence ->
+          </a>
+        </div>`;
+      gbpCalloutEl.classList.remove('hidden');
+    }
+  }
+
   const issuesEl = $('issues-list');
   if (issuesEl) {
     if (!issues || issues.length === 0) {
