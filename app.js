@@ -759,8 +759,8 @@ $('email-form').addEventListener('submit', async (e) => {
     if (confirmEl) confirmEl.classList.remove('hidden');
   } catch(e) {}
 
-  await sleep(1400);
-  goToStep('step-report');
+  await sleep(800);
+  showReport(); // populates score ring, categories, issues, offers
   // Instagram removed — go straight to report
 });
 
@@ -1285,6 +1285,7 @@ function showReport() {
   // Instagram removed
 
   injectUrgencyCompetitor();
+  injectReportOffers();
   goToStep('step-report');
 }
 
@@ -1467,5 +1468,81 @@ function injectUrgencyCompetitor() {
   const name = comp?.name || comp?.business_name;
   if (name) {
     el.textContent = `Every day you wait is another day ${name} gets that call.`;
+  }
+}
+
+// ── DYNAMIC OFFER INJECTION ($97 + $400 with real score data) ─────────────
+function injectReportOffers() {
+  const { bizName, city, total, grade: storedGrade, gradeLabel, revenueLeak, competitors } = analysisData;
+  const grade = storedGrade || getLetterGrade(total);
+  const comp  = competitors && competitors[0];
+  const compName = comp?.name || comp?.business_name || null;
+
+  const leadsRanges = [[25,'50–70'],[40,'35–50'],[60,'20–35'],[75,'10–20'],[101,'3–10']];
+  const leadsStr = leadsRanges.find(([cap]) => total < cap)?.[1] || '3–10';
+  const leakStr  = revenueLeak ? `$${Number(revenueLeak).toLocaleString()}/mo` : `~${leadsStr} calls/mo`;
+
+  const gradeEmoji = { A:'🏆', B:'🐕', C:'🦮', D:'🐩', F:'🚨' };
+  const gradeName  = { A:'Top Dog', B:'Good Boy', C:'Needs Training', D:'Lost the Scent', F:'Off the Leash' };
+  const emoji = gradeEmoji[grade] || '🐾';
+  const gname = gradeName[grade]  || 'Needs Work';
+
+  // ── Mini score badge injected at top of $97 card ──
+  const card97 = document.querySelector('.offer-97');
+  if (card97 && total) {
+    // Remove any existing badge
+    const existing = card97.querySelector('.offer-score-badge');
+    if (existing) existing.remove();
+
+    const badge = document.createElement('div');
+    badge.className = 'offer-score-badge';
+    badge.innerHTML = `
+      <div class="osb-score">${total}<span>/100</span></div>
+      <div class="osb-right">
+        <div class="osb-grade">${emoji} ${gname}</div>
+        <div class="osb-leak">Estimated loss: <strong>${leakStr}</strong></div>
+      </div>`;
+    card97.insertBefore(badge, card97.firstChild);
+
+    // Update heading with biz name
+    const h3 = card97.querySelector('.offer-heading');
+    if (h3) h3.textContent = `Fix ${bizName}'s SEO — $97`;
+
+    // Update anchor copy
+    const anchor = card97.querySelector('.offer-anchor');
+    if (anchor) anchor.textContent = `Your score is a ${total}/100. The agencies beating you paid $500–1,500 for an audit like this. Lola's full fix playbook is $97. One time. Yours forever.`;
+
+    // Urgency line with competitor
+    const urgEl = document.getElementById('urgency-competitor');
+    if (urgEl) {
+      urgEl.textContent = compName
+        ? `Every day you wait is another day ${compName} gets that call instead of you.`
+        : `Every day you wait, a competitor in ${city} is picking up the phone you should be answering.`;
+    }
+  }
+
+  // ── $400 card: inject score context ──
+  const card400 = document.getElementById('upsell-400');
+  if (card400 && total) {
+    const existing400 = card400.querySelector('.offer-score-badge');
+    if (existing400) existing400.remove();
+
+    const badge400 = document.createElement('div');
+    badge400.className = 'offer-score-badge';
+    badge400.innerHTML = `
+      <div class="osb-score">${total}<span>/100</span></div>
+      <div class="osb-right">
+        <div class="osb-grade">${emoji} ${gname}</div>
+        <div class="osb-leak">Lola found the gaps. Ty's team fixes them.</div>
+      </div>`;
+    card400.insertBefore(badge400, card400.firstChild);
+
+    // Update heading
+    const h3_400 = card400.querySelector('.offer-heading');
+    if (h3_400) h3_400.textContent = `Let Ty's Team Fix ${bizName}'s SEO`;
+
+    // Perception line with score baked in
+    const perc = card400.querySelector('.offer-perception');
+    if (perc) perc.textContent = `Score was ${total}/100. Let's get you to 80+.`;
   }
 }

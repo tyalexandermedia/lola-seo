@@ -810,3 +810,49 @@ ul { list-style: none; }
 .review-link { color: var(--gold); text-decoration: underline; text-underline-offset: 2px; transition: color var(--t); }
 .review-link:hover { color: var(--gold-light); }
 .footer-copy { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-faint); }
+
+/* ══════════════════════════════════════════════════════════
+   OFFER SCORE BADGE (injected dynamically into $97/$400 cards)
+══════════════════════════════════════════════════════════ */
+.offer-score-badge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--dark);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+.osb-score {
+  font-family: 'DM Mono', monospace;
+  font-size: 48px;
+  color: var(--gold);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.osb-score span {
+  font-size: 16px;
+  color: var(--text-faint);
+  display: inline;
+}
+.osb-right {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.osb-grade {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+.osb-leak {
+  font-size: 12px;
+  color: var(--text-faint);
+  line-height: 1.4;
+}
+.osb-leak strong {
+  color: var(--critical);
+  font-weight: 600;
+}
