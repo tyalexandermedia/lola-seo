@@ -14,8 +14,8 @@
   --gold-dim:    #8B6E2E;
   --gold-glow:   rgba(201,168,76,0.15);
   --text:        #F0EAD6;
-  --text-muted:  #8A8278;
-  --text-faint:  #5A554E;
+  --text-muted:  #A89F94;
+  --text-faint:  #6E6860;
   --critical:    #E05252;
   --high:        #E08840;
   --medium:      #D4B84A;
@@ -430,7 +430,7 @@ ul { list-style: none; }
   font-size: 32px; letter-spacing: 0.02em; color: var(--text);
   margin-bottom: 8px; text-align: center;
 }
-.gate-sub { font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 6px; }
+.gate-sub { font-size: 14px; color: var(--text); opacity: 0.8; text-align: center; margin-bottom: 6px; }
 .gate-leads-lost {
   font-size: 15px; font-weight: 600; color: var(--critical);
   margin-bottom: 16px; text-align: center; display: none; line-height: 1.5;
@@ -645,7 +645,7 @@ ul { list-style: none; }
 .offer-anchor { font-size: 13px; color: var(--text-muted); line-height: 1.65; margin-bottom: 16px; }
 .offer-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
 .offer-list li {
-  font-size: 13px; color: var(--text-muted); display: flex; gap: 8px; align-items: flex-start;
+  font-size: 13px; color: var(--text); opacity: 0.85; display: flex; gap: 8px; align-items: flex-start;
 }
 .offer-list li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
 .offer-urgency {
