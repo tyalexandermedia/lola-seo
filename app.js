@@ -96,30 +96,128 @@ function setProgress(pct) {
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 // ── MAIN ANALYSIS ENGINE ──────────────────────────────────────
+// ── RAILWAY BACKEND URL ─────────────────────────────────────────────────────
+const LOLA_API = 'https://web-production-e4bd3.up.railway.app';
+
 async function runAnalysis() {
+  const { bizName, website, city, bizType, email } = analysisData;
+
+  // Animate loading checks as API runs
+  setProgress(5);
+  animateLoadCheck('lc1', 400,  12);
+  animateLoadCheck('lc2', 900,  24);
+  animateLoadCheck('lc3', 1600, 36);
+  animateLoadCheck('lc4', 2400, 50);
+  animateLoadCheck('lc5', 3200, 64);
+  animateLoadCheck('lc6', 4000, 76);
+  animateLoadCheck('lc7', 5000, 88);
+  animateLoadCheck('lc8', 6500, 95);
+
+  try {
+    // ── Call Railway backend — real data, real scores ──
+    const resp = await Promise.race([
+      fetch(`${LOLA_API}/audit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          business_name: bizName,
+          website,
+          city,
+          business_type: bizType || 'contractor',
+          email: email || 'noemail@lola-seo.app',
+          instagram_handle: analysisData.igHandle || null,
+        }),
+      }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 28000)),
+    ]);
+
+    if (!resp.ok) throw new Error(`API ${resp.status}`);
+    const data = await resp.json();
+
+    setProgress(100);
+    await sleep(600);
+
+    // ── Map backend response → analysisData ──
+    const cats = data.categories || {};
+    analysisData.scores = {
+      siteHealth:    cats.site_health?.score    ?? 50,
+      localPresence: cats.local_presence?.score  ?? 0,
+      mobile:        cats.mobile?.score          ?? 50,
+      speed:         cats.page_speed?.score      ?? 50,
+      content:       cats.content?.score         ?? 50,
+    };
+    analysisData.total       = data.total_score ?? 0;
+    analysisData.grade       = data.grade;
+    analysisData.gradeLabel  = data.grade_label;
+    analysisData.auditId     = data.audit_id;
+    analysisData.revenueLeak = data.revenue_leak_monthly;
+    analysisData.percentile  = data.percentile_string;
+    analysisData.confidence  = data.confidence_score;
+    analysisData.issues      = (data.issues || []).map(i => ({
+      icon: _severityIcon(i.severity),
+      impactClass: i.severity?.toLowerCase() === 'critical' ? 'critical' : i.severity?.toLowerCase() === 'high' ? 'high' : 'medium',
+      title: i.issue,
+      impact: i.description,
+      revenue_impact_monthly: parseInt((i.revenue_impact||'').replace(/[^0-9]/g,'')) || 0,
+      cta_type: i.cta_type || 'consult',
+    }));
+    analysisData.quickWins   = (data.quick_wins || []).map(w => ({
+      title: w.win,
+      why: `${w.effort} · ${w.impact || 'High'} Impact`,
+      action: (w.steps || []).join(' → '),
+      effort: w.effort || 'Quick Win',
+      time: w.effort || '15 min',
+      ctaType: 'consult',
+    }));
+    analysisData.competitors = data.competitors || [];
+    analysisData.siteData    = _backendToSiteData(data);
+    analysisData.speedData   = { ok: true, performance: cats.page_speed?.score ?? 50 };
+
+    showGate(analysisData.total, bizName);
+
+  } catch (err) {
+    console.warn('Backend API failed, falling back to local analysis:', err.message);
+    // ── Graceful fallback: run local JS checks if backend unreachable ──
+    await runAnalysisFallback();
+  }
+}
+
+function _severityIcon(sev) {
+  const s = (sev||'').toLowerCase();
+  if (s === 'critical') return '🚨';
+  if (s === 'high')     return '⚠️';
+  return '📌';
+}
+
+function _backendToSiteData(data) {
+  // Map backend response shape to the siteData shape the report renderer expects
+  const cats = data.categories || {};
+  return {
+    ok: true,
+    hasPhone: cats.local_presence?.score > 10,
+    hasAddress: cats.local_presence?.score > 20,
+    hasMaps: false,
+    schemaJson: cats.site_health?.score >= 50,
+    ogComplete: cats.site_health?.score >= 80,
+    httpsOk: data.website?.startsWith('https://'),
+    wordCount: 0,
+    // Pass through for competitor/GBP renders
+    _raw: data,
+  };
+}
+
+// ── LOCAL FALLBACK (runs only if Railway is unreachable) ───────────────────
+async function runAnalysisFallback() {
   const { bizName, website, city, bizType } = analysisData;
 
-  setProgress(5);
-  animateLoadCheck('lc1', 300,  12);
-  animateLoadCheck('lc2', 800,  24);
-  animateLoadCheck('lc3', 1400, 36);
-  animateLoadCheck('lc4', 2000, 50);
-  animateLoadCheck('lc5', 2600, 64);
-  animateLoadCheck('lc6', 3200, 76);
-  animateLoadCheck('lc7', 3700, 88);
-  animateLoadCheck('lc8', 4200, 95);
-
   const timeout = new Promise(resolve => setTimeout(resolve, 9000));
-  const fallbackSite = {
-    ok: false, httpsOk: website.startsWith('https://'), title: '', metaDesc: '',
+  const fallbackSite = { ok: false, httpsOk: website.startsWith('https://'), title: '', metaDesc: '',
     metaViewport: false, h1Text: '', h1Count: 0, h2Count: 0, canonicalTag: false,
     canonicalSelf: false, noindex: false, ogTitle: false, ogDesc: false, ogImage: false,
     ogTags: false, schemaJson: false, wordCount: 0, imgCount: 0, altMissing: 0,
     altMissingPct: 0, internalLinks: 0, externalLinks: 0, hasPhone: false,
     hasAddress: false, hasMaps: false, hasGBP: false, hasAnalytics: false,
-    hasGTM: false, hasPrivacyLink: false, robotsOk: null, sitemapFound: null,
-    isRedirect: false, headingHierarchyOk: true
-  };
+    hasGTM: false, hasPrivacyLink: false, robotsOk: null, sitemapFound: null };
   const fallbackSpeed = { ok: false, performance: 50, accessibility: 50, seo: 50,
     isMobileOk: true, hasViewport: true, isCrawlable: true, fcp: '', lcp: '', cls: '' };
 
@@ -128,8 +226,8 @@ async function runAnalysis() {
     Promise.race([fetchPageSpeed(website), timeout.then(() => fallbackSpeed)]),
   ]);
 
-  await sleep(1000);
   setProgress(100);
+  await sleep(600);
 
   const scores = {
     siteHealth:    scoreSiteHealth(siteData, website),
@@ -138,22 +236,18 @@ async function runAnalysis() {
     speed:         scoreSpeed(speedData),
     content:       scoreContent(siteData, bizName, city)
   };
-
   const total = Math.round(
-    scores.siteHealth   * 0.25 +
-    scores.localPresence * 0.30 +
-    scores.mobile        * 0.15 +
-    scores.speed         * 0.15 +
+    scores.siteHealth    * 0.25 + scores.localPresence * 0.30 +
+    scores.mobile        * 0.15 + scores.speed         * 0.15 +
     scores.content       * 0.15
   );
 
-  analysisData.scores   = scores;
-  analysisData.total    = total;
-  analysisData.siteData = siteData;
+  analysisData.scores    = scores;
+  analysisData.total     = total;
+  analysisData.siteData  = siteData;
   analysisData.speedData = speedData;
-  analysisData.issues   = buildIssues(scores, siteData, speedData, website, bizName, city);
+  analysisData.issues    = buildIssues(scores, siteData, speedData, website, bizName, city);
   analysisData.quickWins = buildQuickWins(scores, siteData, city, bizType);
-  // Competitors fetched asynchronously — injected later by renderCompetitors if backend available
   analysisData.competitors = [];
 
   showGate(total, bizName);
@@ -592,20 +686,32 @@ $('email-form').addEventListener('submit', async (e) => {
   if (unlockText) unlockText.textContent = 'Sending…';
 
   try {
-    await fetch('/api/capture-lead', {
+    // ── 1. Capture lead via existing Vercel function (Resend notify to Ty) ──
+    fetch('/api/capture-lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        email,
-        bizName:   analysisData.bizName,
-        city:      analysisData.city,
-        bizType:   analysisData.bizType,
-        total:     analysisData.total,
-        scores:    analysisData.scores,
-        issues:    analysisData.issues,
+        email, bizName: analysisData.bizName, city: analysisData.city,
+        bizType: analysisData.bizType, total: analysisData.total,
+        scores: analysisData.scores, issues: analysisData.issues,
         quickWins: analysisData.quickWins,
       })
-    });
+    }).catch(() => {});
+
+    // ── 2. Fire full audit to Railway with REAL email — delivers personalized HTML report ──
+    fetch(`${LOLA_API}/audit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        business_name: analysisData.bizName,
+        website:       analysisData.website,
+        city:          analysisData.city,
+        business_type: analysisData.bizType || 'contractor',
+        email,
+        instagram_handle: analysisData.igHandle || null,
+      })
+    }).catch(() => {});
+
     const confirmEl = $('email-sent-confirm');
     if (confirmEl) confirmEl.classList.remove('hidden');
   } catch(e) {}
