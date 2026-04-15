@@ -10,10 +10,9 @@
   <meta property="og:image" content="lola-logo-hero.png" />
   <link rel="icon" type="image/png" href="lola-logo.png" />
   <link rel="apple-touch-icon" href="lola-logo.png" />
-  <!-- Preconnect for faster font loading -->
+  <!-- Fonts: non-blocking -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Fonts: non-blocking load -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" /></noscript>
@@ -21,371 +20,396 @@
 </head>
 <body>
 
-<!-- ── HEADER ───────────────────────────────────────────── -->
+<!-- ── STICKY HEADER ─────────────────────────────────────── -->
 <header class="site-header">
   <div class="header-inner">
     <a href="/" class="logo">
       <img src="lola-logo.png" alt="Lola" class="logo-img" />
       <span class="logo-name">LOLA <span>SEO</span></span>
     </a>
-    <a href="https://www.tyalexandermedia.com/contact" class="header-cta" target="_blank">Work With Ty</a>
+    <a href="https://www.tyalexandermedia.com/contact" class="header-cta" target="_blank" rel="noopener">Work With Ty</a>
   </div>
 </header>
 
-<!-- ── HERO ─────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════════════════
+     HERO + FORM (everything above fold on mobile)
+══════════════════════════════════════════════════════════ -->
 <section class="hero">
   <div class="container">
+
+    <!-- Lola logo -->
     <img src="lola-logo-hero.png" alt="Lola the German Shepherd" class="hero-logo" />
-    <div class="hero-eyebrow eyebrow">Free Local SEO Audit</div>
-    <h1 class="font-display">
-      Your Competitors Are
-      <span>Stealing Your Customers</span>
-      on Google.
+
+    <!-- Eyebrow -->
+    <div class="hero-eyebrow eyebrow">Free Local SEO Audit · Tampa Bay</div>
+
+    <!-- H1 -->
+    <h1 class="font-display hero-h1">
+      Google Is Sending Your<br>
+      <span class="h1-gold">Customers Somewhere Else.</span>
     </h1>
+
+    <!-- Sub -->
     <p class="hero-sub">
-      Lola sniffs out every reason Google is ignoring your business — then shows you exactly what to fix. Free. 60 seconds.
+      Lola sniffs out exactly why in 60 seconds.<br>
+      Free. No credit card. No fluff. 🐾
     </p>
-    <div class="trust-badges">
-      <span class="trust-badge">📍 Built for local contractors</span>
-      <span class="trust-badge">🔍 5 real-data categories</span>
-      <span class="trust-badge">⚡ 60-second results</span>
+
+    <!-- ── VALUE INFO BOX ──────────────────────────────── -->
+    <div class="value-box" id="value-box">
+      <div class="value-box-label eyebrow">What Lola Checks for Free</div>
+      <div class="value-grid">
+        <div class="value-item">
+          <span class="value-icon">🌐</span>
+          <div>
+            <div class="value-name">Site Health</div>
+            <div class="value-desc">Title tags, schema, HTTPS</div>
+          </div>
+        </div>
+        <div class="value-item">
+          <span class="value-icon">📍</span>
+          <div>
+            <div class="value-name">Local Presence</div>
+            <div class="value-desc">GBP, NAP, review gap</div>
+          </div>
+        </div>
+        <div class="value-item">
+          <span class="value-icon">📱</span>
+          <div>
+            <div class="value-name">Mobile</div>
+            <div class="value-desc">Viewport, speed, performance</div>
+          </div>
+        </div>
+        <div class="value-item">
+          <span class="value-icon">✍️</span>
+          <div>
+            <div class="value-name">Content</div>
+            <div class="value-desc">Keywords, structure, depth</div>
+          </div>
+        </div>
+      </div>
+      <div class="value-footer">
+        Same 5 pillars Google uses to rank your business. Lola checks them all. You get the fix list. Free.
+      </div>
     </div>
-  </div>
-</section>
 
-<!-- ── MAIN TOOL WRAPPER ─────────────────────────────────── -->
-<main>
-  <div class="container" style="padding-bottom:60px">
-
-    <!-- ── STEP 1: INPUT FORM ─────────────────────────────── -->
+    <!-- ── INPUT FORM ─────────────────────────────────── -->
     <div class="tool-card" id="step-input">
-      <div class="card-header">
-        <div class="step-pills">
-          <div class="step-pill active" id="step-1-pill">
-            <span>1</span>Your Business
-          </div>
-          <span class="step-pill-arrow">→</span>
-          <div class="step-pill" id="step-2-pill">
-            <span>2</span>See Score
-          </div>
-          <span class="step-pill-arrow">→</span>
-          <div class="step-pill" id="step-3-pill">
-            <span>3</span>Full Report
-          </div>
+
+      <!-- Step indicators -->
+      <div class="step-pills">
+        <div class="step-pill active" id="step-1-pill">
+          <span>1</span>Your Info
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-pill" id="step-2-pill">
+          <span>2</span>Unlock
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-pill" id="step-3-pill">
+          <span>3</span>Your Score
         </div>
       </div>
 
-      <form id="audit-form" novalidate>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="business-name">Business Name</label>
-            <input type="text" id="business-name" placeholder="Sandbar SoftWash" autocomplete="organization" required />
-          </div>
-          <div class="form-group">
-            <label for="website-url">Website URL</label>
-            <input type="url" id="website-url" placeholder="yoursite.com" autocomplete="url" required />
-          </div>
+      <form id="seo-form" novalidate>
+        <div class="form-group">
+          <label for="business-name">Business Name</label>
+          <input type="text" id="business-name" placeholder="Sandbar SoftWash" autocomplete="organization" required />
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="business-city">City, State</label>
-            <input type="text" id="business-city" placeholder="Tampa, FL" autocomplete="address-level2" required />
-          </div>
-          <div class="form-group">
-            <label for="business-type">Business Type</label>
-            <select id="business-type" required>
-              <option value="contractor">Home Service Contractor</option>
-              <option value="softwash">Soft Wash / Pressure Wash</option>
-              <option value="hvac">HVAC</option>
-              <option value="plumbing">Plumbing</option>
-              <option value="roofing">Roofing</option>
-              <option value="landscaping">Landscaping</option>
-              <option value="electrical">Electrical</option>
-              <option value="cleaning">Cleaning Services</option>
-              <option value="restaurant">Restaurant</option>
-              <option value="salon">Salon / Spa</option>
-              <option value="medical">Medical / Dental</option>
-              <option value="fitness">Fitness / Gym</option>
-              <option value="retail">Retail</option>
-              <option value="default">Other Local Business</option>
-            </select>
-          </div>
+        <div class="form-group">
+          <label for="website-url">Website URL</label>
+          <input type="url" id="website-url" placeholder="yoursite.com" autocomplete="url" required />
         </div>
-        <button type="submit" class="btn btn-gold" id="analyze-btn">
-          Run Free Audit — Lola's On It 🐾
+        <div class="form-group">
+          <label for="business-city">City / Location</label>
+          <input type="text" id="business-city" placeholder="Tampa, FL" autocomplete="address-level2" required />
+        </div>
+        <div class="form-group">
+          <label for="business-type">Business Type</label>
+          <select id="business-type" required>
+            <option value="contractor">Home Service Contractor</option>
+            <option value="softwash">Soft Wash / Pressure Wash</option>
+            <option value="hvac">HVAC</option>
+            <option value="plumbing">Plumbing</option>
+            <option value="roofing">Roofing</option>
+            <option value="landscaping">Landscaping</option>
+            <option value="electrical">Electrical</option>
+            <option value="cleaning">Cleaning Services</option>
+            <option value="restaurant">Restaurant</option>
+            <option value="salon">Salon / Spa</option>
+            <option value="medical">Medical / Dental</option>
+            <option value="fitness">Fitness / Gym</option>
+            <option value="retail">Retail</option>
+            <option value="default">Other Local Business</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-cta" id="analyze-btn">
+          🐾 Show Me What Google Sees
         </button>
-        <p class="form-note">No credit card. No pitch. Just the truth about your Google presence.</p>
+        <p class="form-note">No login. No credit card. Lola doesn't need permission to sniff out the truth. 🐾</p>
       </form>
     </div>
 
-    <!-- ── STEP 2: AUDIT PROGRESS ─────────────────────────── -->
-    <div class="tool-card hidden" id="step-loading" style="padding:0">
-      <div class="loading-wrap">
-        <img src="lola-logo.png" alt="Lola" class="loading-logo" />
-        <h3 class="loading-headline" id="loading-headline">Lola is on the scent</h3>
-
-        <div class="progress-wrap">
-          <div class="progress-pct font-mono" id="progress-pct">5%</div>
-          <div class="progress-track">
-            <div class="progress-fill" id="progress-fill"></div>
-          </div>
-        </div>
-
-        <div class="loading-checks" id="loading-checks">
-          <div class="lcheck pending" id="lc1">
-            <span class="lc-icon">○</span> 🔒 Checking SSL &amp; HTTPS
-          </div>
-          <div class="lcheck pending" id="lc2">
-            <span class="lc-icon">○</span> 📋 Reading title tags &amp; meta
-          </div>
-          <div class="lcheck pending" id="lc3">
-            <span class="lc-icon">○</span> 🗂️ Scanning robots.txt &amp; sitemap
-          </div>
-          <div class="lcheck pending" id="lc4">
-            <span class="lc-icon">○</span> 📱 Testing mobile experience
-          </div>
-          <div class="lcheck pending" id="lc5">
-            <span class="lc-icon">○</span> ⚡ Clocking page speed
-          </div>
-          <div class="lcheck pending" id="lc6">
-            <span class="lc-icon">○</span> 📍 Finding Google Business Profile
-          </div>
-          <div class="lcheck pending" id="lc7">
-            <span class="lc-icon">○</span> ✍️ Auditing content &amp; headings
-          </div>
-          <div class="lcheck pending" id="lc8">
-            <span class="lc-icon">○</span> 🏁 Pulling top competitor in your city
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── STEP 3: EMAIL GATE ──────────────────────────────── -->
-    <div class="tool-card hidden" id="step-gate">
-      <div class="gate-top">
-        <div class="gate-score-ring">
-          <svg viewBox="0 0 140 140" class="score-svg">
-            <circle cx="70" cy="70" r="56" fill="none" stroke="#1E1E1E" stroke-width="10"/>
-            <circle cx="70" cy="70" r="56" fill="none" stroke="url(#lolaGrad)" stroke-width="10"
-              stroke-dasharray="352" stroke-dashoffset="352"
-              stroke-linecap="round" transform="rotate(-90 70 70)"
-              id="score-ring-fill" style="transition:stroke-dashoffset 1.4s cubic-bezier(0.16,1,0.3,1)" />
-            <defs>
-              <linearGradient id="lolaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#C9A84C"/>
-                <stop offset="100%" stop-color="#E8C96A"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div class="score-center">
-            <span class="score-num font-mono" id="teaser-score-num">--</span>
-            <span class="score-denom font-mono">/100</span>
-            <span class="score-grade-sm font-mono" id="teaser-score-label"></span>
-          </div>
-        </div>
-
-        <div class="gate-lock-badge">🔒 Full Report Locked</div>
-        <h2 class="gate-heading font-display">LOLA FOUND THE LEAKS</h2>
-        <p class="gate-sub" id="gate-biz-name"></p>
-        <p class="gate-leads-lost" id="gate-leads-lost"></p>
-
-        <!-- Blurred preview of categories -->
-        <div class="blur-preview">
-          <div class="blur-overlay"></div>
-          <div class="preview-row"><span class="preview-label">Site Health</span><div class="preview-bar"><div class="preview-fill" style="width:30%"></div></div><span class="blur-val">28</span></div>
-          <div class="preview-row"><span class="preview-label">Local Presence</span><div class="preview-bar"><div class="preview-fill" style="width:5%"></div></div><span class="blur-val">0</span></div>
-          <div class="preview-row"><span class="preview-label">Mobile</span><div class="preview-bar"><div class="preview-fill" style="width:55%"></div></div><span class="blur-val">55</span></div>
-          <div class="preview-row"><span class="preview-label">Page Speed</span><div class="preview-bar"><div class="preview-fill" style="width:50%"></div></div><span class="blur-val">50</span></div>
-          <div class="preview-row"><span class="preview-label">Content</span><div class="preview-bar"><div class="preview-fill" style="width:15%"></div></div><span class="blur-val">15</span></div>
-        </div>
-
-        <!-- What's inside -->
-        <div class="gate-inside">
-          <div class="gate-inside-label">Your full report includes</div>
-          <div class="gate-inside-items">
-            <span class="gate-inside-item">Score breakdown</span>
-            <span class="gate-inside-item">Competitor comparison</span>
-            <span class="gate-inside-item">Step-by-step fixes</span>
-            <span class="gate-inside-item">30/60/90-day roadmap</span>
-          </div>
-        </div>
-      </div>
-
-      <form id="email-form" novalidate>
-        <div class="email-row">
-          <input type="email" id="user-email" placeholder="your@email.com" autocomplete="email" required />
-          <button type="submit" class="btn btn-gold" id="unlock-btn">
-            <span id="unlock-btn-text">Unlock My Report →</span>
-          </button>
-        </div>
-        <p class="form-note">No spam. Just your report. Lola delivers and sits. 🐾</p>
-        <div class="email-sent-confirm hidden" id="email-sent-confirm">
-          <div class="sent-icon">✓</div>
-          <div class="sent-text">
-            <strong>Report on its way</strong>
-            <span>Check your inbox — Lola just dropped it</span>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <!-- ── INSTAGRAM STEP (REMOVED — kept as hidden placeholder) ── -->
-    <div class="hidden" id="step-ig" style="display:none!important"></div>
-
-    <!-- ── STEP 4: FULL REPORT ─────────────────────────────── -->
-    <div class="tool-card hidden" id="step-report" style="padding:0">
-
-      <!-- Score hero -->
-      <div class="rpt-hero" id="rpt-hero" style="border-radius:6px 6px 0 0;border-bottom:none">
-        <div class="rpt-hero-left">
-          <img src="lola-logo.png" alt="Lola" class="rpt-lola" />
-          <div class="rpt-grade-pill" id="rpt-grade-pill">--</div>
-        </div>
-        <div class="rpt-score-ring-wrap">
-          <svg viewBox="0 0 120 120" class="rpt-ring-svg">
-            <circle cx="60" cy="60" r="50" fill="none" stroke="#1E1E1E" stroke-width="8"/>
-            <circle cx="60" cy="60" r="50" fill="none" stroke="url(#rptGrad)" stroke-width="8"
-              stroke-dasharray="314" stroke-dashoffset="314"
-              stroke-linecap="round" transform="rotate(-90 60 60)"
-              id="report-ring-fill" />
-            <defs>
-              <linearGradient id="rptGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#C9A84C"/>
-                <stop offset="100%" stop-color="#E8C96A"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div class="rpt-ring-center">
-            <span class="rpt-score-num" id="report-score-num">--</span>
-            <span class="rpt-score-sub">/100</span>
-          </div>
-        </div>
-        <p class="rpt-label font-mono" id="rpt-label">--</p>
-        <h2 class="rpt-headline font-display" id="report-headline">Your SEO Report</h2>
-        <div class="rpt-meta" id="rpt-meta"></div>
-      </div>
-
-      <div style="padding:20px">
-
-        <!-- Category bento -->
-        <div class="rpt-section-label" style="margin-top:4px">🐾 Score Breakdown</div>
-        <div class="rpt-cats" id="categories-grid"></div>
-
-        <!-- Issues -->
-        <div id="issues-section">
-          <div class="rpt-section-label" style="margin-top:4px">🚨 What's Hurting Your Ranking</div>
-          <div class="rpt-issues" id="issues-list"></div>
-        </div>
-
-        <!-- Quick Fix Offer (injected) -->
-        <div id="rpt-quick-fix-offer" class="hidden"></div>
-
-        <!-- Competitor comparison (injected) -->
-        <div id="competitor-section" class="hidden">
-          <div class="rpt-section-label" style="margin-top:4px">📊 Who's Beating You</div>
-          <div id="competitor-list"></div>
-        </div>
-
-        <!-- GBP before/after (injected) -->
-        <div id="gbp-section" class="hidden">
-          <div class="rpt-section-label" style="margin-top:4px">📍 Your Google Business Profile</div>
-          <div id="gbp-comparison"></div>
-        </div>
-
-        <!-- Quick Wins -->
-        <div class="rpt-section-label" style="margin-top:4px">🎾 What's Possible Next</div>
-        <div class="rpt-wins" id="quickwins-list"></div>
-
-        <!-- Upsell -->
-        <div id="rpt-upsell"></div>
-
-        <div class="restart-row">
-          <button class="btn btn-ghost btn-sm" id="restart-btn" style="margin:0 auto">🐾 Audit Another Business</button>
-        </div>
-
-      </div>
-    </div><!-- /step-report -->
-
-  </div><!-- /container -->
-</main>
-
-<!-- ── HOW IT WORKS ──────────────────────────────────────── -->
-<section class="how-section">
-  <div class="container">
-    <div class="eyebrow" style="text-align:center;margin-bottom:12px">How Lola Works</div>
-    <h2 class="font-display">60 Seconds to Know Exactly Where You Stand</h2>
-    <div class="how-grid">
-      <div class="how-card">
-        <div class="how-num font-display">01</div>
-        <h4>Tell Lola your business</h4>
-        <p>Name, website, city, business type. 30 seconds max.</p>
-      </div>
-      <div class="how-card">
-        <div class="how-num font-display">02</div>
-        <h4>Lola fetches your live site</h4>
-        <p>She runs 9 real checks on your actual website — not cached data, not guesses.</p>
-      </div>
-      <div class="how-card">
-        <div class="how-num font-display">03</div>
-        <h4>You get a real score</h4>
-        <p>Five categories. Real numbers. Not the same score every site gets.</p>
-      </div>
-      <div class="how-card">
-        <div class="how-num font-display">04</div>
-        <h4>Full report hits your inbox</h4>
-        <p>Competitor comparison, step-by-step fixes, 90-day roadmap. Yours to keep.</p>
-      </div>
-    </div>
   </div>
 </section>
 
-<!-- ── TRUST BAR ─────────────────────────────────────────── -->
-<div class="trust-bar-wrap">
-  <div class="trust-bar container">
-    <div class="trust-item">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-      100% Free — No Catch
+<!-- ══════════════════════════════════════════════════════════
+     STEP 2: AUDIT PROGRESS
+══════════════════════════════════════════════════════════ -->
+<div class="hidden" id="step-loading">
+  <div class="loading-wrap">
+    <img src="lola-logo.png" alt="Lola" class="loading-logo" />
+    <h3 class="loading-headline font-display" id="loading-headline">Lola is on the scent</h3>
+
+    <div class="progress-wrap">
+      <div class="progress-pct font-mono" id="progress-pct">5%</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
     </div>
-    <div class="trust-dot"></div>
-    <div class="trust-item">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-      Real Data. Not Guesses.
-    </div>
-    <div class="trust-dot"></div>
-    <div class="trust-item">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-      Built by Ty Alexander Media · Tampa Bay
+
+    <div class="loading-checks" id="loading-checks">
+      <div class="lcheck pending" id="lc1"><span class="lc-icon">○</span> 🔒 Checking SSL &amp; HTTPS</div>
+      <div class="lcheck pending" id="lc2"><span class="lc-icon">○</span> 📋 Reading title tags &amp; meta</div>
+      <div class="lcheck pending" id="lc3"><span class="lc-icon">○</span> 🗂️ Scanning robots.txt &amp; sitemap</div>
+      <div class="lcheck pending" id="lc4"><span class="lc-icon">○</span> 📱 Testing mobile experience</div>
+      <div class="lcheck pending" id="lc5"><span class="lc-icon">○</span> ⚡ Clocking page speed</div>
+      <div class="lcheck pending" id="lc6"><span class="lc-icon">○</span> 📍 Finding Google Business Profile</div>
+      <div class="lcheck pending" id="lc7"><span class="lc-icon">○</span> ✍️ Auditing content &amp; headings</div>
+      <div class="lcheck pending" id="lc8"><span class="lc-icon">○</span> 🏁 Pulling top competitor in your city</div>
     </div>
   </div>
 </div>
 
-<!-- ── FOOTER ────────────────────────────────────────────── -->
+<!-- ── Instagram placeholder (required by app.js) ─── -->
+<div class="hidden" id="step-ig" style="display:none!important"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     STEP 3: EMAIL GATE (score teaser + unlock)
+══════════════════════════════════════════════════════════ -->
+<div class="hidden" id="step-gate">
+  <div class="container">
+    <div class="gate-card">
+
+      <!-- Score ring -->
+      <div class="gate-score-ring">
+        <svg viewBox="0 0 140 140" class="score-svg" aria-hidden="true">
+          <circle cx="70" cy="70" r="56" fill="none" stroke="#1E1E1E" stroke-width="10"/>
+          <circle cx="70" cy="70" r="56" fill="none" stroke="url(#lolaGrad)" stroke-width="10"
+            stroke-dasharray="352" stroke-dashoffset="352"
+            stroke-linecap="round" transform="rotate(-90 70 70)"
+            id="score-ring-fill" style="transition:stroke-dashoffset 1.4s cubic-bezier(0.16,1,0.3,1)" />
+          <defs>
+            <linearGradient id="lolaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#C9A84C"/>
+              <stop offset="100%" stop-color="#E8C96A"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="score-center">
+          <span class="score-num font-mono" id="teaser-score-num">--</span>
+          <span class="score-denom font-mono">/100</span>
+          <span class="score-grade-sm font-mono" id="teaser-score-label"></span>
+        </div>
+      </div>
+
+      <div class="gate-lock-badge">🔒 Full Report Locked</div>
+      <h2 class="gate-heading font-display">Lola Found the Leaks 🐾</h2>
+      <p class="gate-sub" id="gate-biz-name"></p>
+      <p class="gate-leads-lost" id="gate-leads-lost"></p>
+
+      <!-- Blurred preview -->
+      <div class="blur-preview">
+        <div class="blur-overlay"></div>
+        <div class="preview-row"><span class="preview-label">Site Health</span><div class="preview-bar"><div class="preview-fill" style="width:30%"></div></div><span class="blur-val">28</span></div>
+        <div class="preview-row"><span class="preview-label">Local Presence</span><div class="preview-bar"><div class="preview-fill" style="width:5%"></div></div><span class="blur-val">0</span></div>
+        <div class="preview-row"><span class="preview-label">Mobile</span><div class="preview-bar"><div class="preview-fill" style="width:55%"></div></div><span class="blur-val">55</span></div>
+        <div class="preview-row"><span class="preview-label">Page Speed</span><div class="preview-bar"><div class="preview-fill" style="width:50%"></div></div><span class="blur-val">50</span></div>
+        <div class="preview-row"><span class="preview-label">Content</span><div class="preview-bar"><div class="preview-fill" style="width:15%"></div></div><span class="blur-val">15</span></div>
+      </div>
+
+      <!-- What's inside -->
+      <div class="gate-inside">
+        <div class="gate-inside-label eyebrow">What's Inside Your Report</div>
+        <ul class="gate-inside-list">
+          <li>Every issue ranked by severity</li>
+          <li>Step-by-step fix for each problem</li>
+          <li>Who's beating you and exactly why</li>
+          <li>Quick wins you can act on today</li>
+        </ul>
+      </div>
+
+      <!-- Email form -->
+      <form id="email-form" novalidate>
+        <div class="form-group">
+          <label for="user-email">Your Email</label>
+          <input type="email" id="user-email" placeholder="your@email.com" autocomplete="email" required />
+        </div>
+        <button type="submit" class="btn btn-cta" id="unlock-btn">
+          <span id="unlock-btn-text">Get My Free Report →</span>
+        </button>
+        <p class="form-note">No spam. Lola delivers and sits. 🐾</p>
+        <p class="sms-opt" style="margin-top:8px">
+          <a href="sms:+17273006573" style="color:var(--gold);text-decoration:underline;font-size:13px">Prefer a text instead? →</a>
+        </p>
+        <div class="email-sent-confirm hidden" id="email-sent-confirm">
+          <div class="sent-icon">✓</div>
+          <div class="sent-text">
+            <strong>Report on its way</strong>
+            <span>Check your inbox — Lola just dropped it 🐾</span>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     STEP 4: FULL REPORT
+══════════════════════════════════════════════════════════ -->
+<div class="hidden" id="step-report">
+  <div class="container" style="padding-bottom:60px">
+
+    <!-- Score hero -->
+    <div class="rpt-hero" id="rpt-hero">
+      <div class="rpt-hero-left">
+        <img src="lola-logo.png" alt="Lola" class="rpt-lola" />
+        <div class="rpt-grade-pill" id="rpt-grade-pill">--</div>
+      </div>
+      <div class="rpt-score-ring-wrap">
+        <svg viewBox="0 0 120 120" class="rpt-ring-svg" aria-hidden="true">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#1E1E1E" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="url(#rptGrad)" stroke-width="8"
+            stroke-dasharray="314" stroke-dashoffset="314"
+            stroke-linecap="round" transform="rotate(-90 60 60)"
+            id="report-ring-fill" />
+          <defs>
+            <linearGradient id="rptGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#C9A84C"/>
+              <stop offset="100%" stop-color="#E8C96A"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="rpt-ring-center">
+          <span class="rpt-score-num" id="report-score-num">--</span>
+          <span class="rpt-score-sub">/100</span>
+        </div>
+      </div>
+      <p class="rpt-label font-mono" id="rpt-label">--</p>
+      <h2 class="rpt-headline font-display" id="report-headline">Your SEO Report</h2>
+      <div class="rpt-meta" id="rpt-meta"></div>
+    </div>
+
+    <!-- Categories -->
+    <div class="rpt-section-label">🐾 Score Breakdown</div>
+    <div class="rpt-cats" id="categories-grid"></div>
+
+    <!-- Issues -->
+    <div id="issues-section">
+      <div class="rpt-section-label">🚨 What's Hurting Your Ranking</div>
+      <div class="rpt-issues" id="issues-list"></div>
+    </div>
+
+    <!-- $97 Quick Fix offer (injected) -->
+    <div id="rpt-quick-fix-offer" class="hidden"></div>
+
+    <!-- Competitor comparison (injected) -->
+    <div id="competitor-section" class="hidden">
+      <div class="rpt-section-label">📊 Who's Beating You</div>
+      <div id="competitor-list"></div>
+    </div>
+
+    <!-- GBP before/after (injected) -->
+    <div id="gbp-section" class="hidden">
+      <div class="rpt-section-label">📍 Your Google Business Profile</div>
+      <div id="gbp-comparison"></div>
+    </div>
+
+    <!-- Quick wins -->
+    <div class="rpt-section-label">🎾 What's Possible Next</div>
+    <div class="rpt-wins" id="quickwins-list"></div>
+
+    <!-- ── $97 CTA ─────────────────────────────────────── -->
+    <div class="offer-card offer-97">
+      <div class="offer-eyebrow eyebrow">Do It Yourself</div>
+      <h3 class="offer-heading font-display">Get Lola's Full Playbook — $97</h3>
+      <p class="offer-anchor">Agencies charge $500–1,500 for this audit alone. Lola's playbook is $97. One time. Yours forever.</p>
+      <ul class="offer-list">
+        <li>Exact title tag formulas for your business and city</li>
+        <li>Meta description templates ready to copy and paste</li>
+        <li>Schema markup code to paste directly into your site</li>
+        <li>GBP optimization checklist</li>
+        <li>Local citation submission guide</li>
+        <li>Priority fix order — know exactly what to do first</li>
+        <li>Most contractors finish top fixes in one weekend</li>
+      </ul>
+      <a href="https://www.tyalexandermedia.com/contact?offer=quick-fix" class="btn btn-cta" target="_blank" rel="noopener">
+        Get the $97 Playbook →
+      </a>
+      <p class="offer-urgency" id="urgency-competitor">Every day you wait is another day your competitor gets that call.</p>
+    </div>
+
+    <!-- ── $400 Upsell ────────────────────────────────── -->
+    <div class="offer-card offer-400" id="upsell-400">
+      <div class="offer-popular eyebrow">Most Popular · Best Value</div>
+      <h3 class="offer-heading font-display">Let Ty's Team Handle All of It</h3>
+
+      <div class="value-stack">
+        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Full Lola Audit Report</span><span class="vs-strike">$500</span></div>
+        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Title Tag + Meta Implementation</span><span class="vs-strike">$300</span></div>
+        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Schema Markup Setup</span><span class="vs-strike">$200</span></div>
+        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">GBP Optimization</span><span class="vs-strike">$300</span></div>
+        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Local Citation Cleanup</span><span class="vs-strike">$200</span></div>
+        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Monthly Content (1 page or blog)</span><span class="vs-strike">$300</span></div>
+        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Monthly Ranking Report</span><span class="vs-strike">$150</span></div>
+        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Direct Access to Coach Ty</span><span class="vs-priceless">Priceless 🐾</span></div>
+        <div class="vs-divider"></div>
+        <div class="vs-total">
+          <span>Total Value:</span>
+          <span class="vs-total-val"><s>$1,950</s></span>
+        </div>
+      </div>
+
+      <div class="offer-perception font-display">You Get All of It for $397 Total</div>
+      <p class="offer-anchor">Add the $97 playbook + Ty's full implementation team for $300 more. That's $397 for your first month. Then just $400/month after that. Cancel anytime. No contracts.</p>
+
+      <div class="savings-badge font-mono">You Save Over $1,500</div>
+
+      <a href="https://www.tyalexandermedia.com/contact?offer=retainer" class="btn btn-outline-gold" target="_blank" rel="noopener">
+        Add Ty's Team for $300 More →
+      </a>
+      <p class="offer-note">Month to month. Cancel anytime. First month = full implementation of everything Lola found today.</p>
+    </div>
+
+    <!-- Bottom upsell area (injected by app.js) -->
+    <div id="rpt-upsell"></div>
+
+    <div class="restart-row">
+      <button class="btn btn-ghost btn-sm" id="restart-btn">🐾 Audit Another Business</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════════ -->
 <footer class="site-footer">
   <div class="container">
     <div class="footer-inner">
-      <div>
-        <div class="footer-brand">
-          <img src="lola-logo.png" alt="Lola" class="footer-lola" />
-          <div>
-            <div class="footer-brand-name font-display">LOLA SEO</div>
-            <div class="footer-brand-sub font-mono">BY TY ALEXANDER MEDIA</div>
-          </div>
-        </div>
-      </div>
-      <p class="footer-referral">
-        Know a contractor who's invisible on Google?<br>
-        Send them this link. Lola works for free. 🐾<br>
-        <a href="https://lola-seo.vercel.app" style="color:var(--gold);text-decoration:underline">lola-seo.vercel.app</a>
-      </p>
+      <img src="lola-logo.png" alt="Lola" class="footer-lola" />
+      <p class="footer-brand-sub font-mono">Built by Ty Alexander Media · Tampa Bay</p>
       <div class="footer-links">
-        <a href="https://www.tyalexandermedia.com" target="_blank">tyalexandermedia.com</a>
-        <a href="https://www.instagram.com/tyalexandermedia" target="_blank">Instagram</a>
-        <a href="https://www.tyalexandermedia.com/contact" target="_blank">Book a Call</a>
+        <a href="https://www.tyalexandermedia.com" target="_blank" rel="noopener">tyalexandermedia.com</a>
+        <a href="https://www.tyalexandermedia.com/contact" target="_blank" rel="noopener">Book a Call</a>
       </div>
-      <p class="footer-copy font-mono">
-        © 2026 Ty Alexander Media · Tampa Bay, FL ·
-        <a href="tel:+17273006573">727-300-6573</a>
+      <p class="footer-review">
+        Did Lola help you?
+        <a href="https://share.google/IPROAQnD4PhW8zXxi" target="_blank" rel="noopener" class="review-link">Leave us a review 🐾</a>
       </p>
+      <p class="footer-copy font-mono">© 2026 Ty Alexander Media · Tampa Bay FL</p>
     </div>
   </div>
 </footer>

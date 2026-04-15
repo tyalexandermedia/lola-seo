@@ -670,7 +670,22 @@ function buildQuickWins(scores, siteData, city, bizType) {
 
 // ── SHOW GATE ─────────────────────────────────────────────────
 function showGate(total, bizName) {
-  $('teaser-score-num').textContent = total;
+  // Animated count-up: 0 → actual score over 1.5s
+  const scoreEl = $('teaser-score-num');
+  if (scoreEl) {
+    scoreEl.textContent = '0';
+    const _start = Date.now();
+    const _dur = 1500;
+    const _tick = () => {
+      const elapsed = Date.now() - _start;
+      const progress = Math.min(elapsed / _dur, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      scoreEl.textContent = Math.round(eased * total);
+      if (progress < 1) requestAnimationFrame(_tick);
+    };
+    setTimeout(() => requestAnimationFrame(_tick), 250);
+  }
+
   $('teaser-score-label').textContent = getGradeLabel(total);
   $('teaser-score-label').style.color = getScoreColor(total);
   $('gate-biz-name').textContent = bizName;
@@ -682,16 +697,18 @@ function showGate(total, bizName) {
     const leadsRanges = [[25,'50–70'],[40,'35–50'],[60,'20–35'],[75,'10–20'],[101,'3–10']];
     const leadsStr = leadsRanges.find(([cap]) => total < cap)?.[1] || '3–10';
     leadsLostEl.textContent = revLeak
-      ? `At your current score, you’re losing an estimated $${revLeak.toLocaleString()}/month in missed leads.`
-      : `At your current score, you’re missing an estimated ${leadsStr} inbound calls per month.`;
+      ? `You’re losing an estimated $${revLeak.toLocaleString()}/mo in missed leads.`
+      : `You’re missing an estimated ~${leadsStr} inbound calls per month.`;
+    leadsLostEl.style.display = 'block';
   }
 
   const pct = total / 100;
-  const circumference = 314;
+  const circumference = 352; // gate ring r=56 → 2π×56≈352
   const dashOffset = circumference - (circumference * pct);
   setTimeout(() => {
-    $('score-ring-fill').style.strokeDashoffset = dashOffset;
-  }, 100);
+    const ring = $('score-ring-fill');
+    if (ring) ring.style.strokeDashoffset = dashOffset;
+  }, 350);
 
   goToStep('step-gate');
 }
@@ -1267,6 +1284,7 @@ function showReport() {
 
   // Instagram removed
 
+  injectUrgencyCompetitor();
   goToStep('step-report');
 }
 
@@ -1406,3 +1424,48 @@ $('restart-btn').addEventListener('click', () => {
   goToStep('step-input');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
+
+// ── CTA BUTTON PULSE (every 4s if not clicked) ─────────────────────────────
+(function() {
+  const ctaBtn = document.getElementById('analyze-btn');
+  if (!ctaBtn) return;
+  let pulseTimer = null;
+  const startPulse = () => {
+    clearTimeout(pulseTimer);
+    pulseTimer = setTimeout(() => {
+      ctaBtn.classList.add('pulse');
+    }, 4000);
+  };
+  ctaBtn.addEventListener('click', () => {
+    ctaBtn.classList.remove('pulse');
+    clearTimeout(pulseTimer);
+  });
+  startPulse();
+})();
+
+// ── $400 UPSELL SCROLL REVEAL ───────────────────────────────────────────────
+(function() {
+  const upsell = document.getElementById('upsell-400');
+  if (!upsell) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        upsell.classList.add('visible');
+        observer.unobserve(upsell);
+      }
+    });
+  }, { threshold: 0.1 });
+  observer.observe(upsell);
+})();
+
+// ── INJECT COMPETITOR NAME INTO URGENCY LINE ────────────────────────────────
+function injectUrgencyCompetitor() {
+  const el = document.getElementById('urgency-competitor');
+  if (!el) return;
+  const comp = analysisData.competitors && analysisData.competitors[0];
+  const name = comp?.name || comp?.business_name;
+  if (name) {
+    el.textContent = `Every day you wait is another day ${name} gets that call.`;
+  }
+}
