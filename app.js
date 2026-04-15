@@ -13,14 +13,21 @@ const hide = id => { const el = $(id); if (el) el.classList.add('hidden'); };
 
 // ── STEP TRANSITIONS ──────────────────────────────────────────
 function goToStep(step) {
-  ['step-input','step-loading','step-gate','step-ig','step-report'].forEach(hide);
+  ['step-input','step-loading','step-gate','step-ig','step-report'].forEach(id => { const e = document.getElementById(id); if(e) e.classList.add('hidden'); });
   show(step);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
   updateStepIndicators(step);
+  // Scroll to the active section — NOT to page top
+  const el = document.getElementById(step);
+  if (el) {
+    // Small delay so display change renders first
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+  }
 }
 
 function updateStepIndicators(step) {
-  const stepMap = { 'step-input': 1, 'step-loading': 1, 'step-gate': 2, 'step-ig': 2, 'step-report': 3 };
+  const stepMap = { 'step-input': 1, 'step-loading': 1, 'step-gate': 2, 'step-report': 3 };
   const current = stepMap[step] || 1;
   document.querySelectorAll('.step-pill').forEach((el, i) => {
     const num = i + 1;
@@ -101,6 +108,14 @@ const LOLA_API = 'https://web-production-e4bd3.up.railway.app';
 
 async function runAnalysis() {
   const { bizName, website, city, bizType, email } = analysisData;
+
+  // Lock viewport to loading section during entire audit
+  const loadingEl = document.getElementById('step-loading');
+  if (loadingEl) {
+    loadingEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Prevent page from jumping away during checks
+    loadingEl.style.minHeight = '80vh';
+  }
 
   // Animate loading checks as API runs
   setProgress(5);
@@ -660,6 +675,17 @@ function showGate(total, bizName) {
   $('teaser-score-label').style.color = getScoreColor(total);
   $('gate-biz-name').textContent = bizName;
 
+  // Show leads lost / revenue leak estimate
+  const leadsLostEl = $('gate-leads-lost');
+  if (leadsLostEl) {
+    const revLeak = analysisData.revenueLeak;
+    const leadsRanges = [[25,'50–70'],[40,'35–50'],[60,'20–35'],[75,'10–20'],[101,'3–10']];
+    const leadsStr = leadsRanges.find(([cap]) => total < cap)?.[1] || '3–10';
+    leadsLostEl.textContent = revLeak
+      ? `At your current score, you’re losing an estimated $${revLeak.toLocaleString()}/month in missed leads.`
+      : `At your current score, you’re missing an estimated ${leadsStr} inbound calls per month.`;
+  }
+
   const pct = total / 100;
   const circumference = 314;
   const dashOffset = circumference - (circumference * pct);
@@ -717,11 +743,13 @@ $('email-form').addEventListener('submit', async (e) => {
   } catch(e) {}
 
   await sleep(1400);
-  goToStep('step-ig');
+  goToStep('step-report');
+  // Instagram removed — go straight to report
 });
 
 // ── INSTAGRAM STEP ───────────────────────────────────────────────────
-$('ig-form').addEventListener('submit', async (e) => {
+// Instagram removed
+if (false && $('ig-form')) $('ig-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const handle = $('ig-handle').value.trim().replace(/^@/, '');
   if (!handle) { showReport(); return; }
@@ -733,7 +761,7 @@ $('ig-form').addEventListener('submit', async (e) => {
   showReport();
 });
 
-$('ig-skip-btn').addEventListener('click', () => {
+if (false && $('ig-skip-btn')) $('ig-skip-btn').addEventListener('click', () => {
   analysisData.igData = null;
   showReport();
 });
@@ -1119,6 +1147,12 @@ function showReport() {
   gradePill.className = 'rpt-grade-pill grade-' + grade.toLowerCase();
 
   // ── Hero text ──
+  // Leads lost estimate based on score
+  const leadsLost = analysisData.revenueLeak
+    ? null  // use revenue from backend
+    : total < 25 ? '50–70' : total < 40 ? '35–50' : total < 60 ? '20–35' : total < 75 ? '10–20' : '3–10';
+  const leadsLostStr = leadsLost || (analysisData.revenueLeak ? `$${(analysisData.revenueLeak||0).toLocaleString()}/mo` : '20–35');
+
   const headlines = {
     A: `${bizName} is dialed in. Here's how to stay ahead.`,
     B: `${bizName} has a solid base — these fixes are the difference between good and dominant.`,
@@ -1234,10 +1268,7 @@ function showReport() {
   // ── GBP before/after ──
   renderGBPComparison(analysisData.bizName, analysisData.city, siteData);
 
-  // ── Instagram ──
-  if (analysisData.igData) {
-    renderInstagramResults(analysisData.igData, analysisData.igHandle);
-  }
+  // Instagram removed
 
   goToStep('step-report');
 }
