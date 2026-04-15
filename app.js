@@ -705,10 +705,17 @@ function showGate(total, bizName) {
   const pct = total / 100;
   const circumference = 352; // gate ring r=56 → 2π×56≈352
   const dashOffset = circumference - (circumference * pct);
-  setTimeout(() => {
-    const ring = $('score-ring-fill');
-    if (ring) ring.style.strokeDashoffset = dashOffset;
-  }, 350);
+
+  // Staggered reveal: ring stays at 0% offset first, then animates to score
+  const ring = $('score-ring-fill');
+  if (ring) {
+    ring.style.transition = 'none';
+    ring.style.strokeDashoffset = '352'; // start full empty
+    setTimeout(() => {
+      ring.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(0.16,1,0.3,1)';
+      ring.style.strokeDashoffset = dashOffset;
+    }, 400);
+  }
 
   goToStep('step-gate');
 }
