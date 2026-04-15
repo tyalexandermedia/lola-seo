@@ -77,27 +77,27 @@ $('seo-form').addEventListener('submit', async (e) => {
 });
 
 // ── LOADING SEQUENCE ──────────────────────────────────────────
-async function animateLoadCheck(id, delay, progressPct) {
-  await sleep(delay);
-  const el = $(id);
-  if (!el) return;
-  el.classList.add('active');
-  el.querySelector('.lc-icon').textContent = '◌';
-  setProgress(progressPct);
-  await sleep(800);
-  el.classList.remove('active');
-  el.classList.add('done');
-  el.querySelector('.lc-icon').textContent = '✓';
+async function animateLoadCheck(id, delayMs, progressPct) {
+  setTimeout(() => {
+    const el = $(id);
+    if (!el) return;
+    el.classList.remove('pending');
+    el.classList.add('active');
+    const icon = el.querySelector('.lc-icon');
+    setTimeout(() => {
+      el.classList.remove('active');
+      el.classList.add('done');
+      if (icon) icon.textContent = '✓';
+      setProgress(progressPct);
+    }, 700);
+  }, delayMs);
 }
 
 function setProgress(pct) {
-  const fill = $('progress-fill');
-  const icon = $('progress-lola-icon');
-  const label = $('progress-pct');
-  if (!fill) return;
-  fill.style.width = pct + '%';
-  if (icon) icon.style.left = pct + '%';
-  if (label) label.textContent = pct + '%';
+  const fill  = $('progress-fill');
+  const pctEl = $('progress-pct');
+  if (fill)  fill.style.width = Math.round(pct) + '%';
+  if (pctEl) pctEl.textContent = Math.round(pct) + '%';
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
@@ -1179,22 +1179,19 @@ function showReport() {
   if (catsEl) {
     catsEl.innerHTML = cats.map(cat => {
       const sc = cat.score >= 70 ? 'good' : cat.score >= 45 ? 'ok' : 'bad';
-      const ring = Math.round((cat.score / 100) * 88);
+      const scoreColor = sc === 'good' ? 'var(--green)' : sc === 'ok' ? 'var(--medium)' : 'var(--critical)';
       return `<div class="rpt-cat rpt-cat--${sc}">
-        <div class="rpt-cat-top">
-          <span class="rpt-cat-emoji">${cat.emoji}</span>
-          <div class="rpt-cat-mini-ring">
-            <svg viewBox="0 0 32 32" width="32" height="32">
-              <circle cx="16" cy="16" r="14" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="3"/>
-              <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="3"
-                stroke-dasharray="88" stroke-dashoffset="${88 - ring}"
-                stroke-linecap="round" transform="rotate(-90 16 16)"/>
-            </svg>
-            <span class="rpt-cat-mini-num">${cat.score}</span>
+        <span class="rpt-cat-emoji">${cat.emoji}</span>
+        <div class="rpt-cat-info">
+          <div class="rpt-cat-name">${cat.name}</div>
+          <div class="rpt-cat-note">${cat.note}</div>
+        </div>
+        <div class="rpt-cat-score-wrap">
+          <div class="rpt-cat-score">${cat.score}</div>
+          <div class="rpt-cat-bar">
+            <div class="rpt-cat-bar-fill" style="width:${cat.score}%;background:${scoreColor}"></div>
           </div>
         </div>
-        <div class="rpt-cat-name">${cat.name}</div>
-        <div class="rpt-cat-note">${cat.note}</div>
       </div>`;
     }).join('');
   }
