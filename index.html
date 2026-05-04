@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LOLA SEO — Free Local SEO Audit for Contractors</title>
-  <meta name="description" content="Find out exactly why Google is sending your customers to competitors. Free 60-second audit built for local contractors." />
-  <meta property="og:title" content="LOLA SEO — Free Local SEO Audit" />
-  <meta property="og:description" content="Lola sniffs out every reason Google is ignoring your business. Free. 60 seconds." />
-  <meta property="og:image" content="lola-logo-hero.png" />
-  <link rel="icon" type="image/png" href="lola-logo.png" />
-  <link rel="apple-touch-icon" href="lola-logo.png" />
-  <!-- Fonts: non-blocking -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" /></noscript>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LOLA SEO — Free Local SEO Audit for Contractors</title>
+<meta name="description" content="Find out exactly why Google is sending your customers to competitors. Free 60-second audit built for local contractors." />
+<meta property="og:title" content="LOLA SEO — Free Local SEO Audit" />
+<meta property="og:description" content="Lola sniffs out every reason Google is ignoring your business. Free. 60 seconds." />
+<meta property="og:image" content="lola-logo-hero.png" />
+<link rel="icon" type="image/png" href="lola-logo.png" />
+<link rel="apple-touch-icon" href="lola-logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- ── STICKY HEADER ─────────────────────────────────────── -->
+<!-- STICKY HEADER -->
 <header class="site-header">
   <div class="header-inner">
     <a href="/" class="logo">
@@ -31,31 +30,19 @@
   </div>
 </header>
 
-<!-- ══════════════════════════════════════════════════════════
-     HERO + FORM (everything above fold on mobile)
-══════════════════════════════════════════════════════════ -->
+<!-- HERO + FORM -->
 <section class="hero">
   <div class="container">
-
-    <!-- Lola logo -->
     <img src="lola-logo-hero.png" alt="Lola the German Shepherd" class="hero-logo" />
-
-    <!-- Eyebrow -->
     <div class="hero-eyebrow eyebrow">Free Local SEO Audit · Tampa Bay</div>
-
-    <!-- H1 -->
     <h1 class="font-display hero-h1">
       Google Is Sending Your<br>
       <span class="h1-gold">Customers Somewhere Else.</span>
     </h1>
-
-    <!-- Sub -->
     <p class="hero-sub">
       Lola sniffs out exactly why in 60 seconds.<br>
       Free. No credit card. No fluff. 🐾
     </p>
-
-    <!-- ── TRUST CHIPS ─────────────────────────────────── -->
     <div class="trust-chips">
       <span class="trust-chip">🌐 Site Health</span>
       <span class="trust-chip">📍 Local Presence</span>
@@ -63,10 +50,7 @@
       <span class="trust-chip">✍️ Content</span>
     </div>
 
-    <!-- ── INPUT FORM ─────────────────────────────────── -->
     <div class="tool-card" id="step-input">
-
-      <!-- Step indicators (hidden in form — shown only on gate/report) -->
       <div class="step-pills" style="display:none" id="step-pills-row">
         <div class="step-pill active" id="step-1-pill"><span>1</span>Your Info</div>
         <div class="step-connector"></div>
@@ -74,7 +58,6 @@
         <div class="step-connector"></div>
         <div class="step-pill" id="step-3-pill"><span>3</span>Your Score</div>
       </div>
-
       <form id="seo-form" novalidate>
         <div class="form-group">
           <label for="business-name">Business Name</label>
@@ -107,32 +90,26 @@
             <option value="default">Other Local Business</option>
           </select>
         </div>
-
         <button type="submit" class="btn btn-cta" id="analyze-btn">
           🐾 Show Me What Google Sees
         </button>
         <p class="form-note">No login. No credit card. Lola doesn't need permission to sniff out the truth. 🐾</p>
       </form>
     </div>
-
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════
-     STEP 2: AUDIT PROGRESS
-══════════════════════════════════════════════════════════ -->
+<!-- STEP 2: AUDIT PROGRESS -->
 <div class="hidden" id="step-loading">
   <div class="loading-wrap">
     <img src="lola-logo.png" alt="Lola" class="loading-logo" />
     <h3 class="loading-headline font-display" id="loading-headline">Lola is on the scent</h3>
-
     <div class="progress-wrap">
       <div class="progress-pct font-mono" id="progress-pct">5%</div>
       <div class="progress-track">
         <div class="progress-fill" id="progress-fill"></div>
       </div>
     </div>
-
     <div class="loading-checks" id="loading-checks">
       <div class="lcheck pending" id="lc1"><span class="lc-icon">○</span> 🔒 Checking SSL &amp; HTTPS</div>
       <div class="lcheck pending" id="lc2"><span class="lc-icon">○</span> 📋 Reading title tags &amp; meta</div>
@@ -146,17 +123,12 @@
   </div>
 </div>
 
-<!-- ── Instagram placeholder (required by app.js) ─── -->
 <div class="hidden" id="step-ig" style="display:none!important"></div>
 
-<!-- ══════════════════════════════════════════════════════════
-     STEP 3: EMAIL GATE (score teaser + unlock)
-══════════════════════════════════════════════════════════ -->
+<!-- STEP 3: EMAIL GATE -->
 <div class="hidden" id="step-gate">
   <div class="container">
     <div class="gate-card">
-
-      <!-- Score ring -->
       <div class="gate-score-ring">
         <svg viewBox="0 0 140 140" class="score-svg" aria-hidden="true">
           <circle cx="70" cy="70" r="56" fill="none" stroke="#1E1E1E" stroke-width="10"/>
@@ -177,13 +149,10 @@
           <span class="score-grade-sm font-mono" id="teaser-score-label"></span>
         </div>
       </div>
-
       <div class="gate-lock-badge">🔒 Full Report Locked</div>
       <h2 class="gate-heading font-display">Lola Found the Leaks 🐾</h2>
       <p class="gate-sub" id="gate-biz-name"></p>
       <p class="gate-leads-lost" id="gate-leads-lost"></p>
-
-      <!-- Blurred preview -->
       <div class="blur-preview">
         <div class="blur-overlay"></div>
         <div class="preview-row"><span class="preview-label">Site Health</span><div class="preview-bar"><div class="preview-fill" style="width:30%"></div></div><span class="blur-val">28</span></div>
@@ -192,8 +161,6 @@
         <div class="preview-row"><span class="preview-label">Page Speed</span><div class="preview-bar"><div class="preview-fill" style="width:50%"></div></div><span class="blur-val">50</span></div>
         <div class="preview-row"><span class="preview-label">Content</span><div class="preview-bar"><div class="preview-fill" style="width:15%"></div></div><span class="blur-val">15</span></div>
       </div>
-
-      <!-- What's inside -->
       <div class="gate-inside">
         <div class="gate-inside-label eyebrow">What's Inside Your Report</div>
         <ul class="gate-inside-list">
@@ -203,8 +170,6 @@
           <li>Quick wins you can act on today</li>
         </ul>
       </div>
-
-      <!-- Email form -->
       <form id="email-form" novalidate>
         <div class="form-group">
           <label for="user-email">Your Email</label>
@@ -225,14 +190,11 @@
           </div>
         </div>
       </form>
-
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     STEP 4: FULL REPORT
-══════════════════════════════════════════════════════════ -->
+<!-- STEP 4: FULL REPORT -->
 <div class="hidden" id="step-report">
   <div class="container" style="padding-bottom:60px">
 
@@ -276,19 +238,53 @@
       <div class="rpt-issues" id="issues-list"></div>
     </div>
 
-    <!-- GBP Gap Hero Callout (injected when local presence is primary gap) -->
+    <!-- GBP Gap Hero Callout -->
     <div id="gbp-gap-callout" class="hidden"></div>
 
-    <!-- $97 Quick Fix offer (injected) -->
-    <div id="rpt-quick-fix-offer" class="hidden"></div>
+    <!-- ══ REVENUE IMPACT BANNER ══ -->
+    <div class="revenue-banner" id="revenue-banner">
+      <div class="rev-banner-inner">
+        <div class="rev-left">
+          <div class="rev-label">Estimated leads lost this month</div>
+          <div class="rev-number font-display" id="rev-number">~20–35 calls</div>
+          <div class="rev-sub font-mono" id="rev-score-sub">Based on your score · soft wash avg $300–$800/job</div>
+        </div>
+        <div class="rev-right">
+          That's <strong id="rev-dollars">$6,000–$28,000</strong> walking straight to your competitor every single month.
+        </div>
+      </div>
+    </div>
 
-    <!-- Competitor comparison (injected) -->
+    <!-- ══ $97 QUICK FIX — DONE FOR YOU ══ -->
+    <div class="offer-card offer-97">
+      <div class="offer-97-header">
+        <div>
+          <div class="offer-eyebrow eyebrow">Fix It Today — Done For You</div>
+          <h3 class="offer-heading font-display">Lola Quick Fix — $97</h3>
+        </div>
+        <div class="qf-badge-pill font-mono">24 hrs</div>
+      </div>
+      <p class="offer-anchor">Ty's team implements everything Lola found — directly on your site — within 24 hours of payment. You don't touch a thing. No access calls. No waiting weeks.</p>
+      <ul class="offer-list offer-list-checks">
+        <li>Title tag rewritten with your service + city — Google finally knows what you do and where</li>
+        <li>Meta description written to pull clicks off the search results page</li>
+        <li>Schema markup installed — tells Google you're a real local business with an address</li>
+        <li>Open Graph tags set — your site looks sharp when shared on Facebook or via text</li>
+      </ul>
+      <p class="offer-urgency" id="urgency-competitor">Every day you wait is another day your competitor gets that call.</p>
+      <a href="https://www.tyalexandermedia.com/contact?offer=quick-fix" class="btn btn-cta" id="quick-fix-btn" target="_blank" rel="noopener">
+        Fix My Site for $97 →
+      </a>
+      <p class="offer-note">Pay → Ty's team is on it within the hour. No login needed.</p>
+    </div>
+
+    <!-- Competitor comparison (injected by app.js) -->
     <div id="competitor-section" class="hidden">
       <div class="rpt-section-label">📊 Who's Beating You</div>
       <div id="competitor-list"></div>
     </div>
 
-    <!-- GBP before/after (injected) -->
+    <!-- GBP before/after (injected by app.js) -->
     <div id="gbp-section" class="hidden">
       <div class="rpt-section-label">📍 Your Google Business Profile</div>
       <div id="gbp-comparison"></div>
@@ -298,71 +294,44 @@
     <div class="rpt-section-label">🎾 What's Possible Next</div>
     <div class="rpt-wins" id="quickwins-list"></div>
 
-    <!-- ── $97 CTA ─────────────────────────────────────── -->
-    <div class="offer-card offer-97">
-      <div class="offer-eyebrow eyebrow">Do It Yourself</div>
-      <h3 class="offer-heading font-display">Get Lola's Full Playbook — $97</h3>
-      <p class="offer-anchor">Agencies charge $500–1,500 for this audit alone. Lola's playbook is $97. One time. Yours forever.</p>
-      <ul class="offer-list">
-        <li>Exact title tag formulas for your business and city</li>
-        <li>Meta description templates ready to copy and paste</li>
-        <li>Schema markup code to paste directly into your site</li>
-        <li>GBP optimization checklist</li>
-        <li>Local citation submission guide</li>
-        <li>Priority fix order — know exactly what to do first</li>
-        <li>Most contractors finish top fixes in one weekend</li>
-      </ul>
-      <a href="https://www.tyalexandermedia.com/contact?offer=quick-fix" class="btn btn-cta" target="_blank" rel="noopener">
-        Get the $97 Playbook →
-      </a>
-      <p class="offer-urgency" id="urgency-competitor">Every day you wait is another day your competitor gets that call.</p>
-    </div>
-
-    <!-- ── $400 Upsell ────────────────────────────────── -->
+    <!-- ══ $400 RETAINER — SIMPLIFIED ══ -->
     <div class="offer-card offer-400" id="upsell-400">
       <div class="offer-popular eyebrow">Most Popular · Best Value</div>
       <h3 class="offer-heading font-display">Let Ty's Team Handle All of It</h3>
 
-      <div class="value-stack">
-        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Full Lola Audit Report</span><span class="vs-strike">$500</span></div>
-        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Title Tag + Meta Implementation</span><span class="vs-strike">$300</span></div>
-        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Schema Markup Setup</span><span class="vs-strike">$200</span></div>
-        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">GBP Optimization</span><span class="vs-strike">$300</span></div>
-        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Local Citation Cleanup</span><span class="vs-strike">$200</span></div>
-        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Monthly Content (1 page or blog)</span><span class="vs-strike">$300</span></div>
-        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Monthly Ranking Report</span><span class="vs-strike">$150</span></div>
-        <div class="vs-row"><span class="vs-check">✓</span><span class="vs-item">Direct Access to Coach Ty</span><span class="vs-priceless">Priceless 🐾</span></div>
-        <div class="vs-divider"></div>
-        <div class="vs-total">
-          <span>Total Value:</span>
-          <span class="vs-total-val"><s>$1,950</s></span>
-        </div>
+      <div class="ret-price-hero">
+        <span class="ret-price font-display">$400<span class="ret-mo">/mo</span></span>
+        <span class="ret-cancel font-mono">Cancel anytime · No contracts</span>
       </div>
 
-      <div class="offer-perception font-display">You Get All of It for $397 Total</div>
-      <p class="offer-anchor">Add the $97 playbook + Ty's full implementation team for $300 more. That's $397 for your first month. Then just $400/month after that. Cancel anytime. No contracts.</p>
+      <p class="offer-anchor">First month includes everything in the Quick Fix plus full GBP setup, one local city page built for ranking, and a monthly report showing exactly where you stand. Then $400/month after that.</p>
 
-      <div class="savings-badge font-mono">You Save Over $1,500</div>
+      <div class="ret-grid">
+        <div class="ret-item">✓ GBP claimed + optimized</div>
+        <div class="ret-item">✓ Monthly ranking audit</div>
+        <div class="ret-item">✓ 1 city landing page built</div>
+        <div class="ret-item">✓ Monthly report to you</div>
+        <div class="ret-item">✓ Title + meta + schema done</div>
+        <div class="ret-item">✓ Direct access to Coach Ty</div>
+      </div>
 
       <a href="https://www.tyalexandermedia.com/contact?offer=retainer" class="btn btn-outline-gold" target="_blank" rel="noopener">
-        Add Ty's Team for $300 More →
+        Book a Free 15-Min Call →
       </a>
       <p class="offer-note">Month to month. Cancel anytime. First month = full implementation of everything Lola found today.</p>
     </div>
 
     <!-- Bottom upsell area (injected by app.js) -->
     <div id="rpt-upsell"></div>
+    <div id="rpt-quick-fix-offer" class="hidden"></div>
 
     <div class="restart-row">
       <button class="btn btn-ghost btn-sm" id="restart-btn">🐾 Audit Another Business</button>
     </div>
-
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     FOOTER
-══════════════════════════════════════════════════════════ -->
+<!-- FOOTER -->
 <footer class="site-footer">
   <div class="container">
     <div class="footer-inner">
