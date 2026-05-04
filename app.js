@@ -16,10 +16,8 @@ function goToStep(step) {
   ['step-input','step-loading','step-gate','step-ig','step-report'].forEach(id => { const e = document.getElementById(id); if(e) e.classList.add('hidden'); });
   show(step);
   updateStepIndicators(step);
-  // Scroll to the active section — NOT to page top
   const el = document.getElementById(step);
   if (el) {
-    // Small delay so display change renders first
     setTimeout(() => {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 60);
@@ -103,21 +101,17 @@ function setProgress(pct) {
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 // ── MAIN ANALYSIS ENGINE ──────────────────────────────────────
-// ── RAILWAY BACKEND URL ─────────────────────────────────────────────────────
 const LOLA_API = 'https://web-production-e4bd3.up.railway.app';
 
 async function runAnalysis() {
   const { bizName, website, city, bizType, email } = analysisData;
 
-  // Lock viewport to loading section during entire audit
   const loadingEl = document.getElementById('step-loading');
   if (loadingEl) {
     loadingEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    // Prevent page from jumping away during checks
     loadingEl.style.minHeight = '80vh';
   }
 
-  // Animate loading checks as API runs
   setProgress(5);
   animateLoadCheck('lc1', 400,  12);
   animateLoadCheck('lc2', 900,  24);
@@ -129,7 +123,6 @@ async function runAnalysis() {
   animateLoadCheck('lc8', 6500, 95);
 
   try {
-    // ── Call Railway backend — real data, real scores ──
     const resp = await Promise.race([
       fetch(`${LOLA_API}/audit`, {
         method: 'POST',
@@ -152,7 +145,6 @@ async function runAnalysis() {
     setProgress(100);
     await sleep(600);
 
-    // ── Map backend response → analysisData ──
     const cats = data.categories || {};
     analysisData.scores = {
       siteHealth:    cats.site_health?.score    ?? 50,
@@ -192,7 +184,6 @@ async function runAnalysis() {
 
   } catch (err) {
     console.warn('Backend API failed, falling back to local analysis:', err.message);
-    // ── Graceful fallback: run local JS checks if backend unreachable ──
     await runAnalysisFallback();
   }
 }
@@ -205,7 +196,6 @@ function _severityIcon(sev) {
 }
 
 function _backendToSiteData(data) {
-  // Map backend response shape to the siteData shape the report renderer expects
   const cats = data.categories || {};
   return {
     ok: true,
@@ -216,12 +206,11 @@ function _backendToSiteData(data) {
     ogComplete: cats.site_health?.score >= 80,
     httpsOk: data.website?.startsWith('https://'),
     wordCount: 0,
-    // Pass through for competitor/GBP renders
     _raw: data,
   };
 }
 
-// ── LOCAL FALLBACK (runs only if Railway is unreachable) ───────────────────
+// ── LOCAL FALLBACK ───────────────────────────────────────────
 async function runAnalysisFallback() {
   const { bizName, website, city, bizType } = analysisData;
 
@@ -281,52 +270,41 @@ async function fetchSiteData(url) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    // ── Core tags ──
     const title      = doc.querySelector('title')?.textContent?.trim() || '';
     const metaDesc   = doc.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() || '';
     const metaViewport = !!doc.querySelector('meta[name="viewport"]');
     const httpsOk    = url.startsWith('https://');
 
-    // ── Headings ──
     const h1s    = doc.querySelectorAll('h1');
     const h2s    = doc.querySelectorAll('h2');
     const h3s    = doc.querySelectorAll('h3');
     const h1Text = h1s[0]?.textContent?.trim() || '';
-    // Heading hierarchy: H2 should come after H1, H3 after H2
-    const headingHierarchyOk = h1s.length === 1; // simplified check
+    const headingHierarchyOk = h1s.length === 1;
 
-    // ── Canonical ──
     const canonicalEl  = doc.querySelector('link[rel="canonical"]');
     const canonicalTag = !!canonicalEl;
     const canonicalHref = canonicalEl?.getAttribute('href') || '';
-    // Self-referencing canonical = correct practice
     const canonicalSelf = canonicalTag && (canonicalHref.includes(new URL(url).hostname) || canonicalHref.startsWith('/'));
 
-    // ── Noindex check ──
     const robotsMeta  = doc.querySelector('meta[name="robots"]')?.getAttribute('content') || '';
     const noindex     = robotsMeta.toLowerCase().includes('noindex');
 
-    // ── Open Graph completeness ──
     const ogTitle  = !!doc.querySelector('meta[property="og:title"]');
     const ogDesc   = !!doc.querySelector('meta[property="og:description"]');
     const ogImage  = !!doc.querySelector('meta[property="og:image"]');
     const ogTags   = ogTitle || ogDesc || ogImage;
     const ogComplete = ogTitle && ogDesc && ogImage;
 
-    // ── Schema ──
     const schemaJson = !!doc.querySelector('script[type="application/ld+json"]');
 
-    // ── Content ──
     const bodyText  = doc.body?.innerText || doc.body?.textContent || '';
     const wordCount = bodyText.split(/\s+/).filter(Boolean).length;
 
-    // ── Images & alt ──
     const imgs       = Array.from(doc.querySelectorAll('img'));
     const imgCount   = imgs.length;
     const altMissing = imgs.filter(img => !img.getAttribute('alt') || img.getAttribute('alt').trim() === '').length;
     const altMissingPct = imgCount > 0 ? Math.round((altMissing / imgCount) * 100) : 0;
 
-    // ── Links ──
     const allLinks = Array.from(doc.querySelectorAll('a[href]'));
     const internalLinks = allLinks.filter(a => {
       try { const href = a.getAttribute('href'); return href && !href.startsWith('http') && !href.startsWith('mailto') && !href.startsWith('tel'); }
@@ -337,19 +315,16 @@ async function fetchSiteData(url) {
       catch { return false; }
     }).length;
 
-    // ── Local signals ──
     const hasPhone   = /(\d{3}[-.\s]?\d{3}[-.\s]?\d{4}|\(\d{3}\)\s?\d{3}[-.\s]?\d{4})/.test(html);
     const hasAddress = /(street|avenue|blvd|drive|road|suite|\bst\b|\bave\b|\bdr\b)/i.test(html);
     const hasMaps    = lowerHtml.includes('google.com/maps') || lowerHtml.includes('maps.google') || lowerHtml.includes('goo.gl/maps');
     const hasGBP     = lowerHtml.includes('business.google') || lowerHtml.includes('g.page') || lowerHtml.includes('g.co/');
 
-    // ── Analytics & tracking ──
     const hasAnalytics = lowerHtml.includes('google-analytics.com') || lowerHtml.includes('gtag(') || lowerHtml.includes('ga.js') || lowerHtml.includes('analytics.js') || lowerHtml.includes('googletagmanager.com/gtag');
     const hasGTM       = lowerHtml.includes('googletagmanager.com/gtm');
     const hasPixel     = lowerHtml.includes('connect.facebook.net') || lowerHtml.includes('fbq(');
     const hasPrivacyLink = lowerHtml.includes('privacy') || lowerHtml.includes('terms');
 
-    // ── Robots.txt & Sitemap (parallel fetch, non-blocking) ──
     let robotsOk    = null;
     let sitemapFound = null;
     try {
@@ -433,10 +408,10 @@ function scoreSiteHealth(s, url) {
   if (s.metaDesc?.length > 50 && s.metaDesc?.length < 160) score += 15;
   else if (s.metaDesc?.length > 0) score += 6;
   if (s.canonicalTag)   score += 8;
-  if (s.ogComplete)     score += 12;   // all 3 OG tags = full credit
-  else if (s.ogTags)    score += 5;    // partial
+  if (s.ogComplete)     score += 12;
+  else if (s.ogTags)    score += 5;
   if (s.schemaJson)     score += 12;
-  if (!s.noindex)       score += 8;    // not blocking indexing
+  if (!s.noindex)       score += 8;
   if (s.robotsOk === true)  score += 5;
   if (s.sitemapFound === true) score += 5;
   return Math.min(score, 100);
@@ -483,12 +458,11 @@ function scoreContent(s, bizName, city) {
   return Math.min(score, 100);
 }
 
-// ── ISSUE BUILDER — diagnosis only, no free tutorials ───────────
+// ── ISSUE BUILDER ──────────────────────────────────────────────
 function buildIssues(scores, siteData, speedData, url, bizName, city) {
   const issues = [];
   const cityName = city.split(',')[0];
 
-  // Impact labels: what this costs them in plain language
   if (!siteData.httpsOk) {
     issues.push({ icon: '🔓', impactClass: 'critical',
       title: 'Your site is flagged "Not Secure" by Google',
@@ -614,7 +588,7 @@ function buildIssues(scores, siteData, speedData, url, bizName, city) {
   return issues.slice(0, 8);
 }
 
-// ── QUICK WINS — teaser value, CTA to low-ticket offer ──────────
+// ── QUICK WINS ─────────────────────────────────────────────────
 function buildQuickWins(scores, siteData, city, bizType) {
   const wins = [];
   const cityName = city.split(',')[0];
@@ -670,7 +644,6 @@ function buildQuickWins(scores, siteData, city, bizType) {
 
 // ── SHOW GATE ─────────────────────────────────────────────────
 function showGate(total, bizName) {
-  // Animated count-up: 0 → actual score over 1.5s
   const scoreEl = $('teaser-score-num');
   if (scoreEl) {
     scoreEl.textContent = '0';
@@ -679,7 +652,7 @@ function showGate(total, bizName) {
     const _tick = () => {
       const elapsed = Date.now() - _start;
       const progress = Math.min(elapsed / _dur, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
       scoreEl.textContent = Math.round(eased * total);
       if (progress < 1) requestAnimationFrame(_tick);
     };
@@ -690,27 +663,25 @@ function showGate(total, bizName) {
   $('teaser-score-label').style.color = getScoreColor(total);
   $('gate-biz-name').textContent = bizName;
 
-  // Show leads lost / revenue leak estimate
   const leadsLostEl = $('gate-leads-lost');
   if (leadsLostEl) {
     const revLeak = analysisData.revenueLeak;
     const leadsRanges = [[25,'50–70'],[40,'35–50'],[60,'20–35'],[75,'10–20'],[101,'3–10']];
     const leadsStr = leadsRanges.find(([cap]) => total < cap)?.[1] || '3–10';
     leadsLostEl.textContent = revLeak
-      ? `You’re losing an estimated $${revLeak.toLocaleString()}/mo in missed leads.`
-      : `You’re missing an estimated ~${leadsStr} inbound calls per month.`;
+      ? `You're losing an estimated $${revLeak.toLocaleString()}/mo in missed leads.`
+      : `You're missing an estimated ~${leadsStr} inbound calls per month.`;
     leadsLostEl.style.display = 'block';
   }
 
   const pct = total / 100;
-  const circumference = 352; // gate ring r=56 → 2π×56≈352
+  const circumference = 352;
   const dashOffset = circumference - (circumference * pct);
 
-  // Staggered reveal: ring stays at 0% offset first, then animates to score
   const ring = $('score-ring-fill');
   if (ring) {
     ring.style.transition = 'none';
-    ring.style.strokeDashoffset = '352'; // start full empty
+    ring.style.strokeDashoffset = '352';
     setTimeout(() => {
       ring.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(0.16,1,0.3,1)';
       ring.style.strokeDashoffset = dashOffset;
@@ -736,7 +707,6 @@ $('email-form').addEventListener('submit', async (e) => {
   if (unlockText) unlockText.textContent = 'Sending…';
 
   try {
-    // ── 1. Capture lead via existing Vercel function (Resend notify to Ty) ──
     fetch('/api/capture-lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -748,7 +718,6 @@ $('email-form').addEventListener('submit', async (e) => {
       })
     }).catch(() => {});
 
-    // ── 2. Fire full audit to Railway with REAL email — delivers personalized HTML report ──
     fetch(`${LOLA_API}/audit`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -767,42 +736,10 @@ $('email-form').addEventListener('submit', async (e) => {
   } catch(e) {}
 
   await sleep(800);
-  showReport(); // populates score ring, categories, issues, offers
-  // Instagram removed — go straight to report
-});
-
-// ── INSTAGRAM STEP ───────────────────────────────────────────────────
-// Instagram removed
-if (false && $('ig-form')) $('ig-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const handle = $('ig-handle').value.trim().replace(/^@/, '');
-  if (!handle) { showReport(); return; }
-  const btn = $('ig-check-btn');
-  btn.disabled = true; btn.textContent = '👃 Sniffing...';
-  const igData = await fetchInstagramProfile(handle);
-  analysisData.igData = igData;
-  analysisData.igHandle = handle;
   showReport();
 });
 
-if (false && $('ig-skip-btn')) $('ig-skip-btn').addEventListener('click', () => {
-  analysisData.igData = null;
-  showReport();
-});
-
-async function fetchInstagramProfile(handle) {
-  try {
-    const res = await fetch(`/api/ig-profile?username=${encodeURIComponent(handle)}`, {
-      signal: AbortSignal.timeout(12000)
-    });
-    if (!res.ok) throw new Error('proxy failed');
-    return await res.json();
-  } catch(e) {
-    return { ok: false, handle, error: 'Could not reach the profile check. Try again in a moment.' };
-  }
-}
-
-// ── COMPETITOR COMPARISON ─────────────────────────────────────────────────
+// ── COMPETITOR COMPARISON ──────────────────────────────────────
 function renderCompetitors(competitors, city, bizName) {
   const section = $('competitor-section');
   const list = $('competitor-list');
@@ -832,7 +769,7 @@ function renderCompetitors(competitors, city, bizName) {
     </div>`;
 }
 
-// ── GBP BEFORE / AFTER ───────────────────────────────────────────────────
+// ── GBP BEFORE / AFTER ────────────────────────────────────────
 function renderGBPComparison(bizName, city, siteData) {
   const section = $('gbp-section');
   const container = $('gbp-comparison');
@@ -844,7 +781,6 @@ function renderGBPComparison(bizName, city, siteData) {
   const hasMaps = siteData?.hasMaps;
   const hasSchema = siteData?.schemaJson;
 
-  // Only show if there are gaps to highlight
   const missingCount = [!hasPhone, !hasAddress, !hasMaps, !hasSchema].filter(Boolean).length;
   if (missingCount === 0) return;
   section.classList.remove('hidden');
@@ -890,273 +826,15 @@ function renderGBPComparison(bizName, city, siteData) {
           <span class="gbp-fix-icon">→</span>
           <span>${c.fix}</span>
         </div>`).join('')}
-    </div>
-    <div style="text-align:center;margin-top:1rem">
-      <a href="https://www.tyalexandermedia.com/contact?offer=quick-fix" class="qf-buy-btn" style="font-size:0.9375rem;padding:0.75rem 1.75rem" target="_blank">
-        ⚡ Quick-Fix Implementation &mdash; $97 &middot; Done in 24 hrs
-      </a>
-      <p style="font-size:0.75rem;color:var(--t4);margin-top:0.5rem">Every day you wait is another day your competitor gets that call.</p>
     </div>`;
 }
 
-function renderInstagramResults(igData, handle) {
-  const section = $('ig-section');
-  const results = $('ig-results');
-  if (!section || !results) return;
-  section.classList.remove('hidden');
-
-  if (!igData || !igData.ok) {
-    const errMsg = igData?.error || 'Instagram blocked the request.';
-    const isNotFound = errMsg.includes('not found') || errMsg.includes('404');
-    results.innerHTML = `
-      <div class="ig-error">
-        <div class="ig-error-icon">👃</div>
-        <p>${isNotFound
-          ? `<strong>@${handle}</strong> wasn't found. Double-check the handle — no spaces, no @.`
-          : `Lola couldn't sniff <strong>@${handle}</strong> right now. ${errMsg}`
-        }</p>
-        <a href="https://www.tyalexandermedia.com/contact" class="btn btn-outline btn-sm" target="_blank">Book a Social Strategy Session →</a>
-      </div>`;
-    return;
-  }
-
-  const {
-    username, fullName, followers, following, postCount, bio, website,
-    isProfessional, isBusiness, isVerified, highlightCount, hasReels,
-    avgLikes, avgComments, engagementRate, postFreqPerWeek,
-    mostRecentDaysAgo, recentPostCount30, recentPostCount90,
-    contentMix, ffRatio,
-    bioLength, bioHasEmoji, bioHasKeyword, bioHasCity, bioHasCTA
-  } = igData;
-
-  // ── Score (0–100) ───────────────────────────────────────────────────────
-  let igScore = 0;
-  // Followers
-  if (followers >= 2000)  igScore += 20;
-  else if (followers >= 500) igScore += 14;
-  else if (followers >= 100) igScore += 8;
-  else                   igScore += 3;
-  // Engagement rate (industry benchmarks)
-  if (engagementRate >= 6)       igScore += 20;
-  else if (engagementRate >= 3)  igScore += 15;
-  else if (engagementRate >= 1)  igScore += 8;
-  else if (engagementRate > 0)   igScore += 3;
-  // Posting frequency
-  if (postFreqPerWeek >= 3)     igScore += 15;
-  else if (postFreqPerWeek >= 1) igScore += 10;
-  else if (postFreqPerWeek > 0)  igScore += 4;
-  // Recency
-  if (mostRecentDaysAgo !== null) {
-    if (mostRecentDaysAgo <= 7)  igScore += 15;
-    else if (mostRecentDaysAgo <= 30) igScore += 10;
-    else if (mostRecentDaysAgo <= 90) igScore += 4;
-  }
-  // Bio
-  if (bioLength >= 80)   igScore += 8;
-  else if (bioLength >= 30) igScore += 5;
-  if (bioHasCTA)         igScore += 4;
-  if (bioHasKeyword)     igScore += 3;
-  // Website link
-  if (website)           igScore += 10;
-  // Highlights
-  if (highlightCount > 0) igScore += 5;
-
-  igScore = Math.min(igScore, 100);
-  const igGrade = igScore >= 75 ? 'Strong' : igScore >= 45 ? 'Needs Work' : 'Weak Signal';
-  const igGradeClass = igScore >= 75 ? 'status-good' : igScore >= 45 ? 'status-ok' : 'status-bad';
-
-  // ── Engagement rate label ──
-  const erLabel = engagementRate >= 6 ? 'Excellent' :
-                  engagementRate >= 3 ? 'Above Avg' :
-                  engagementRate >= 1 ? 'Average' :
-                  engagementRate > 0  ? 'Below Avg' : '—';
-  const erColor = engagementRate >= 3 ? 'var(--green)' : engagementRate >= 1 ? 'var(--amber)' : 'var(--red)';
-
-  // ── Posting frequency label ──
-  const freqLabel = postFreqPerWeek >= 4 ? 'Very Active' :
-                    postFreqPerWeek >= 2 ? 'Consistent' :
-                    postFreqPerWeek >= 0.5 ? 'Irregular' : 'Inactive';
-  const freqColor = postFreqPerWeek >= 2 ? 'var(--green)' : postFreqPerWeek >= 0.5 ? 'var(--amber)' : 'var(--red)';
-
-  // ── Last post label ──
-  const lastPostLabel = mostRecentDaysAgo === null ? 'Unknown' :
-    mostRecentDaysAgo === 0 ? 'Today' :
-    mostRecentDaysAgo === 1 ? 'Yesterday' :
-    mostRecentDaysAgo <= 7 ? `${mostRecentDaysAgo}d ago` :
-    mostRecentDaysAgo <= 30 ? `${Math.floor(mostRecentDaysAgo/7)}w ago` :
-    `${Math.floor(mostRecentDaysAgo/30)}mo ago`;
-  const lastPostColor = mostRecentDaysAgo !== null && mostRecentDaysAgo <= 14 ? 'var(--green)' :
-    mostRecentDaysAgo !== null && mostRecentDaysAgo <= 60 ? 'var(--amber)' : 'var(--red)';
-
-  // ── Stats grid ──
-  const statsHtml = `
-    <div class="ig-stats">
-      <div class="ig-stat">
-        <div class="ig-stat-num">${followers?.toLocaleString() ?? '—'}</div>
-        <div class="ig-stat-label">Followers</div>
-      </div>
-      <div class="ig-stat">
-        <div class="ig-stat-num">${postCount?.toLocaleString() ?? '—'}</div>
-        <div class="ig-stat-label">Total Posts</div>
-      </div>
-      <div class="ig-stat ig-stat-colored" style="--ig-stat-color:${erColor}">
-        <div class="ig-stat-num" style="color:${erColor}">${engagementRate > 0 ? engagementRate + '%' : '—'}</div>
-        <div class="ig-stat-label">Engagement Rate <span class="ig-stat-badge" style="color:${erColor}">${erLabel}</span></div>
-      </div>
-      <div class="ig-stat ig-stat-colored" style="--ig-stat-color:${freqColor}">
-        <div class="ig-stat-num" style="color:${freqColor}">${postFreqPerWeek > 0 ? postFreqPerWeek + '/wk' : '0'}</div>
-        <div class="ig-stat-label">Post Frequency <span class="ig-stat-badge" style="color:${freqColor}">${freqLabel}</span></div>
-      </div>
-      <div class="ig-stat ig-stat-colored" style="--ig-stat-color:${lastPostColor}">
-        <div class="ig-stat-num" style="color:${lastPostColor}">${lastPostLabel}</div>
-        <div class="ig-stat-label">Last Post</div>
-      </div>
-      <div class="ig-stat">
-        <div class="ig-stat-num">${avgLikes > 0 ? avgLikes.toLocaleString() : '—'}</div>
-        <div class="ig-stat-label">Avg Likes/Post</div>
-      </div>
-    </div>`;
-
-  // ── Actionable checklist ──
-  const checks = [
-    {
-      label: 'Active posting schedule',
-      pass: postFreqPerWeek >= 2,
-      detail: postFreqPerWeek > 0
-        ? `Posting ${postFreqPerWeek}x/week in the last 90 days.`
-        : 'No recent posts detected in the last 90 days.',
-      fix: 'The Instagram algorithm rewards consistency above all. 3–4 posts/week is the local business sweet spot. Batch-create content one day a month and schedule it out.',
-    },
-    {
-      label: 'Last post within 14 days',
-      pass: mostRecentDaysAgo !== null && mostRecentDaysAgo <= 14,
-      detail: mostRecentDaysAgo !== null ? `Last post was ${lastPostLabel}.` : 'Could not determine last post date.',
-      fix: 'A dormant account loses algorithmic reach fast. Post something today — even a quick behind-the-scenes clip takes 5 minutes and resets your distribution.',
-    },
-    {
-      label: 'Engagement rate ≥1% (avg: 1–3%)',
-      pass: engagementRate >= 1,
-      detail: engagementRate > 0
-        ? `Your engagement rate is ${engagementRate}% (industry avg for local business: 1–3%).`
-        : 'Not enough post data to calculate engagement rate.',
-      fix: 'Boost engagement by: (1) asking a question in every caption, (2) responding to every comment within 1 hour, (3) posting more Reels — they get 3–5× more reach than static images.',
-    },
-    {
-      label: 'Bio includes keywords + CTA',
-      pass: bioHasKeyword && bioHasCTA,
-      detail: bioHasKeyword && bioHasCTA
-        ? 'Bio has relevant keywords and a call to action.'
-        : `Bio is ${bioLength} characters. ${!bioHasKeyword ? 'Missing service/industry keyword.' : ''} ${!bioHasCTA ? 'Missing CTA (link, book, DM, free).' : ''}`,
-      fix: `Formula: [Who you serve] + [What you do] + [Location] + [CTA]. Example: “Helping Tampa businesses dominate Google Maps 📍 | Free SEO audit ↓”`,
-    },
-    {
-      label: 'Website link in bio',
-      pass: !!website,
-      detail: website ? `Links to: ${website.replace('https://','').replace('http://','').split('/')[0]}` : 'No website link found in bio.',
-      fix: 'Your bio link is the only clickable link on Instagram. It should go to a booking page, landing page, or your website. Use Linktree or Beacons if you have multiple destinations.',
-    },
-    {
-      label: '500+ followers',
-      pass: followers >= 500,
-      detail: `${followers.toLocaleString()} followers. ${followers >= 500 ? 'Above the 500 local authority threshold.' : `Need ${(500 - followers).toLocaleString()} more.`}`,
-      fix: 'Grow local followers by: (1) engaging with top local hashtags (#TampaBusiness, #YourCityEats, etc.), (2) tagging your location on every post, (3) collaborating with complementary local businesses on Reels.',
-    },
-    {
-      label: 'Has Instagram Highlights',
-      pass: highlightCount > 0,
-      detail: highlightCount > 0 ? `${highlightCount} highlight reel${highlightCount > 1 ? 's' : ''} set up.` : 'No Story Highlights found.',
-      fix: 'Highlights are the first thing profile visitors see. Create at least 3: “About Us”, “Services”, and “Reviews/Results” — these build instant trust before someone even scrolls.',
-    },
-    {
-      label: 'Professional/Creator account',
-      pass: isProfessional || isBusiness,
-      detail: isProfessional ? 'Set up as a Professional account — you have access to analytics.' : isBusiness ? 'Set up as a Business account.' : 'Personal account — no analytics access.',
-      fix: 'Switch to a Professional or Creator account (free). You get access to: post reach data, audience demographics, best posting times, and the ability to run ads.',
-    },
-  ];
-
-  const checksHtml = checks.map(c => `
-    <div class="ig-check ${c.pass ? 'pass' : 'fail'}">
-      <span class="ig-check-icon">${c.pass ? '✓' : '✗'}</span>
-      <div class="ig-check-text">
-        <span class="ig-check-label">${c.label}</span>
-        <span class="ig-check-detail">${c.detail}</span>
-        ${!c.pass ? `<span class="ig-check-fix">🐾 Fix: ${c.fix}</span>` : ''}
-      </div>
-    </div>`).join('');
-
-  // ── Content mix bar ──
-  const totalPosts = contentMix?.total || 0;
-  const contentMixHtml = totalPosts > 0 ? `
-    <div class="ig-content-mix">
-      <div class="ig-mix-label">Content Mix (last ${totalPosts} posts)</div>
-      <div class="ig-mix-bars">
-        ${contentMix.video > 0 ? `<div class="ig-mix-bar video" style="flex:${contentMix.video}"><span>🎥 Reels/Video (${contentMix.video})</span></div>` : ''}
-        ${contentMix.carousel > 0 ? `<div class="ig-mix-bar carousel" style="flex:${contentMix.carousel}"><span>🖼️ Carousels (${contentMix.carousel})</span></div>` : ''}
-        ${contentMix.image > 0 ? `<div class="ig-mix-bar image" style="flex:${contentMix.image}"><span>📸 Photos (${contentMix.image})</span></div>` : ''}
-      </div>
-      <p class="ig-mix-note">Reels get 3–5× more organic reach than static images. If you're not posting Reels, you're leaving free reach on the table.</p>
-    </div>` : '';
-
-  // ── Strategy tip (context-aware) ──
-  let strategyTip = '';
-  if (postFreqPerWeek === 0 && (mostRecentDaysAgo === null || mostRecentDaysAgo > 90)) {
-    strategyTip = `<strong>🚨 Dead account alert:</strong> No posts in the last 90 days. Instagram's algorithm has likely deprioritized @${username} entirely. The fastest recovery: post a Reel today, then commit to 3 posts/week for 30 days straight. Don't buy followers — buy time and consistency.`;
-  } else if (engagementRate > 0 && engagementRate < 1) {
-    strategyTip = `<strong>📉 Low engagement despite ${followers.toLocaleString()} followers:</strong> This usually means followers aren't genuinely local or interested. Don't chase vanity metrics. Focus on 3 things: local hashtags (#${(analysisData.city || 'YourCity').split(',')[0].replace(/\s+/g,'')}Business), location tags on every post, and ending every caption with a direct question.`;
-  } else if (postFreqPerWeek >= 3 && engagementRate >= 3) {
-    strategyTip = `<strong>📈 Strong foundation:</strong> Consistent posting + solid engagement rate is exactly the profile that converts to real business. Next level: add a lead magnet in bio ("Free audit ↓"), use Reels to demonstrate your work, and reply to every comment within 60 minutes to maximize algorithmic distribution.`;
-  } else {
-    strategyTip = `<strong>👃 Lola's read:</strong> Instagram doesn't directly move your Google rank — but a credible, active local profile signals authority to both humans and algorithms. Consistency beats virality every time. Pick 3 posts/week and commit for 90 days.`;
-  }
-
-  // ── Score bar ──
-  const scoreBarColor = igScore >= 75 ? 'var(--green)' : igScore >= 45 ? 'var(--amber)' : 'var(--red)';
-
-  results.innerHTML = `
-    <div class="ig-profile-header">
-      <div class="ig-handle-tag">
-        ${igData.profilePicUrl ? `<img src="${igData.profilePicUrl}" class="ig-avatar" alt="" onerror="this.style.display='none'" />` : ''}
-        <div>
-          <div class="ig-handle-name">@${username}</div>
-          ${fullName ? `<div class="ig-full-name">${fullName}</div>` : ''}
-        </div>
-      </div>
-      <div class="ig-score-wrap">
-        <div class="ig-score-ring">
-          <svg viewBox="0 0 60 60" width="60" height="60">
-            <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="5"/>
-            <circle cx="30" cy="30" r="24" fill="none" stroke="${scoreBarColor}" stroke-width="5"
-              stroke-dasharray="150.8" stroke-dashoffset="${150.8 - (150.8 * igScore / 100)}"
-              stroke-linecap="round" transform="rotate(-90 30 30)"
-              style="transition:stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1)"/>
-          </svg>
-          <div class="ig-score-center">
-            <span class="ig-score-num" style="color:${scoreBarColor}">${igScore}</span>
-          </div>
-        </div>
-        <span class="cat-status ${igGradeClass}">${igGrade}</span>
-      </div>
-    </div>
-    ${bio ? `<div class="ig-bio-block"><span class="ig-bio-icon">📝</span><p class="ig-bio">${bio.replace(/\n/g,'<br>')}</p>${website ? `<a href="${website}" class="ig-website-link" target="_blank" rel="noopener">🔗 ${website.replace('https://','').replace('http://','').replace(/\/$/,'')}</a>` : ''}</div>` : ''}
-    ${statsHtml}
-    ${contentMixHtml}
-    <div class="ig-section-head">Profile Audit — 8 Checks</div>
-    <div class="ig-checklist">${checksHtml}</div>
-    <div class="ig-tip"><p>${strategyTip}</p></div>
-    <div class="ig-upsell">
-      <span>📲 Want Ty's team to run your social + SEO together?</span>
-      <a href="https://www.tyalexandermedia.com/contact" class="btn-inline-cta" target="_blank">Book a Strategy Call →</a>
-    </div>`;
-}
-
-// ── SHOW FULL REPORT — purchase-first, no per-card calendar CTAs ─
+// ── SHOW FULL REPORT ───────────────────────────────────────────
 function showReport() {
   const { bizName, city, total, scores, issues, quickWins } = analysisData;
   const grade = getLetterGrade(total);
   const gradeColor = getScoreColor(total);
 
-  // ── Score ring ──
   const circ = 314;
   setTimeout(() => {
     const ring = $('report-ring-fill');
@@ -1164,18 +842,10 @@ function showReport() {
   }, 200);
   $('report-score-num').textContent = total;
 
-  // ── Grade pill ──
   const gradePill = $('rpt-grade-pill');
   const gradeLabels = { A: '🏆 Best in Show', B: '✅ Solid Foundation', C: '🐾 Needs Work', D: '⚠️ Needs Training', F: '🚨 Off the Leash' };
   gradePill.textContent = gradeLabels[grade] || grade;
   gradePill.className = 'rpt-grade-pill grade-' + grade.toLowerCase();
-
-  // ── Hero text ──
-  // Leads lost estimate based on score
-  const leadsLost = analysisData.revenueLeak
-    ? null  // use revenue from backend
-    : total < 25 ? '50–70' : total < 40 ? '35–50' : total < 60 ? '20–35' : total < 75 ? '10–20' : '3–10';
-  const leadsLostStr = leadsLost || (analysisData.revenueLeak ? `$${(analysisData.revenueLeak||0).toLocaleString()}/mo` : '20–35');
 
   const headlines = {
     A: `${bizName} is dialed in. Here's how to stay ahead.`,
@@ -1191,7 +861,6 @@ function showReport() {
   const rptMeta = $('rpt-meta');
   if (rptMeta) rptMeta.innerHTML = `<span>${bizName}</span><span class="rpt-dot">·</span><span>${city}</span><span class="rpt-dot">·</span><span>${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>`;
 
-  // ── Bento category grid ──
   const cats = [
     { emoji: '🌐', name: 'Site Health',    score: scores.siteHealth,    note: 'HTTPS · titles · schema' },
     { emoji: '📍', name: 'Local Presence', score: scores.localPresence, note: 'Phone · address · GBP' },
@@ -1220,38 +889,8 @@ function showReport() {
     }).join('');
   }
 
-  // ── Count fixable vs strategic issues ──
-  const fixableIssues  = issues.filter(i => i.ctaType === 'quickfix');
+  const fixableIssues   = issues.filter(i => i.ctaType === 'quickfix');
   const strategicIssues = issues.filter(i => i.ctaType === 'consult');
-
-  // ── Issues — diagnosis only, no per-card CTAs ──
-  // GBP Gap Hero Callout — fires when local presence is the primary gap
-  const localCat = categories && categories.find(c => c.key === 'local_presence');
-  const otherAvg = categories
-    ? categories.filter(c => c.key !== 'local_presence').reduce((sum,c) => sum + c.score, 0) / 4
-    : 0;
-  const gbpCalloutEl = document.getElementById('gbp-gap-callout');
-  if (gbpCalloutEl) {
-    if (localCat && localCat.score < 30 && otherAvg > 60) {
-      // Site is solid but local presence is killing them
-      gbpCalloutEl.innerHTML = `
-        <div class="gbp-gap-hero">
-          <div class="gbp-gap-eyebrow eyebrow">The Real Problem</div>
-          <h3 class="gbp-gap-heading font-display">Your site is solid. Google just doesn't know you're in ${city}.</h3>
-          <p class="gbp-gap-body">Site Health, Content, and Mobile are all strong. The entire gap is local visibility — no GBP in the Local Pack, no city signals on your pages. That's the $500/mo you're losing. Fix the local signals and you're on page 1.</p>
-          <div class="gbp-gap-scores">
-            <div class="gbp-score-item gbp-score-good"><span class="font-mono">85</span>Site Health</div>
-            <div class="gbp-score-item gbp-score-good"><span class="font-mono">100</span>Content</div>
-            <div class="gbp-score-item gbp-score-good"><span class="font-mono">80</span>Mobile</div>
-            <div class="gbp-score-item gbp-score-bad"><span class="font-mono">${localCat.score}</span>Local</div>
-          </div>
-          <a href="https://www.tyalexandermedia.com/contact?offer=retainer&ref=report-callout" class="gbp-gap-cta" target="_blank">
-            Let Ty's Team Fix Your Local Presence ->
-          </a>
-        </div>`;
-      gbpCalloutEl.classList.remove('hidden');
-    }
-  }
 
   const issuesEl = $('issues-list');
   if (issuesEl) {
@@ -1274,17 +913,14 @@ function showReport() {
     }
   }
 
-  // ── QUICK FIX OFFER — injected between issues and quick wins ──
-  // Only show if there are fixable items
-  const offerEl = $('rpt-quick-fix-offer');
-  if (offerEl) {
-    if (fixableIssues.length > 0) {
-      offerEl.classList.remove('hidden');
-      offerEl.innerHTML = buildQuickFixOffer(fixableIssues.length, total, grade, bizName);
-    }
-  }
+  // ── REVENUE BANNER — populated with real score data ──────────
+  populateRevenueBanner(total, analysisData.bizType, analysisData.city);
 
-  // ── Quick Wins — what's possible, no tool links ──
+  // ── URGENCY LINE — populated with real competitor name ────────
+  const comp = analysisData.competitors && analysisData.competitors[0];
+  const compName = comp?.name || comp?.business_name || comp?.title || null;
+  populateUrgencyLine(compName, analysisData.city, analysisData.bizType);
+
   const winsEl = $('quickwins-list');
   if (winsEl) {
     winsEl.innerHTML = quickWins.map((win, i) => `
@@ -1297,43 +933,81 @@ function showReport() {
               <span class="rpt-win-badge">${win.effort} · ${win.time}</span>
             </div>
             <p class="rpt-win-why">${win.why}</p>
-            <p class="rpt-win-action">${win.what}</p>
+            <p class="rpt-win-action">${win.what || win.action || ''}</p>
           </div>
         </div>
       </div>`).join('');
   }
 
-  // ── Bottom upsell — after purchase context ──
   const upsellEl = $('rpt-upsell');
   if (upsellEl) {
     upsellEl.innerHTML = buildBottomUpsell(total, grade, strategicIssues.length);
   }
 
-  // ── Competitor comparison ──
   if (analysisData.competitors && analysisData.competitors.length > 0) {
     renderCompetitors(analysisData.competitors, analysisData.city, analysisData.bizName);
   }
 
-  // ── GBP before/after ──
-  renderGBPComparison(analysisData.bizName, analysisData.city, siteData);
+  renderGBPComparison(analysisData.bizName, analysisData.city, analysisData.siteData);
 
-  // Instagram removed
-
-  injectUrgencyCompetitor();
   injectReportOffers();
   goToStep('step-report');
 }
 
-// ── QUICK FIX OFFER CARD ──────────────────────────────────────────
-// The one purchase moment — shown right after issues, before wins.
-// BEACONS_LINK: replace with your actual Beacons payment page URL.
-// ── Payment destination — update to your Beacons/Stripe checkout URL ──
-// For now routes to tyalexandermedia.com contact with pre-filled context.
-// Swap BEACONS_QUICK_FIX_URL with your actual Beacons payment link when live.
-const BEACONS_QUICK_FIX_URL = 'https://www.tyalexandermedia.com/contact';
+// ── REVENUE BANNER — populates with real score + biz type ─────
+function populateRevenueBanner(score, businessType, city) {
+  let leadsRange, dollarRange;
+
+  if (score <= 25)      { leadsRange = '50–70 calls'; dollarRange = '$15,000–$56,000'; }
+  else if (score <= 40) { leadsRange = '35–50 calls'; dollarRange = '$10,500–$40,000'; }
+  else if (score <= 60) { leadsRange = '20–35 calls'; dollarRange = '$6,000–$28,000'; }
+  else if (score <= 75) { leadsRange = '10–20 calls'; dollarRange = '$3,000–$16,000'; }
+  else                  { leadsRange = '3–10 calls';  dollarRange = '$900–$8,000'; }
+
+  const jobValueMap = {
+    softwash:    '$300–$800/job', contractor:  '$300–$800/job',
+    hvac:        '$200–$1,200/job', plumbing:  '$150–$800/job',
+    roofing:     '$500–$15,000/job', landscaping: '$200–$600/job',
+    electrical:  '$150–$600/job', cleaning:    '$100–$400/job',
+    restaurant:  '$30–$100/visit', salon:       '$50–$200/visit',
+    medical:     '$200–$800/visit', fitness:    '$30–$150/visit',
+    retail:      '$50–$300/visit', default:     '$200–$600/job',
+  };
+  const jobValue = jobValueMap[businessType] || '$200–$600/job';
+
+  const revNumber  = document.getElementById('rev-number');
+  const revSub     = document.getElementById('rev-score-sub');
+  const revDollars = document.getElementById('rev-dollars');
+
+  if (revNumber)  revNumber.textContent  = '~' + leadsRange;
+  if (revSub)     revSub.textContent     = 'Based on your score of ' + score + '/100 · avg ' + jobValue;
+  if (revDollars) revDollars.textContent = dollarRange;
+}
+
+// ── URGENCY LINE — competitor-specific ────────────────────────
+function populateUrgencyLine(competitorName, city, bizType) {
+  const urgencyEl = document.getElementById('urgency-competitor');
+  if (!urgencyEl) return;
+
+  const serviceMap = {
+    softwash: 'soft wash', contractor: 'home services', hvac: 'HVAC',
+    plumbing: 'plumbing', roofing: 'roofing', landscaping: 'landscaping',
+    electrical: 'electrical', cleaning: 'cleaning',
+  };
+  const service = serviceMap[bizType] || 'your services';
+  const displayCity = (city || '').split(',')[0];
+
+  if (competitorName) {
+    urgencyEl.textContent = `${competitorName} is ranking for "${service} ${displayCity}" right now. Every day you wait, they get another call that should have been yours.`;
+  } else {
+    urgencyEl.textContent = `Every day you wait, a competitor in ${displayCity} is picking up the phone you should be answering.`;
+  }
+}
+
+// ── $97 QUICK FIX OFFER ────────────────────────────────────────
+const BEACONS_QUICK_FIX_URL = 'https://www.tyalexandermedia.com/contact?offer=quick-fix';
 
 function buildQuickFixOffer(fixCount, total, grade, bizName) {
-  // Grade-aware urgency
   const urgency = total < 40
     ? `Lola found <strong>${fixCount} things we can fix on your site within 24 hours</strong> — no call needed, no waiting around.`
     : total < 65
@@ -1342,43 +1016,35 @@ function buildQuickFixOffer(fixCount, total, grade, bizName) {
 
   return `
     <div class="qf-offer">
-      <div class="qf-offer-top">
-        <div class="qf-offer-left">
-          <div class="qf-eyebrow">⚡ Instant Fix Available</div>
-          <h3 class="qf-title">The Quick Fix Package</h3>
-          <p class="qf-desc">${urgency}</p>
-          <div class="qf-deliverables">
-            <div class="qf-item">✓ Title tag optimized for your city + service</div>
-            <div class="qf-item">✓ Meta description written to convert clicks</div>
-            <div class="qf-item">✓ Schema markup added to your site</div>
-            <div class="qf-item">✓ Open Graph tags for social sharing</div>
-            <div class="qf-item">✓ Any other quick wins from your report</div>
-          </div>
-          <div class="qf-timeline">⏱ 24-hr turnaround · We reach out for site access after payment</div>
+      <div class="qf-offer-inner">
+        <div class="qf-eyebrow">⚡ Instant Fix Available</div>
+        <h3 class="qf-title">The Quick Fix Package</h3>
+        <p class="qf-desc">${urgency}</p>
+        <div class="qf-deliverables">
+          <div class="qf-item">Title tag optimized for your city + service</div>
+          <div class="qf-item">Meta description written to convert clicks</div>
+          <div class="qf-item">Schema markup added to your site</div>
+          <div class="qf-item">Open Graph tags for social sharing</div>
         </div>
-        <div class="qf-offer-right">
-          <div class="qf-price-block">
-            <span class="qf-price">$97</span>
-            <span class="qf-price-sub">one-time</span>
-          </div>
-          <button class="qf-buy-btn" id="qf-buy-btn" onclick="handleQuickFixClick(event)">
-            Get It Fixed →
-          </button>
-          <p class="qf-guarantee">🐾 Not satisfied? Full refund. No questions.</p>
+        <div class="qf-price-row">
+          <span class="qf-price">$97</span>
+          <div><div class="qf-price-note">one-time</div><div class="qf-price-anchor">Agencies charge $500+</div></div>
         </div>
+        <div class="qf-timeline">⏱ 24-hr turnaround · No login needed until after payment</div>
+        <button class="btn btn-cta" id="qf-buy-btn" onclick="handleQuickFixClick(event)" style="margin-top:16px">
+          Fix My Site for $97 →
+        </button>
+        <p class="qf-guarantee">🐾 Not satisfied? Full refund. No questions.</p>
       </div>
     </div>`;
 }
 
-// ── PURCHASE INTENT HANDLER ───────────────────────────────────────
-// 1. Notifies Ty instantly via email with full lead context
-// 2. Redirects user to payment destination
+// ── PURCHASE INTENT HANDLER ────────────────────────────────────
 async function handleQuickFixClick(evt) {
   if (evt) evt.preventDefault();
   const btn = document.getElementById('qf-buy-btn');
   if (btn) { btn.textContent = 'Opening…'; btn.disabled = true; }
 
-  // Non-blocking — fire and forget
   try {
     const { email, bizName, city, website, total, issues } = analysisData || {};
     if (email && bizName) {
@@ -1395,16 +1061,15 @@ async function handleQuickFixClick(evt) {
     }
   } catch(e) { /* non-blocking */ }
 
-  // Small delay so fetch fires, then open payment page
   await sleep(350);
   window.open(BEACONS_QUICK_FIX_URL, '_blank');
-  if (btn) { btn.textContent = 'Get It Fixed →'; btn.disabled = false; }
+  if (btn) { btn.textContent = 'Fix My Site for $97 →'; btn.disabled = false; }
 }
 
-// ── BOTTOM UPSELL — shown AFTER the quick fix offer ──────────────
+// ── BOTTOM UPSELL ──────────────────────────────────────────────
 function buildBottomUpsell(total, grade, strategicCount) {
   const note = strategicCount > 0
-    ? `Beyond the quick wins, Lola flagged <strong style="color:var(--t1)">${strategicCount} strategic issues</strong> that need a deeper approach — content, local authority, competitive positioning. That's the conversation for a strategy call.`
+    ? `Beyond the quick wins, Lola flagged <strong style="color:var(--text)">${strategicCount} strategic issues</strong> that need a deeper approach — content, local authority, competitive positioning. That's the conversation for a strategy call.`
     : `The quick wins are the foundation. Dominating your local market from here is a strategy conversation — that's what the call is for.`;
 
   return `
@@ -1413,11 +1078,11 @@ function buildBottomUpsell(total, grade, strategicCount) {
       <div class="rpt-upsell-eyebrow">After your quick fixes are live —</div>
       <h3 class="rpt-upsell-h3">Ready to dominate your market, not just fix your score?</h3>
       <p class="rpt-upsell-body">${note}</p>
-      <div class="rpt-offer-grid rpt-offer-grid--single">
+      <div class="rpt-offer-grid">
         <div class="rpt-offer rpt-offer--featured" style="max-width:380px;margin:0 auto">
           <div class="rpt-offer-tag featured-tag">Free · After Quick Fix</div>
           <div class="rpt-offer-name">Strategy Call with Ty</div>
-          <p class="rpt-offer-desc">Once the quick fixes are live, we'll review your results together and map out what it actually takes to own page 1 in your market. This is where the real growth plan gets built.</p>
+          <p class="rpt-offer-desc">Once the quick fixes are live, we'll review your results together and map out what it actually takes to own page 1 in your market.</p>
           <a href="https://www.tyalexandermedia.com/contact" class="rpt-offer-btn rpt-offer-btn--gold" target="_blank">Book Your Strategy Call →</a>
         </div>
       </div>
@@ -1426,11 +1091,11 @@ function buildBottomUpsell(total, grade, strategicCount) {
         <div class="rpt-stat"><span class="rpt-stat-num">#1</span><span class="rpt-stat-label">result gets 10× more clicks than #10</span></div>
         <div class="rpt-stat"><span class="rpt-stat-num">28%</span><span class="rpt-stat-label">of local searches lead to a purchase within 24 hrs</span></div>
       </div>
-      <p class="rpt-upsell-note">Ty Alexander Media · Tampa Bay, FL · <a href="tel:+17273006573" style="color:var(--gold-400);text-decoration:none">727-300-6573</a></p>
+      <p class="rpt-upsell-note">Ty Alexander Media · Tampa Bay, FL · <a href="tel:+17273006573" style="color:var(--gold);text-decoration:none">727-300-6573</a></p>
     </div>`;
 }
 
-// ── HELPERS ───────────────────────────────────────────────────
+// ── HELPERS ────────────────────────────────────────────────────
 function getLetterGrade(score) {
   if (score >= 85) return 'A';
   if (score >= 70) return 'B';
@@ -1448,70 +1113,17 @@ function getGradeLabel(score) {
 }
 
 function getScoreColor(score) {
-  if (score >= 70) return 'var(--success)';
-  if (score >= 45) return 'var(--warning)';
-  return 'var(--error)';
+  if (score >= 70) return 'var(--green)';
+  if (score >= 45) return 'var(--medium)';
+  return 'var(--critical)';
 }
 
-// ── RESTART ───────────────────────────────────────────────────
-$('restart-btn').addEventListener('click', () => {
-  analysisData = {};
-  $('seo-form').reset();
-  goToStep('step-input');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-
-
-// ── CTA BUTTON PULSE (every 4s if not clicked) ─────────────────────────────
-(function() {
-  const ctaBtn = document.getElementById('analyze-btn');
-  if (!ctaBtn) return;
-  let pulseTimer = null;
-  const startPulse = () => {
-    clearTimeout(pulseTimer);
-    pulseTimer = setTimeout(() => {
-      ctaBtn.classList.add('pulse');
-    }, 4000);
-  };
-  ctaBtn.addEventListener('click', () => {
-    ctaBtn.classList.remove('pulse');
-    clearTimeout(pulseTimer);
-  });
-  startPulse();
-})();
-
-// ── $400 UPSELL SCROLL REVEAL ───────────────────────────────────────────────
-(function() {
-  const upsell = document.getElementById('upsell-400');
-  if (!upsell) return;
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        upsell.classList.add('visible');
-        observer.unobserve(upsell);
-      }
-    });
-  }, { threshold: 0.1 });
-  observer.observe(upsell);
-})();
-
-// ── INJECT COMPETITOR NAME INTO URGENCY LINE ────────────────────────────────
-function injectUrgencyCompetitor() {
-  const el = document.getElementById('urgency-competitor');
-  if (!el) return;
-  const comp = analysisData.competitors && analysisData.competitors[0];
-  const name = comp?.name || comp?.business_name;
-  if (name) {
-    el.textContent = `Every day you wait is another day ${name} gets that call.`;
-  }
-}
-
-// ── DYNAMIC OFFER INJECTION ($97 + $400 with real score data) ─────────────
+// ── INJECT DYNAMIC OFFER DATA ──────────────────────────────────
 function injectReportOffers() {
-  const { bizName, city, total, grade: storedGrade, gradeLabel, revenueLeak, competitors } = analysisData;
+  const { bizName, city, total, grade: storedGrade, revenueLeak, competitors } = analysisData;
   const grade = storedGrade || getLetterGrade(total);
   const comp  = competitors && competitors[0];
-  const compName = comp?.name || comp?.business_name || null;
+  const compName = comp?.name || comp?.business_name || comp?.title || null;
 
   const leadsRanges = [[25,'50–70'],[40,'35–50'],[60,'20–35'],[75,'10–20'],[101,'3–10']];
   const leadsStr = leadsRanges.find(([cap]) => total < cap)?.[1] || '3–10';
@@ -1522,10 +1134,8 @@ function injectReportOffers() {
   const emoji = gradeEmoji[grade] || '🐾';
   const gname = gradeName[grade]  || 'Needs Work';
 
-  // ── Mini score badge injected at top of $97 card ──
   const card97 = document.querySelector('.offer-97');
   if (card97 && total) {
-    // Remove any existing badge
     const existing = card97.querySelector('.offer-score-badge');
     if (existing) existing.remove();
 
@@ -1539,24 +1149,10 @@ function injectReportOffers() {
       </div>`;
     card97.insertBefore(badge, card97.firstChild);
 
-    // Update heading with biz name
     const h3 = card97.querySelector('.offer-heading');
     if (h3) h3.textContent = `Fix ${bizName}'s SEO — $97`;
-
-    // Update anchor copy
-    const anchor = card97.querySelector('.offer-anchor');
-    if (anchor) anchor.textContent = `Your score is a ${total}/100. The agencies beating you paid $500–1,500 for an audit like this. Lola's full fix playbook is $97. One time. Yours forever.`;
-
-    // Urgency line with competitor
-    const urgEl = document.getElementById('urgency-competitor');
-    if (urgEl) {
-      urgEl.textContent = compName
-        ? `Every day you wait is another day ${compName} gets that call instead of you.`
-        : `Every day you wait, a competitor in ${city} is picking up the phone you should be answering.`;
-    }
   }
 
-  // ── $400 card: inject score context ──
   const card400 = document.getElementById('upsell-400');
   if (card400 && total) {
     const existing400 = card400.querySelector('.offer-score-badge');
@@ -1572,12 +1168,38 @@ function injectReportOffers() {
       </div>`;
     card400.insertBefore(badge400, card400.firstChild);
 
-    // Update heading
     const h3_400 = card400.querySelector('.offer-heading');
     if (h3_400) h3_400.textContent = `Let Ty's Team Fix ${bizName}'s SEO`;
-
-    // Perception line with score baked in
-    const perc = card400.querySelector('.offer-perception');
-    if (perc) perc.textContent = `Score was ${total}/100. Let's get you to 80+.`;
   }
 }
+
+// ── RESTART ────────────────────────────────────────────────────
+$('restart-btn').addEventListener('click', () => {
+  analysisData = {};
+  $('seo-form').reset();
+  goToStep('step-input');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ── CTA PULSE ──────────────────────────────────────────────────
+(function() {
+  const ctaBtn = document.getElementById('analyze-btn');
+  if (!ctaBtn) return;
+  let pulseTimer = null;
+  const startPulse = () => {
+    clearTimeout(pulseTimer);
+    pulseTimer = setTimeout(() => { ctaBtn.classList.add('pulse'); }, 4000);
+  };
+  ctaBtn.addEventListener('click', () => { ctaBtn.classList.remove('pulse'); clearTimeout(pulseTimer); });
+  startPulse();
+})();
+
+// ── $400 SCROLL REVEAL ─────────────────────────────────────────
+(function() {
+  const upsell = document.getElementById('upsell-400');
+  if (!upsell) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { upsell.classList.add('visible'); observer.unobserve(upsell); } });
+  }, { threshold: 0.1 });
+  observer.observe(upsell);
+})();
