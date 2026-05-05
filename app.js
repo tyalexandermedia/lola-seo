@@ -952,6 +952,35 @@ function showReport() {
 
   injectReportOffers();
   goToStep('step-report');
+   // Add these two functions
+function populateRevenueCalculator(data) {
+  const revenue = data.revenue_leak || {};
+  document.getElementById('monthly-leak').textContent = 
+    (revenue.monthly_leak || 0).toLocaleString();
+  document.getElementById('annual-leak').textContent = 
+    (revenue.annual_leak || 0).toLocaleString();
+  document.getElementById('missed-calls').textContent = 
+    revenue.missed_calls_per_month || 0;
+  document.getElementById('job-value').textContent = 
+    (revenue.avg_job_value || 500).toLocaleString();
+  document.getElementById('recovery-potential').textContent = 
+    (revenue.recovery_potential || 0).toLocaleString();
+  document.getElementById('recovery-calls').textContent = 
+    revenue.recovery_calls || 0;
+  document.getElementById('payback-months').textContent = 
+    revenue.payback_months || 0;
+}
+
+function populateUrgencyBanner(data) {
+  const monthlyLeak = data.revenue_leak?.monthly_leak || 0;
+  const dailyLeak = Math.round(monthlyLeak / 30);
+  document.getElementById('monthly-leak-cta').textContent = monthlyLeak.toLocaleString();
+  document.getElementById('daily-leak').textContent = dailyLeak.toLocaleString();
+}
+
+// Call these after goToStep:
+populateRevenueCalculator(analysisData);
+populateUrgencyBanner(analysisData);
 }
 
 // ── REVENUE BANNER — populates with real score + biz type ─────
