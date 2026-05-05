@@ -1231,4 +1231,35 @@ $('restart-btn').addEventListener('click', () => {
     entries.forEach(e => { if (e.isIntersecting) { upsell.classList.add('visible'); observer.unobserve(upsell); } });
   }, { threshold: 0.1 });
   observer.observe(upsell);
-})();
+// ── REVENUE CALCULATOR FUNCTIONS ──────────────────────────
+
+function populateRevenueCalculator(data) {
+  const revenue = data.revenue_leak || {};
+  
+  const monthlyLeak = document.getElementById('monthly-leak');
+  const annualLeak = document.getElementById('annual-leak');
+  const missedCalls = document.getElementById('missed-calls');
+  const jobValue = document.getElementById('job-value');
+  const recoveryPotential = document.getElementById('recovery-potential');
+  const recoveryCalls = document.getElementById('recovery-calls');
+  const paybackMonths = document.getElementById('payback-months');
+  
+  if (monthlyLeak) monthlyLeak.textContent = (revenue.monthly_leak || 0).toLocaleString();
+  if (annualLeak) annualLeak.textContent = (revenue.annual_leak || 0).toLocaleString();
+  if (missedCalls) missedCalls.textContent = revenue.missed_calls_per_month || 0;
+  if (jobValue) jobValue.textContent = (revenue.avg_job_value || 500).toLocaleString();
+  if (recoveryPotential) recoveryPotential.textContent = (revenue.recovery_potential || 0).toLocaleString();
+  if (recoveryCalls) recoveryCalls.textContent = revenue.recovery_calls || 0;
+  if (paybackMonths) paybackMonths.textContent = revenue.payback_months || 0;
+}
+
+function populateUrgencyBanner(data) {
+  const monthlyLeak = data.revenue_leak?.monthly_leak || 0;
+  const dailyLeak = Math.round(monthlyLeak / 30);
+  
+  const ctaMonthly = document.getElementById('monthly-leak-cta');
+  const ctaDaily = document.getElementById('daily-leak');
+  
+  if (ctaMonthly) ctaMonthly.textContent = monthlyLeak.toLocaleString();
+  if (ctaDaily) ctaDaily.textContent = dailyLeak.toLocaleString();
+}})();
