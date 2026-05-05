@@ -940,7 +940,82 @@ function showReport() {
   }
 
   const upsellEl = $('rpt-upsell');
-  if (upsellEl) {
+ // ── ADD REVENUE SECTION ──────────────────────────────────
+const revenueSection = document.createElement('div');
+revenueSection.id = 'revenue-display';
+revenueSection.innerHTML = `
+<div style="background: linear-gradient(135deg, #fff4e6 0%, #ffe6cc 100%); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #ff6b35;">
+  <h3 style="color: #ff6b35; margin-top: 0; margin-bottom: 15px;">💰 Your Monthly Revenue Loss</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+    <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+      <div style="font-size: 12px; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 8px;">This Month</div>
+      <div style="font-size: 28px; font-weight: bold; color: #ff6b35; margin: 8px 0;">
+        $<span id="monthly-leak">0</span>
+      </div>
+      <div style="font-size: 12px; color: #999;">
+        <span id="missed-calls">0</span> missed calls @ $<span id="job-value">500</span>/job
+      </div>
+    </div>
+    <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+      <div style="font-size: 12px; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 8px;">This Year</div>
+      <div style="font-size: 28px; font-weight: bold; color: #8b0000; margin: 8px 0;">
+        $<span id="annual-leak">0</span>
+      </div>
+      <div style="font-size: 12px; color: #999;">
+        That's a car payment every month
+      </div>
+    </div>
+  </div>
+  <div style="background: #f0f8f0; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 3px solid #2ecc71;">
+    <div style="font-size: 12px; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 8px;">Recovery Potential</div>
+    <div style="font-size: 20px; font-weight: bold; color: #2ecc71; margin: 8px 0;">
+      +$<span id="recovery-potential">0</span>/month (if you improve)
+    </div>
+    <div style="font-size: 12px; color: #666;">
+      That's <span id="recovery-calls">0</span> additional calls/month. <strong>Payback in <span id="payback-months">0</span> months</strong> with Lola's $400/month service.
+    </div>
+  </div>
+</div>
+`;
+
+// Insert revenue section after categories
+const categoriesGrid = $('categories-grid');
+if (categoriesGrid && categoriesGrid.parentNode) {
+  categoriesGrid.parentNode.insertBefore(revenueSection, categoriesGrid.nextSibling);
+}
+
+// ── ADD URGENCY BANNER ───────────────────────────────────
+const urgencyBanner = document.createElement('div');
+urgencyBanner.id = 'urgency-banner';
+urgencyBanner.innerHTML = `
+<div style="background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%); color: white; padding: 20px; border-radius: 12px; margin: 20px 0; text-align: center;">
+  <h3 style="margin-top: 0; margin-bottom: 10px;">Stop losing $<span id="monthly-leak-cta">0</span>/month</h3>
+  <p style="margin: 10px 0; font-size: 14px;">
+    Your competitors are ranking above you <strong>right now</strong>. Every day costs you an average of $<span id="daily-leak">0</span>.
+  </p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0;">
+    <a href="https://www.tyalexandermedia.com/contact?offer=audit-fix" 
+       style="background: white; color: #ff6b35; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; cursor: pointer;">
+      👉 Get It Fixed ($1,500)
+    </a>
+    <a href="https://calendly.com/ty/lola-strategy-call" 
+       style="background: rgba(255,255,255,0.2); color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; border: 2px solid white; cursor: pointer;">
+      📞 Schedule Free Call
+    </a>
+  </div>
+</div>
+`;
+
+// Insert after urgency line (if exists)
+const urgencyLine = document.getElementById('urgency-competitor');
+if (urgencyLine && urgencyLine.parentNode) {
+  urgencyLine.parentNode.insertBefore(urgencyBanner, urgencyLine.nextSibling);
+} else {
+  // If urgency line doesn't exist, insert before upsell
+  if (upsellEl && upsellEl.parentNode) {
+    upsellEl.parentNode.insertBefore(urgencyBanner, upsellEl);
+  }
+} if (upsellEl) {
     upsellEl.innerHTML = buildBottomUpsell(total, grade, strategicIssues.length);
   }
 
