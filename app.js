@@ -1015,7 +1015,9 @@ if (urgencyLine && urgencyLine.parentNode) {
   if (upsellEl && upsellEl.parentNode) {
     upsellEl.parentNode.insertBefore(urgencyBanner, upsellEl);
   }
-} if (upsellEl) {
+} if (upsellEl) {// Populate the revenue calculator
+populateRevenueCalculator(analysisData);
+populateUrgencyBanner(analysisData);
     upsellEl.innerHTML = buildBottomUpsell(total, grade, strategicIssues.length);
   }
 
