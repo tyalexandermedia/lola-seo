@@ -1,12 +1,10 @@
 // ============================================================
-// LOLA SEO — COMPLETE app.js
-// Copy entire file → Paste into GitHub → Done
+// LOLA SEO — MINIMAL FRICTION FORM
+// 4 fields only. Fastest path to audit.
 // ============================================================
 
 const API_URL = "https://web-production-e4bd3.up.railway.app";
 let analysisData = null;
-
-// ── INITIALIZATION ──────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("audit-form");
@@ -16,21 +14,21 @@ document.addEventListener("DOMContentLoaded", function () {
   goToStep("step-form");
 });
 
-// ── FORM SUBMISSION ─────────────────────────────────────────
-
 async function handleFormSubmit(e) {
   e.preventDefault();
 
-  const businessName = document.getElementById("business-name").value.trim();
-  const website = document.getElementById("website").value.trim();
-  const city = document.getElementById("city").value.trim();
   const businessType = document.getElementById("business-type").value;
+  const website = document.getElementById("website").value.trim();
+  const serviceArea = document.getElementById("service-area").value.trim();
   const email = document.getElementById("email").value.trim();
 
-  if (!businessName || !website || !city || !email) {
+  if (!businessType || !website || !serviceArea || !email) {
     alert("Please fill in all fields.");
     return;
   }
+
+  // Extract business name from service area or website
+  const businessName = serviceArea.split(",")[0].trim() || website.split(".")[0];
 
   goToStep("step-loading");
   updateLoadingHeadline();
@@ -42,7 +40,7 @@ async function handleFormSubmit(e) {
       body: JSON.stringify({
         business_name: businessName,
         website: website,
-        city: city,
+        city: serviceArea,
         business_type: businessType,
         email: email,
       }),
@@ -60,8 +58,6 @@ async function handleFormSubmit(e) {
     goToStep("step-form");
   }
 }
-
-// ── LOADING ANIMATION ───────────────────────────────────────
 
 function updateLoadingHeadline() {
   const headlines = [
@@ -81,8 +77,6 @@ function updateLoadingHeadline() {
   }, 2000);
 }
 
-// ── EMAIL STEP ──────────────────────────────────────────────
-
 function goToEmail() {
   const emailBtn = document.getElementById("view-report-btn");
   emailBtn.disabled = true;
@@ -94,8 +88,6 @@ function goToEmail() {
     emailBtn.textContent = "View My Report";
   }, 1500);
 }
-
-// ── REPORT STEP ─────────────────────────────────────────────
 
 function goToStep(step) {
   document.querySelectorAll("[id^='step-']").forEach((el) => {
@@ -110,8 +102,6 @@ function goToStep(step) {
     showReport();
   }
 }
-
-// ── SHOW REPORT ─────────────────────────────────────────────
 
 function showReport() {
   const container = document.getElementById("report-container");
@@ -130,7 +120,6 @@ function showReport() {
     categories
   } = analysisData;
 
-  // ── HEADER ──────────────────────────────────────────────
   const header = document.createElement('div');
   header.innerHTML = `
     <div style="text-align: center; margin-bottom: 40px;">
@@ -144,7 +133,6 @@ function showReport() {
   `;
   container.appendChild(header);
 
-  // ── REVENUE LEAK (THE HOOK) ─────────────────────────────
   const revenueSection = document.createElement('div');
   revenueSection.innerHTML = `
     <div style="background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%); color: white; padding: 30px; border-radius: 12px; margin: 30px 0; text-align: center;">
@@ -169,7 +157,6 @@ function showReport() {
   `;
   container.appendChild(revenueSection);
 
-  // ── SCORE BREAKDOWN ──────────────────────────────────────
   const breakdown = document.createElement('div');
   breakdown.innerHTML = `
     <div style="margin: 30px 0;">
@@ -200,7 +187,6 @@ function showReport() {
   `;
   container.appendChild(breakdown);
 
-  // ── BUSINESS INFO (GBP DATA) ────────────────────────────
   if (business_info && business_info.ok) {
     const gbpSection = document.createElement('div');
     gbpSection.innerHTML = `
@@ -231,7 +217,6 @@ function showReport() {
     container.appendChild(gbpSection);
   }
 
-  // ── COMPETITORS (RANKING COMPARISON) ────────────────────
   if (competitors && competitors.length > 0) {
     const compSection = document.createElement('div');
     compSection.innerHTML = `
@@ -256,7 +241,6 @@ function showReport() {
     container.appendChild(compSection);
   }
 
-  // ── RECOVERY POTENTIAL ──────────────────────────────────
   const recoverySection = document.createElement('div');
   recoverySection.innerHTML = `
     <div style="background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%); color: white; padding: 25px; border-radius: 12px; margin: 30px 0; text-align: center;">
@@ -272,7 +256,6 @@ function showReport() {
   `;
   container.appendChild(recoverySection);
 
-  // ── CTA: FREE CALL + RETAINER ───────────────────────────
   const cta = document.createElement('div');
   cta.innerHTML = `
     <div style="background: rgba(255,107,53,0.1); padding: 30px; border-radius: 12px; margin: 30px 0; text-align: center; border: 2px solid #FF6B35;">
@@ -302,7 +285,6 @@ function showReport() {
   `;
   container.appendChild(cta);
 
-  // ── BOTTOM CTA ──────────────────────────────────────────
   const bottomCta = document.createElement('div');
   bottomCta.innerHTML = `
     <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 30px; border-radius: 12px; margin: 30px 0; text-align: center; border: 2px solid #FFD700;">
