@@ -1,10 +1,123 @@
 // ============================================================
-// LOLA REPORT — REDESIGNED (Free Call → $600/mo Retainer)
+// LOLA SEO — COMPLETE app.js
+// Copy entire file → Paste into GitHub → Done
 // ============================================================
 
-// UPDATE app.js — Replace the report section HTML with this
+const API_URL = "https://web-production-e4bd3.up.railway.app";
+let analysisData = null;
+
+// ── INITIALIZATION ──────────────────────────────────────────
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("audit-form");
+  if (form) {
+    form.addEventListener("submit", handleFormSubmit);
+  }
+  goToStep("step-form");
+});
+
+// ── FORM SUBMISSION ─────────────────────────────────────────
+
+async function handleFormSubmit(e) {
+  e.preventDefault();
+
+  const businessName = document.getElementById("business-name").value.trim();
+  const website = document.getElementById("website").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const businessType = document.getElementById("business-type").value;
+  const email = document.getElementById("email").value.trim();
+
+  if (!businessName || !website || !city || !email) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  goToStep("step-loading");
+  updateLoadingHeadline();
+
+  try {
+    const response = await fetch(`${API_URL}/audit`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        business_name: businessName,
+        website: website,
+        city: city,
+        business_type: businessType,
+        email: email,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Audit failed. Try again.");
+    }
+
+    analysisData = await response.json();
+    goToStep("step-email");
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Something went wrong. Please try again.");
+    goToStep("step-form");
+  }
+}
+
+// ── LOADING ANIMATION ───────────────────────────────────────
+
+function updateLoadingHeadline() {
+  const headlines = [
+    "🐾 Lola is on the scent...",
+    "📊 Analyzing your SEO...",
+    "💰 Calculating your revenue loss...",
+    "🔍 Scanning for gaps...",
+    "⚡ Almost done...",
+  ];
+
+  let index = 0;
+  const headlineEl = document.getElementById("loading-headline");
+
+  setInterval(() => {
+    headlineEl.textContent = headlines[index % headlines.length];
+    index++;
+  }, 2000);
+}
+
+// ── EMAIL STEP ──────────────────────────────────────────────
+
+function goToEmail() {
+  const emailBtn = document.getElementById("view-report-btn");
+  emailBtn.disabled = true;
+  emailBtn.textContent = "Sending...";
+
+  setTimeout(() => {
+    goToStep("step-report");
+    emailBtn.disabled = false;
+    emailBtn.textContent = "View My Report";
+  }, 1500);
+}
+
+// ── REPORT STEP ─────────────────────────────────────────────
+
+function goToStep(step) {
+  document.querySelectorAll("[id^='step-']").forEach((el) => {
+    el.style.display = "none";
+  });
+  const targetStep = document.getElementById(step);
+  if (targetStep) {
+    targetStep.style.display = "block";
+  }
+
+  if (step === "step-report") {
+    showReport();
+  }
+}
+
+// ── SHOW REPORT ─────────────────────────────────────────────
 
 function showReport() {
+  const container = document.getElementById("report-container");
+  if (!container) return;
+  container.innerHTML = "";
+
   const { 
     total_score, 
     grade, 
@@ -29,7 +142,7 @@ function showReport() {
       </h2>
     </div>
   `;
-  document.getElementById('report-container').appendChild(header);
+  container.appendChild(header);
 
   // ── REVENUE LEAK (THE HOOK) ─────────────────────────────
   const revenueSection = document.createElement('div');
@@ -54,7 +167,7 @@ function showReport() {
       </p>
     </div>
   `;
-  document.getElementById('report-container').appendChild(revenueSection);
+  container.appendChild(revenueSection);
 
   // ── SCORE BREAKDOWN ──────────────────────────────────────
   const breakdown = document.createElement('div');
@@ -85,7 +198,7 @@ function showReport() {
       </div>
     </div>
   `;
-  document.getElementById('report-container').appendChild(breakdown);
+  container.appendChild(breakdown);
 
   // ── BUSINESS INFO (GBP DATA) ────────────────────────────
   if (business_info && business_info.ok) {
@@ -115,7 +228,7 @@ function showReport() {
         </div>
       </div>
     `;
-    document.getElementById('report-container').appendChild(gbpSection);
+    container.appendChild(gbpSection);
   }
 
   // ── COMPETITORS (RANKING COMPARISON) ────────────────────
@@ -140,7 +253,7 @@ function showReport() {
         </div>
       </div>
     `;
-    document.getElementById('report-container').appendChild(compSection);
+    container.appendChild(compSection);
   }
 
   // ── RECOVERY POTENTIAL ──────────────────────────────────
@@ -157,7 +270,7 @@ function showReport() {
       </p>
     </div>
   `;
-  document.getElementById('report-container').appendChild(recoverySection);
+  container.appendChild(recoverySection);
 
   // ── CTA: FREE CALL + RETAINER ───────────────────────────
   const cta = document.createElement('div');
@@ -187,7 +300,7 @@ function showReport() {
       </div>
     </div>
   `;
-  document.getElementById('report-container').appendChild(cta);
+  container.appendChild(cta);
 
   // ── BOTTOM CTA ──────────────────────────────────────────
   const bottomCta = document.createElement('div');
@@ -203,5 +316,5 @@ function showReport() {
       </a>
     </div>
   `;
-  document.getElementById('report-container').appendChild(bottomCta);
+  container.appendChild(bottomCta);
 }
