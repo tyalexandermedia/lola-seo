@@ -1,355 +1,833 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>LOLA SEO — Free Local SEO Audit for Contractors</title>
-<meta name="description" content="Find out exactly why Google is sending your customers to competitors. Free 60-second audit built for local contractors." />
-<meta property="og:title" content="LOLA SEO — Free Local SEO Audit" />
-<meta property="og:description" content="Lola sniffs out every reason Google is ignoring your business. Free. 60 seconds." />
-<meta property="og:image" content="lola-logo-hero.png" />
-<link rel="icon" type="image/png" href="lola-logo.png" />
-<link rel="apple-touch-icon" href="lola-logo.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" /></noscript>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lola SEO - Free Local SEO Audit</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0e27;
+      color: white;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding-top: 20px;
+    }
+
+    .logo-circle {
+      width: 120px;
+      height: 120px;
+      border: 2px solid #FFD700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 30px;
+      animation: bounce 2s infinite;
+    }
+
+    .dog-emoji {
+      font-size: 60px;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      letter-spacing: -2px;
+    }
+
+    .highlight {
+      color: #FFD700;
+    }
+
+    .subheader {
+      color: #999;
+      font-size: 16px;
+      margin: 20px 0;
+      line-height: 1.6;
+    }
+
+    .form-section {
+      background: rgba(255, 215, 0, 0.05);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      padding: 40px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .form-title {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 30px;
+      color: #FFD700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: #FFD700;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    input, select, .dropdown-search {
+      width: 100%;
+      padding: 14px;
+      background: rgba(255, 215, 0, 0.08);
+      border: 1px solid #FFD700;
+      border-radius: 6px;
+      color: white;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    input::placeholder, .dropdown-search::placeholder {
+      color: #666;
+    }
+
+    select:focus, input:focus, .dropdown-search:focus {
+      outline: none;
+      border-color: #FFD700;
+      box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
+    }
+
+    /* Dropdown Styles */
+    .dropdown-container {
+      position: relative;
+    }
+
+    .dropdown-search {
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .dropdown-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #1a1f3a;
+      border: 1px solid #FFD700;
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+    }
+
+    .dropdown-list.active {
+      display: block;
+    }
+
+    .dropdown-category {
+      padding: 12px 14px;
+      color: #FFD700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      background: rgba(255, 215, 0, 0.1);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+    }
+
+    .dropdown-option {
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+      font-size: 14px;
+    }
+
+    .dropdown-option:hover {
+      background: rgba(255, 215, 0, 0.1);
+    }
+
+    .dropdown-option.hidden {
+      display: none;
+    }
+
+    .dropdown-icon {
+      font-size: 16px;
+    }
+
+    button {
+      padding: 16px;
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .form-footer {
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+      margin-top: 15px;
+    }
+
+    .step {
+      display: none;
+    }
+
+    /* Loading Animation */
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    .loading-text {
+      font-size: 20px;
+      color: #FFD700;
+      margin: 20px 0;
+    }
+
+    /* Scrollbar */
+    .dropdown-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .dropdown-list::-webkit-scrollbar-track {
+      background: rgba(255, 215, 0, 0.05);
+    }
+
+    .dropdown-list::-webkit-scrollbar-thumb {
+      background: #FFD700;
+      border-radius: 3px;
+    }
+
+    /* Report Styles */
+    .report-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .score-circle {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .large-score {
+      font-size: 64px;
+      font-weight: 900;
+      color: white;
+      margin: 20px 0;
+    }
+
+    .grade-label {
+      font-size: 18px;
+      color: #FFD700;
+      margin-bottom: 15px;
+    }
+
+    .revenue-card {
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin: 30px 0;
+      text-align: center;
+    }
+
+    .revenue-card h3 {
+      margin-top: 0;
+      font-size: 24px;
+    }
+
+    .revenue-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .revenue-item {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .revenue-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+
+    .revenue-value {
+      font-size: 36px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-
-<!-- STICKY HEADER -->
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/" class="logo">
-      <img src="lola-logo.png" alt="Lola" class="logo-img" />
-      <span class="logo-name">LOLA <span>SEO</span></span>
-    </a>
-    <a href="https://www.tyalexandermedia.com/contact" class="header-cta" target="_blank" rel="noopener">Work With Ty</a>
-  </div>
-</header>
-
-<!-- HERO + FORM -->
-<section class="hero">
   <div class="container">
-    <img src="lola-logo-hero.png" alt="Lola the German Shepherd" class="hero-logo" />
-    <div class="hero-eyebrow eyebrow">Free Local SEO Audit · Tampa Bay</div>
-    <h1 class="font-display hero-h1">
-      Google Is Sending Your<br>
-      <span class="h1-gold">Customers Somewhere Else.</span>
-    </h1>
-    <p class="hero-sub">
-      Lola sniffs out exactly why in 60 seconds.<br>
-      Free. No credit card. No fluff. 🐾
-    </p>
-    <div class="trust-chips">
-      <span class="trust-chip">🌐 Site Health</span>
-      <span class="trust-chip">📍 Local Presence</span>
-      <span class="trust-chip">📱 Mobile Speed</span>
-      <span class="trust-chip">✍️ Content</span>
+    <!-- EXACT TOP NAV (from screenshot) -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; padding: 20px 0;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <img src="https://tyalexandermedia.com/lola-logo.png" alt="Lola" style="width: 24px; height: 24px; object-fit: contain;" onerror="this.style.display='none'">
+        <div style="font-size: 16px; color: #FFD700; font-weight: bold; letter-spacing: 2px;">LOLA SEO</div>
+      </div>
+      <a href="https://calendly.com/ty/lola-strategy-call" style="font-size: 12px; color: #FFD700; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; cursor: pointer;">WORK WITH TY</a>
     </div>
 
-    <div class="tool-card" id="step-input">
-      <div class="step-pills" style="display:none" id="step-pills-row">
-        <div class="step-pill active" id="step-1-pill"><span>1</span>Your Info</div>
-        <div class="step-connector"></div>
-        <div class="step-pill" id="step-2-pill"><span>2</span>Unlock</div>
-        <div class="step-connector"></div>
-        <div class="step-pill" id="step-3-pill"><span>3</span>Your Score</div>
-      </div>
-      <form id="seo-form" novalidate>
-        <div class="form-group">
-          <label for="business-name">Business Name</label>
-          <input type="text" id="business-name" placeholder="Sandbar SoftWash" autocomplete="organization" required />
+    <!-- STEP 1: FORM -->
+    <div id="step-form" class="step" style="display: block;">
+      <header style="margin-bottom: 50px;">
+        <!-- Big Dog Logo (exact from screenshot) -->
+        <div class="logo-circle" style="width: 140px; height: 140px; margin: 0 auto 30px;">
+          <div class="dog-emoji" style="font-size: 70px;">🐾</div>
         </div>
-        <div class="form-group">
-          <label for="website-url">Website URL</label>
-          <input type="url" id="website-url" placeholder="yoursite.com" autocomplete="url" required />
-        </div>
-        <div class="form-group">
-          <label for="business-city">City / Location</label>
-          <input type="text" id="business-city" placeholder="Tampa, FL" autocomplete="address-level2" required />
-        </div>
-        <div class="form-group">
-          <label for="business-type">Business Type</label>
-          <select id="business-type" required>
-            <option value="contractor">Home Service Contractor</option>
-            <option value="softwash">Soft Wash / Pressure Wash</option>
-            <option value="hvac">HVAC</option>
-            <option value="plumbing">Plumbing</option>
-            <option value="roofing">Roofing</option>
-            <option value="landscaping">Landscaping</option>
-            <option value="electrical">Electrical</option>
-            <option value="cleaning">Cleaning Services</option>
-            <option value="restaurant">Restaurant</option>
-            <option value="salon">Salon / Spa</option>
-            <option value="medical">Medical / Dental</option>
-            <option value="fitness">Fitness / Gym</option>
-            <option value="retail">Retail</option>
-            <option value="default">Other Local Business</option>
-          </select>
-        </div>
-        <button type="submit" class="btn btn-cta" id="analyze-btn">
-          🐾 Show Me What Google Sees
-        </button>
-        <p class="form-note">No login. No credit card. Lola doesn't need permission to sniff out the truth. 🐾</p>
-      </form>
-    </div>
-  </div>
-</section>
 
-<!-- STEP 2: AUDIT PROGRESS -->
-<div class="hidden" id="step-loading">
-  <div class="loading-wrap">
-    <img src="lola-logo.png" alt="Lola" class="loading-logo" />
-    <h3 class="loading-headline font-display" id="loading-headline">Lola is on the scent</h3>
-    <div class="progress-wrap">
-      <div class="progress-pct font-mono" id="progress-pct">5%</div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-fill"></div>
-      </div>
-    </div>
-    <div class="loading-checks" id="loading-checks">
-      <div class="lcheck pending" id="lc1"><span class="lc-icon">○</span> 🔒 Checking SSL &amp; HTTPS</div>
-      <div class="lcheck pending" id="lc2"><span class="lc-icon">○</span> 📋 Reading title tags &amp; meta</div>
-      <div class="lcheck pending" id="lc3"><span class="lc-icon">○</span> 🗂️ Scanning robots.txt &amp; sitemap</div>
-      <div class="lcheck pending" id="lc4"><span class="lc-icon">○</span> 📱 Testing mobile experience</div>
-      <div class="lcheck pending" id="lc5"><span class="lc-icon">○</span> ⚡ Clocking page speed</div>
-      <div class="lcheck pending" id="lc6"><span class="lc-icon">○</span> 📍 Finding Google Business Profile</div>
-      <div class="lcheck pending" id="lc7"><span class="lc-icon">○</span> ✍️ Auditing content &amp; headings</div>
-      <div class="lcheck pending" id="lc8"><span class="lc-icon">○</span> 🏁 Pulling top competitor in your city</div>
-    </div>
-  </div>
-</div>
-
-<div class="hidden" id="step-ig" style="display:none!important"></div>
-
-<!-- STEP 3: EMAIL GATE -->
-<div class="hidden" id="step-gate">
-  <div class="container">
-    <div class="gate-card">
-      <div class="gate-score-ring">
-        <svg viewBox="0 0 140 140" class="score-svg" aria-hidden="true">
-          <circle cx="70" cy="70" r="56" fill="none" stroke="#1E1E1E" stroke-width="10"/>
-          <circle cx="70" cy="70" r="56" fill="none" stroke="url(#lolaGrad)" stroke-width="10"
-            stroke-dasharray="352" stroke-dashoffset="352"
-            stroke-linecap="round" transform="rotate(-90 70 70)"
-            id="score-ring-fill" style="transition:stroke-dashoffset 1.4s cubic-bezier(0.16,1,0.3,1)" />
-          <defs>
-            <linearGradient id="lolaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#C9A84C"/>
-              <stop offset="100%" stop-color="#E8C96A"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="score-center">
-          <span class="score-num font-mono" id="teaser-score-num">--</span>
-          <span class="score-denom font-mono">/100</span>
-          <span class="score-grade-sm font-mono" id="teaser-score-label"></span>
-        </div>
-      </div>
-      <div class="gate-lock-badge">🔒 Full Report Locked</div>
-      <h2 class="gate-heading font-display">Lola Found the Leaks 🐾</h2>
-      <p class="gate-sub" id="gate-biz-name"></p>
-      <p class="gate-leads-lost" id="gate-leads-lost"></p>
-      <div class="blur-preview">
-        <div class="blur-overlay"></div>
-        <div class="preview-row"><span class="preview-label">Site Health</span><div class="preview-bar"><div class="preview-fill" style="width:30%"></div></div><span class="blur-val">28</span></div>
-        <div class="preview-row"><span class="preview-label">Local Presence</span><div class="preview-bar"><div class="preview-fill" style="width:5%"></div></div><span class="blur-val">0</span></div>
-        <div class="preview-row"><span class="preview-label">Mobile</span><div class="preview-bar"><div class="preview-fill" style="width:55%"></div></div><span class="blur-val">55</span></div>
-        <div class="preview-row"><span class="preview-label">Page Speed</span><div class="preview-bar"><div class="preview-fill" style="width:50%"></div></div><span class="blur-val">50</span></div>
-        <div class="preview-row"><span class="preview-label">Content</span><div class="preview-bar"><div class="preview-fill" style="width:15%"></div></div><span class="blur-val">15</span></div>
-      </div>
-      <div class="gate-inside">
-        <div class="gate-inside-label eyebrow">What's Inside Your Report</div>
-        <ul class="gate-inside-list">
-          <li>Every issue ranked by severity</li>
-          <li>Step-by-step fix for each problem</li>
-          <li>Who's beating you and exactly why</li>
-          <li>Quick wins you can act on today</li>
-        </ul>
-      </div>
-      <form id="email-form" novalidate>
-        <div class="form-group">
-          <label for="user-email">Your Email</label>
-          <input type="email" id="user-email" placeholder="your@email.com" autocomplete="email" required />
-        </div>
-        <button type="submit" class="btn btn-cta" id="unlock-btn">
-          <span id="unlock-btn-text">Get My Free Report →</span>
-        </button>
-        <p class="form-note">No spam. Lola delivers and sits. 🐾</p>
-        <p class="sms-opt" style="margin-top:8px">
-          <a href="sms:+17273006573" style="color:var(--gold);text-decoration:underline;font-size:13px">Prefer a text instead? →</a>
+        <!-- Subheader line -->
+        <p style="color: #FFD700; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; font-weight: 600;">
+          FREE LOCAL SEO AUDIT · TAMPA BAY
         </p>
-        <div class="email-sent-confirm hidden" id="email-sent-confirm">
-          <div class="sent-icon">✓</div>
-          <div class="sent-text">
-            <strong>Report on its way</strong>
-            <span>Check your inbox — Lola just dropped it 🐾</span>
+
+        <!-- Main Headline (exact) -->
+        <h1 style="font-size: 56px; font-weight: 900; line-height: 1.1; margin-bottom: 25px; letter-spacing: -1px;">
+          GOOGLE IS SENDING<br>
+          YOUR<br>
+          <span class="highlight">CUSTOMERS<br>SOMEWHERE ELSE.</span>
+        </h1>
+
+        <!-- Subtext (exact) -->
+        <p class="subheader" style="font-size: 15px; color: #999; margin-bottom: 40px;">
+          Lola sniffs out exactly why in 60 seconds.<br>
+          Free. No credit card. No fluff. 🐕
+        </p>
+
+        <!-- 4 Metric Boxes (from screenshot) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 50px; max-width: 600px; margin-left: auto; margin-right: auto;">
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,215,0,0.1); padding: 20px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 18px; margin-bottom: 10px;">🌐</div>
+            <div style="color: #999; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Site Health</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,215,0,0.1); padding: 20px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 18px; margin-bottom: 10px;">📍</div>
+            <div style="color: #999; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Local Presence</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,215,0,0.1); padding: 20px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 18px; margin-bottom: 10px;">📱</div>
+            <div style="color: #999; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Mobile Speed</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,215,0,0.1); padding: 20px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 18px; margin-bottom: 10px;">📝</div>
+            <div style="color: #999; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Content</div>
           </div>
         </div>
-      </form>
+      </header>
+
+      <div class="form-section">
+        <div class="form-title">Free Local SEO Audit • Tampa Bay</div>
+
+        <form id="audit-form">
+          
+          <!-- Business Type (Searchable Dropdown) -->
+          <div class="form-group">
+            <label>What do you do?</label>
+            <div class="dropdown-container">
+              <input 
+                type="text" 
+                id="business-type-search" 
+                class="dropdown-search"
+                placeholder="Select your industry..." 
+                readonly
+              />
+              <div id="business-type-dropdown" class="dropdown-list">
+                <!-- Home Services -->
+                <div class="dropdown-category">Home Services</div>
+                <div class="dropdown-option" data-value="soft wash"><span class="dropdown-icon">🧼</span> Soft Wash</div>
+                <div class="dropdown-option" data-value="pressure wash"><span class="dropdown-icon">💨</span> Pressure Washing</div>
+                <div class="dropdown-option" data-value="hvac"><span class="dropdown-icon">❄️</span> HVAC</div>
+                <div class="dropdown-option" data-value="plumbing"><span class="dropdown-icon">🔧</span> Plumbing</div>
+                <div class="dropdown-option" data-value="roofing"><span class="dropdown-icon">🏠</span> Roofing</div>
+                <div class="dropdown-option" data-value="electrical"><span class="dropdown-icon">⚡</span> Electrical</div>
+                <div class="dropdown-option" data-value="landscaping"><span class="dropdown-icon">🌿</span> Landscaping</div>
+                
+                <!-- Contractors -->
+                <div class="dropdown-category">Contractors</div>
+                <div class="dropdown-option" data-value="general contractor"><span class="dropdown-icon">👷</span> General Contractor</div>
+                <div class="dropdown-option" data-value="concrete"><span class="dropdown-icon">🏗️</span> Concrete</div>
+                
+                <!-- Service Businesses -->
+                <div class="dropdown-category">Service Businesses</div>
+                <div class="dropdown-option" data-value="restaurant"><span class="dropdown-icon">🍽️</span> Restaurant</div>
+                <div class="dropdown-option" data-value="salon"><span class="dropdown-icon">💇</span> Salon/Spa</div>
+                <div class="dropdown-option" data-value="medical"><span class="dropdown-icon">🏥</span> Medical/Dental</div>
+                
+                <!-- Fitness & Coaching -->
+                <div class="dropdown-category">Fitness & Coaching</div>
+                <div class="dropdown-option" data-value="personal trainer"><span class="dropdown-icon">💪</span> Personal Trainer</div>
+                <div class="dropdown-option" data-value="fitness coach"><span class="dropdown-icon">🏃</span> Fitness Coach</div>
+                <div class="dropdown-option" data-value="life coach"><span class="dropdown-icon">🎯</span> Life Coach</div>
+                <div class="dropdown-option" data-value="business coach"><span class="dropdown-icon">📈</span> Business Coach</div>
+                
+                <!-- Entrepreneurs & Digital -->
+                <div class="dropdown-category">Entrepreneurs & Digital</div>
+                <div class="dropdown-option" data-value="entrepreneur"><span class="dropdown-icon">🚀</span> Entrepreneur</div>
+                <div class="dropdown-option" data-value="freelancer"><span class="dropdown-icon">💼</span> Freelancer</div>
+                <div class="dropdown-option" data-value="consultant"><span class="dropdown-icon">🤝</span> Consultant</div>
+                <div class="dropdown-option" data-value="agency"><span class="dropdown-icon">🎨</span> Agency</div>
+                
+                <!-- Other -->
+                <div class="dropdown-category">Other</div>
+                <div class="dropdown-option" data-value="other"><span class="dropdown-icon">✨</span> Other</div>
+              </div>
+            </div>
+            <input type="hidden" id="business-type" value="" />
+          </div>
+
+          <!-- Website -->
+          <div class="form-group">
+            <label>Your website</label>
+            <input type="text" id="website" placeholder="example.com or yoursite.com" />
+          </div>
+
+          <!-- Service Area -->
+          <div class="form-group">
+            <label>Service area (City, County)</label>
+            <input type="text" id="service-area" placeholder="e.g., Tampa Bay, Pinellas County" />
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label>Your email</label>
+            <input type="email" id="email" placeholder="you@company.com" />
+          </div>
+
+          <!-- Submit -->
+          <button type="submit">Get My Free Audit</button>
+
+          <div class="form-footer">
+            ✓ Free • ✓ No credit card • ✓ Takes 60 seconds
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- STEP 2: LOADING -->
+    <div id="step-loading" class="step" style="text-align: center; padding: 60px 20px;">
+      <div class="logo-circle" style="margin: 0 auto 30px;">
+        <div class="dog-emoji">🐾</div>
+      </div>
+      <h2 id="loading-headline" class="loading-text">Lola is on the scent...</h2>
+      <p style="color: #999;">This usually takes 45-60 seconds.</p>
+    </div>
+
+    <!-- STEP 3: EMAIL CONFIRMATION -->
+    <div id="step-email" class="step" style="text-align: center; padding: 40px 20px;">
+      <div class="logo-circle" style="margin: 0 auto 30px;">
+        <div class="dog-emoji">📧</div>
+      </div>
+      <h2 style="font-size: 24px; color: white; margin: 20px 0;">Check your email!</h2>
+      <p style="color: #999; margin: 15px 0;">Your audit report is on the way.<br>We also sent you a copy to review.</p>
+      <button onclick="goToEmail()" id="view-report-btn">View My Report</button>
+    </div>
+
+    <!-- STEP 4: REPORT -->
+    <div id="step-report" class="step" style="padding: 20px;">
+      <div id="report-container" class="report-container"></div>
     </div>
   </div>
-</div>
 
-<!-- STEP 4: FULL REPORT -->
-<div class="hidden" id="step-report">
-  <div class="container" style="padding-bottom:60px">
+  <!-- FOOTER -->
+  <footer style="text-align: center; margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(255, 215, 0, 0.1);">
+    <div style="font-size: 24px; margin-bottom: 15px;">🐾</div>
+    <p style="color: #666; font-size: 13px; margin: 10px 0;">Built by Ty Alexander Media · Tampa Bay</p>
+    
+    <div style="margin: 20px 0;">
+      <a href="https://tyalexandermedia.com" style="color: #FFD700; text-decoration: none; margin: 0 15px; font-size: 14px;">tyalexandermedia.com</a>
+      <span style="color: #666;">·</span>
+      <a href="https://calendly.com/ty/lola-strategy-call" style="color: #FFD700; text-decoration: none; margin: 0 15px; font-size: 14px;">Book a Call</a>
+    </div>
 
-    <!-- Score hero -->
-    <div class="rpt-hero" id="rpt-hero">
-      <div class="rpt-hero-left">
-        <img src="lola-logo.png" alt="Lola" class="rpt-lola" />
-        <div class="rpt-grade-pill" id="rpt-grade-pill">--</div>
-      </div>
-      <div class="rpt-score-ring-wrap">
-        <svg viewBox="0 0 120 120" class="rpt-ring-svg" aria-hidden="true">
-          <circle cx="60" cy="60" r="50" fill="none" stroke="#1E1E1E" stroke-width="8"/>
-          <circle cx="60" cy="60" r="50" fill="none" stroke="url(#rptGrad)" stroke-width="8"
-            stroke-dasharray="314" stroke-dashoffset="314"
-            stroke-linecap="round" transform="rotate(-90 60 60)"
-            id="report-ring-fill" />
-          <defs>
-            <linearGradient id="rptGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#C9A84C"/>
-              <stop offset="100%" stop-color="#E8C96A"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="rpt-ring-center">
-          <span class="rpt-score-num" id="report-score-num">--</span>
-          <span class="rpt-score-sub">/100</span>
+    <p style="color: #666; font-size: 13px; margin: 20px 0;">
+      Did Lola help you? <a href="https://www.google.com/maps/search/Ty+Alexander+Media+Tampa" style="color: #FFD700; text-decoration: none;">Leave us a review 🐕</a>
+    </p>
+
+    <p style="color: #555; font-size: 12px; margin: 15px 0;">© 2026 Ty Alexander Media · Tampa Bay FL</p>
+  </footer>
+
+  <script>
+    // ============================================================
+    // LOLA SEO — FINAL PRODUCTION APP
+    // ============================================================
+
+    const API_URL = "https://web-production-e4bd3.up.railway.app";
+    let analysisData = null;
+
+    // Dropdown functionality
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("audit-form");
+      if (form) {
+        form.addEventListener("submit", handleFormSubmit);
+      }
+
+      setupDropdown();
+      goToStep("step-form");
+    });
+
+    function setupDropdown() {
+      const searchInput = document.getElementById("business-type-search");
+      const dropdown = document.getElementById("business-type-dropdown");
+      const hiddenInput = document.getElementById("business-type");
+      const options = document.querySelectorAll(".dropdown-option");
+
+      searchInput.addEventListener("click", () => {
+        dropdown.classList.toggle("active");
+      });
+
+      options.forEach(option => {
+        option.addEventListener("click", () => {
+          const value = option.getAttribute("data-value");
+          const text = option.textContent.trim();
+          searchInput.value = text;
+          hiddenInput.value = value;
+          dropdown.classList.remove("active");
+        });
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".dropdown-container")) {
+          dropdown.classList.remove("active");
+        }
+      });
+    }
+
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+
+      const businessType = document.getElementById("business-type").value;
+      const website = document.getElementById("website").value.trim();
+      const serviceArea = document.getElementById("service-area").value.trim();
+      const email = document.getElementById("email").value.trim();
+
+      if (!businessType || !website || !serviceArea || !email) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const businessName = serviceArea.split(",")[0].trim() || website.split(".")[0];
+
+      goToStep("step-loading");
+      updateLoadingHeadline();
+
+      try {
+        const response = await fetch(`${API_URL}/audit`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            business_name: businessName,
+            website: website,
+            city: serviceArea,
+            business_type: businessType,
+            email: email,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Audit failed. Try again.");
+        }
+
+        analysisData = await response.json();
+        goToStep("step-email");
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong. Please try again.");
+        goToStep("step-form");
+      }
+    }
+
+    function updateLoadingHeadline() {
+      const headlines = [
+        "🐾 Lola is on the scent...",
+        "📊 Analyzing your SEO...",
+        "💰 Calculating your revenue loss...",
+        "🔍 Scanning for gaps...",
+        "⚡ Almost done...",
+      ];
+
+      let index = 0;
+      const headlineEl = document.getElementById("loading-headline");
+
+      setInterval(() => {
+        headlineEl.textContent = headlines[index % headlines.length];
+        index++;
+      }, 2000);
+    }
+
+    function goToEmail() {
+      const emailBtn = document.getElementById("view-report-btn");
+      emailBtn.disabled = true;
+      emailBtn.textContent = "Sending...";
+
+      setTimeout(() => {
+        goToStep("step-report");
+        emailBtn.disabled = false;
+        emailBtn.textContent = "View My Report";
+      }, 1500);
+    }
+
+    function goToStep(step) {
+      document.querySelectorAll("[id^='step-']").forEach((el) => {
+        el.style.display = "none";
+      });
+      const targetStep = document.getElementById(step);
+      if (targetStep) {
+        targetStep.style.display = "block";
+      }
+
+      if (step === "step-report") {
+        showReport();
+      }
+    }
+
+    function showReport() {
+      const container = document.getElementById("report-container");
+      if (!container) return;
+      container.innerHTML = "";
+
+      const { 
+        total_score, 
+        grade, 
+        grade_label, 
+        business_name, 
+        revenue_leak,
+        business_info,
+        competitors,
+        categories
+      } = analysisData;
+
+      const header = document.createElement('div');
+      header.className = 'score-circle';
+      header.innerHTML = `
+        <div class="logo-circle" style="margin: 0 auto 20px;">
+          <div class="dog-emoji">🐾</div>
         </div>
-      </div>
-      <p class="rpt-label font-mono" id="rpt-label">--</p>
-      <h2 class="rpt-headline font-display" id="report-headline">Your SEO Report</h2>
-      <div class="rpt-meta" id="rpt-meta"></div>
-    </div>
+        <div class="large-score">${total_score}</div>
+        <div class="grade-label">${grade} — ${grade_label}</div>
+        <h2 style="font-size: 20px; color: white; font-weight: normal;">
+          ${business_name} has real gaps costing customers right now.
+        </h2>
+      `;
+      container.appendChild(header);
 
-    <!-- Categories -->
-    <div class="rpt-section-label">🐾 Score Breakdown</div>
-    <div class="rpt-cats" id="categories-grid"></div>
-
-    <!-- Issues -->
-    <div id="issues-section">
-      <div class="rpt-section-label">🚨 What's Hurting Your Ranking</div>
-      <div class="rpt-issues" id="issues-list"></div>
-    </div>
-
-    <!-- GBP Gap Hero Callout -->
-    <div id="gbp-gap-callout" class="hidden"></div>
-
-    <!-- ══ REVENUE IMPACT BANNER ══ -->
-    <div class="revenue-banner" id="revenue-banner">
-      <div class="rev-banner-inner">
-        <div class="rev-left">
-          <div class="rev-label">Estimated leads lost this month</div>
-          <div class="rev-number font-display" id="rev-number">~20–35 calls</div>
-          <div class="rev-sub font-mono" id="rev-score-sub">Based on your score · soft wash avg $300–$800/job</div>
+      const revenueSection = document.createElement('div');
+      revenueSection.className = 'revenue-card';
+      revenueSection.innerHTML = `
+        <h3>💰 Your Monthly Revenue Loss</h3>
+        <p style="font-size: 14px; margin: 10px 0; opacity: 0.9;">Based on ${revenue_leak.missed_calls_per_month} missed calls @ $${revenue_leak.avg_job_value}/job</p>
+        
+        <div class="revenue-grid">
+          <div class="revenue-item">
+            <div class="revenue-label">This Month</div>
+            <div class="revenue-value">$${revenue_leak.monthly_leak.toLocaleString()}</div>
+          </div>
+          <div class="revenue-item">
+            <div class="revenue-label">This Year</div>
+            <div class="revenue-value">$${revenue_leak.annual_leak.toLocaleString()}</div>
+          </div>
         </div>
-        <div class="rev-right">
-          That's <strong id="rev-dollars">$6,000–$28,000</strong> walking straight to your competitor every single month.
+        
+        <p style="margin: 15px 0; font-size: 14px;">
+          That's <strong>${revenue_leak.missed_calls_per_month} customers</strong> choosing your competitors instead.
+        </p>
+      `;
+      container.appendChild(revenueSection);
+
+      const breakdown = document.createElement('div');
+      breakdown.innerHTML = `
+        <div style="margin: 30px 0;">
+          <h3 style="color: #FFD700; font-size: 16px; text-transform: uppercase; margin-bottom: 20px;">📊 Score Breakdown</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #FFD700;">
+              <div style="font-size: 12px; color: #999; margin-bottom: 8px;">SITE HEALTH</div>
+              <div style="font-size: 28px; font-weight: bold; color: #FFD700;">${categories.page_speed.score || 50}</div>
+              <div style="font-size: 12px; color: #999;">Speed, HTTPS, Schema</div>
+            </div>
+            <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #FFD700;">
+              <div style="font-size: 12px; color: #999; margin-bottom: 8px;">LOCAL PRESENCE</div>
+              <div style="font-size: 28px; font-weight: bold; color: #FFD700;">${categories.local_presence.score || 25}</div>
+              <div style="font-size: 12px; color: #999;">GBP, Citations, Reviews</div>
+            </div>
+            <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #FFD700;">
+              <div style="font-size: 12px; color: #999; margin-bottom: 8px;">MOBILE</div>
+              <div style="font-size: 28px; font-weight: bold; color: #FFD700;">${categories.mobile.score || 50}</div>
+              <div style="font-size: 12px; color: #999;">Speed & Usability</div>
+            </div>
+            <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #FFD700;">
+              <div style="font-size: 12px; color: #999; margin-bottom: 8px;">CONTENT</div>
+              <div style="font-size: 28px; font-weight: bold; color: #FFD700;">${categories.content.score || 60}</div>
+              <div style="font-size: 12px; color: #999;">Keywords, Links</div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      `;
+      container.appendChild(breakdown);
 
-    <!-- ══ $97 QUICK FIX — DONE FOR YOU ══ -->
-    <div class="offer-card offer-97">
-      <div class="offer-97-header">
-        <div>
-          <div class="offer-eyebrow eyebrow">Fix It Today — Done For You</div>
-          <h3 class="offer-heading font-display">Lola Quick Fix — $97</h3>
+      if (business_info && business_info.ok) {
+        const gbpSection = document.createElement('div');
+        gbpSection.innerHTML = `
+          <div style="margin: 30px 0;">
+            <h3 style="color: #FFD700; font-size: 16px; text-transform: uppercase; margin-bottom: 15px;">🗺️ Your Google Business Profile</h3>
+            <div style="background: rgba(255,215,0,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,215,0,0.2);">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                  <div style="font-size: 12px; color: #999; margin-bottom: 8px;">NAME</div>
+                  <div style="font-size: 14px; color: white;">${business_info.name || 'Not verified'}</div>
+                </div>
+                <div>
+                  <div style="font-size: 12px; color: #999; margin-bottom: 8px;">PHONE</div>
+                  <div style="font-size: 14px; color: white;">${business_info.phone || 'Missing'}</div>
+                </div>
+                <div>
+                  <div style="font-size: 12px; color: #999; margin-bottom: 8px;">RATING</div>
+                  <div style="font-size: 14px; color: white;">⭐ ${business_info.rating || 'No reviews'} (${business_info.review_count || 0} reviews)</div>
+                </div>
+                <div>
+                  <div style="font-size: 12px; color: #999; margin-bottom: 8px;">ADDRESS</div>
+                  <div style="font-size: 14px; color: white;">${business_info.address || 'Not verified'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(gbpSection);
+      }
+
+      if (competitors && competitors.length > 0) {
+        const compSection = document.createElement('div');
+        compSection.innerHTML = `
+          <div style="margin: 30px 0;">
+            <h3 style="color: #FFD700; font-size: 16px; text-transform: uppercase; margin-bottom: 15px;">🏆 Who's Ranking Above You</h3>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              ${competitors.slice(0, 5).map((comp, i) => `
+                <div style="background: rgba(255,215,0,0.05); padding: 15px; border-radius: 8px; border-left: 3px solid ${i === 0 ? '#FFD700' : '#666'};">
+                  <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div style="flex: 1;">
+                      <div style="font-size: 12px; color: #FFD700; margin-bottom: 5px;">RANK #${i + 1}</div>
+                      <div style="font-size: 14px; font-weight: bold; color: white; margin-bottom: 5px;">${comp.title}</div>
+                      <div style="font-size: 12px; color: #999;">${comp.snippet.substring(0, 60)}...</div>
+                    </div>
+                    <a href="${comp.url}" target="_blank" style="color: #FFD700; text-decoration: none; font-size: 12px; margin-left: 10px;">Visit →</a>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        container.appendChild(compSection);
+      }
+
+      const recoverySection = document.createElement('div');
+      recoverySection.innerHTML = `
+        <div style="background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%); color: white; padding: 25px; border-radius: 12px; margin: 30px 0; text-align: center;">
+          <h3 style="margin-top: 0;">✅ Recovery Potential</h3>
+          <div style="font-size: 32px; font-weight: bold; margin: 15px 0;">+$${revenue_leak.recovery_potential.toLocaleString()}/month</div>
+          <p style="margin: 10px 0; font-size: 14px;">
+            If we fix these gaps, you'd recover <strong>${revenue_leak.recovery_calls} additional calls/month</strong>
+          </p>
+          <p style="margin: 0; font-size: 12px; opacity: 0.9;">
+            Payback in <strong>${revenue_leak.payback_months} months</strong> at $600/month
+          </p>
         </div>
-        <div class="qf-badge-pill font-mono">24 hrs</div>
-      </div>
-      <p class="offer-anchor">Ty's team implements everything Lola found — directly on your site — within 24 hours of payment. You don't touch a thing. No access calls. No waiting weeks.</p>
-      <ul class="offer-list offer-list-checks">
-        <li>Title tag rewritten with your service + city — Google finally knows what you do and where</li>
-        <li>Meta description written to pull clicks off the search results page</li>
-        <li>Schema markup installed — tells Google you're a real local business with an address</li>
-        <li>Open Graph tags set — your site looks sharp when shared on Facebook or via text</li>
-      </ul>
-      <p class="offer-urgency" id="urgency-competitor">Every day you wait is another day your competitor gets that call.</p>
-      <a href="https://www.tyalexandermedia.com/contact?offer=quick-fix" class="btn btn-cta" id="quick-fix-btn" target="_blank" rel="noopener">
-        Fix My Site for $97 →
-      </a>
-      <p class="offer-note">Pay → Ty's team is on it within the hour. No login needed.</p>
-    </div>
+      `;
+      container.appendChild(recoverySection);
 
-    <!-- Competitor comparison (injected by app.js) -->
-    <div id="competitor-section" class="hidden">
-      <div class="rpt-section-label">📊 Who's Beating You</div>
-      <div id="competitor-list"></div>
-    </div>
+      const cta = document.createElement('div');
+      cta.innerHTML = `
+        <div style="background: rgba(255,107,53,0.1); padding: 30px; border-radius: 12px; margin: 30px 0; text-align: center; border: 2px solid #FF6B35;">
+          <h3 style="margin-top: 0; color: #FFD700; font-size: 18px;">Here's What Happens Next</h3>
+          
+          <div style="margin: 25px 0;">
+            <h4 style="color: white; margin-bottom: 15px;">Option 1: Free Strategy Call (Recommended)</h4>
+            <p style="color: #999; margin: 10px 0; font-size: 14px;">We review your audit, show you the exact fixes, and discuss how to own your market.</p>
+            <a href="https://calendly.com/ty/lola-strategy-call" style="display: inline-block; background: #FFD700; color: black; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; cursor: pointer;">
+              📞 Book Free Call (20 min)
+            </a>
+            <p style="color: #999; font-size: 12px; margin-top: 10px;">No credit card. No sales pitch. Just strategy.</p>
+          </div>
 
-    <!-- GBP before/after (injected by app.js) -->
-    <div id="gbp-section" class="hidden">
-      <div class="rpt-section-label">📍 Your Google Business Profile</div>
-      <div id="gbp-comparison"></div>
-    </div>
+          <hr style="border: none; border-top: 1px solid rgba(255,215,0,0.2); margin: 20px 0;">
 
-    <!-- Quick wins -->
-    <div class="rpt-section-label">🎾 What's Possible Next</div>
-    <div class="rpt-wins" id="quickwins-list"></div>
+          <div style="margin: 25px 0;">
+            <h4 style="color: white; margin-bottom: 15px;">Option 2: Done-For-You ($600/month)</h4>
+            <p style="color: #999; margin: 10px 0; font-size: 14px;">We implement everything from this audit + ongoing optimization.</p>
+            <p style="color: #FFD700; font-weight: bold; font-size: 14px; margin: 15px 0;">30-day implementation • Monthly reporting • Direct access</p>
+            <a href="https://calendly.com/ty/lola-strategy-call?utm_source=lola&utm_campaign=retainer" style="display: inline-block; background: #FF6B35; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; cursor: pointer;">
+              💪 Start $600/month Retainer
+            </a>
+            <p style="color: #999; font-size: 12px; margin-top: 10px;">$${revenue_leak.recovery_potential.toLocaleString()}/month recovery potential</p>
+          </div>
+        </div>
+      `;
+      container.appendChild(cta);
 
-    <!-- ══ $400 RETAINER — SIMPLIFIED ══ -->
-    <div class="offer-card offer-400" id="upsell-400">
-      <div class="offer-popular eyebrow">Most Popular · Best Value</div>
-      <h3 class="offer-heading font-display">Let Ty's Team Handle All of It</h3>
-
-      <div class="ret-price-hero">
-        <span class="ret-price font-display">$400<span class="ret-mo">/mo</span></span>
-        <span class="ret-cancel font-mono">Cancel anytime · No contracts</span>
-      </div>
-
-      <p class="offer-anchor">First month includes everything in the Quick Fix plus full GBP setup, one local city page built for ranking, and a monthly report showing exactly where you stand. Then $400/month after that.</p>
-
-      <div class="ret-grid">
-        <div class="ret-item">✓ GBP claimed + optimized</div>
-        <div class="ret-item">✓ Monthly ranking audit</div>
-        <div class="ret-item">✓ 1 city landing page built</div>
-        <div class="ret-item">✓ Monthly report to you</div>
-        <div class="ret-item">✓ Title + meta + schema done</div>
-        <div class="ret-item">✓ Direct access to Coach Ty</div>
-      </div>
-
-      <a href="https://www.tyalexandermedia.com/contact?offer=retainer" class="btn btn-outline-gold" target="_blank" rel="noopener">
-        Book a Free 15-Min Call →
-      </a>
-      <p class="offer-note">Month to month. Cancel anytime. First month = full implementation of everything Lola found today.</p>
-    </div>
-
-    <!-- Bottom upsell area (injected by app.js) -->
-    <div id="rpt-upsell"></div>
-    <div id="rpt-quick-fix-offer" class="hidden"></div>
-
-    <div class="restart-row">
-      <button class="btn btn-ghost btn-sm" id="restart-btn">🐾 Audit Another Business</button>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-inner">
-      <img src="lola-logo.png" alt="Lola" class="footer-lola" />
-      <p class="footer-brand-sub font-mono">Built by Ty Alexander Media · Tampa Bay</p>
-      <div class="footer-links">
-        <a href="https://www.tyalexandermedia.com" target="_blank" rel="noopener">tyalexandermedia.com</a>
-        <a href="https://www.tyalexandermedia.com/contact" target="_blank" rel="noopener">Book a Call</a>
-      </div>
-      <p class="footer-review">
-        Did Lola help you?
-        <a href="https://share.google/IPROAQnD4PhW8zXxi" target="_blank" rel="noopener" class="review-link">Leave us a review 🐾</a>
-      </p>
-      <p class="footer-copy font-mono">© 2026 Ty Alexander Media · Tampa Bay FL</p>
-    </div>
-  </div>
-</footer>
-
-<script src="app.js"></script>
+      const bottomCta = document.createElement('div');
+      bottomCta.innerHTML = `
+        <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 30px; border-radius: 12px; margin: 30px 0; text-align: center; border: 2px solid #FFD700;">
+          <h3 style="margin-top: 0; color: white;">Stop Losing Money</h3>
+          <p style="color: #999; margin: 15px 0;">Every day you wait costs you $${Math.round(revenue_leak.monthly_leak / 30)} in missed revenue.</p>
+          <p style="color: #FFD700; font-size: 14px; margin: 15px 0; font-weight: bold;">
+            This audit is free. The strategy call is free. The only thing you invest is 20 minutes of your time.
+          </p>
+          <a href="https://calendly.com/ty/lola-strategy-call" style="display: inline-block; background: #FFD700; color: black; padding: 15px 40px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; margin-top: 15px; cursor: pointer;">
+            → Book Your Call Now
+          </a>
+        </div>
+      `;
+      container.appendChild(bottomCta);
+    }
+  </script>
 </body>
 </html>
