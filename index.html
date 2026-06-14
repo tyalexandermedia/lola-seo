@@ -317,7 +317,7 @@
         <img src="https://tyalexandermedia.com/lola-logo.png" alt="Lola" style="width: 24px; height: 24px; object-fit: contain;" onerror="this.style.display='none'">
         <div style="font-size: 16px; color: #FFD700; font-weight: bold; letter-spacing: 2px;">LOLA SEO</div>
       </div>
-      <a href="https://calendly.com/ty/lola-strategy-call" style="font-size: 12px; color: #FFD700; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; cursor: pointer;">WORK WITH TY</a>
+      <a href="https://calendar.app.google/J7idjUDitd2Hziuc7" style="font-size: 12px; color: #FFD700; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; cursor: pointer;">WORK WITH TY</a>
     </div>
 
     <!-- STEP 1: FORM -->
@@ -345,6 +345,14 @@
           Lola sniffs out exactly why in 60 seconds.<br>
           Free. No credit card. No fluff. 🐕
         </p>
+
+        <!-- Proof strip (real case study) -->
+        <div style="background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: 10px; padding: 16px 20px; max-width: 600px; margin: 0 auto 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 22px;">
+          <span style="font-size: 12px; color: #FFD700; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Proof, not promises</span>
+          <span style="color: #ccc; font-size: 13px;">🐾 Sandbar Soft Wash — <strong style="color:#fff;">5 keywords ranked in 3 weeks</strong></span>
+          <span style="color: #ccc; font-size: 13px;">⚡ <strong style="color:#fff;">100/100</strong> PageSpeed</span>
+          <span style="color: #ccc; font-size: 13px;">📄 <strong style="color:#fff;">22</strong> pages indexed</span>
+        </div>
 
         <!-- 4 Metric Boxes (from screenshot) -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 50px; max-width: 600px; margin-left: auto; margin-right: auto;">
@@ -488,7 +496,7 @@
     <div style="margin: 20px 0;">
       <a href="https://tyalexandermedia.com" style="color: #FFD700; text-decoration: none; margin: 0 15px; font-size: 14px;">tyalexandermedia.com</a>
       <span style="color: #666;">·</span>
-      <a href="https://calendly.com/ty/lola-strategy-call" style="color: #FFD700; text-decoration: none; margin: 0 15px; font-size: 14px;">Book a Call</a>
+      <a href="https://calendar.app.google/J7idjUDitd2Hziuc7" style="color: #FFD700; text-decoration: none; margin: 0 15px; font-size: 14px;">Book a Call</a>
     </div>
 
     <p style="color: #666; font-size: 13px; margin: 20px 0;">
@@ -666,7 +674,7 @@
       revenueSection.className = 'revenue-card';
       revenueSection.innerHTML = `
         <h3>💰 Your Monthly Revenue Loss</h3>
-        <p style="font-size: 14px; margin: 10px 0; opacity: 0.9;">Based on ${revenue_leak.missed_calls_per_month} missed calls @ $${revenue_leak.avg_job_value}/job</p>
+        <p style="font-size: 14px; margin: 10px 0; opacity: 0.9;">Based on ${revenue_leak.missed_calls_per_month} missed customers @ $${revenue_leak.avg_job_value} each</p>
         
         <div class="revenue-grid">
           <div class="revenue-item">
@@ -772,13 +780,13 @@
       const recoverySection = document.createElement('div');
       recoverySection.innerHTML = `
         <div style="background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%); color: white; padding: 25px; border-radius: 12px; margin: 30px 0; text-align: center;">
-          <h3 style="margin-top: 0;">✅ Recovery Potential</h3>
+          <h3 style="margin-top: 0;">✅ Here's What You Can Win Back</h3>
           <div style="font-size: 32px; font-weight: bold; margin: 15px 0;">+$${revenue_leak.recovery_potential.toLocaleString()}/month</div>
           <p style="margin: 10px 0; font-size: 14px;">
-            If we fix these gaps, you'd recover <strong>${revenue_leak.recovery_calls} additional calls/month</strong>
+            Fix these gaps and you'd pull back about <strong>${revenue_leak.recovery_calls} customers a month</strong> that are choosing competitors right now.
           </p>
-          <p style="margin: 0; font-size: 12px; opacity: 0.9;">
-            Payback in <strong>${revenue_leak.payback_months} months</strong> at $600/month
+          <p style="margin: 0; font-size: 13px; opacity: 0.95;">
+            That's <strong>$${(revenue_leak.recovery_potential * 12).toLocaleString()}/year</strong> — recoverable for a fraction of what you're losing. Plans from <strong>$297/mo</strong>.
           </p>
         </div>
       `;
@@ -786,29 +794,40 @@
 
       const cta = document.createElement('div');
       cta.innerHTML = `
-        <div style="background: rgba(255,107,53,0.1); padding: 30px; border-radius: 12px; margin: 30px 0; text-align: center; border: 2px solid #FF6B35;">
-          <h3 style="margin-top: 0; color: #FFD700; font-size: 18px;">Here's What Happens Next</h3>
-          
-          <div style="margin: 25px 0;">
-            <h4 style="color: white; margin-bottom: 15px;">Option 1: Free Strategy Call (Recommended)</h4>
-            <p style="color: #999; margin: 10px 0; font-size: 14px;">We review your audit, show you the exact fixes, and discuss how to own your market.</p>
-            <a href="https://calendly.com/ty/lola-strategy-call" style="display: inline-block; background: #FFD700; color: black; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; cursor: pointer;">
-              📞 Book Free Call (20 min)
-            </a>
-            <p style="color: #999; font-size: 12px; margin-top: 10px;">No credit card. No sales pitch. Just strategy.</p>
-          </div>
+        <div style="margin: 30px 0; text-align: center;">
+          <h3 style="color: #FFD700; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Done-For-You Plans</h3>
+          <p style="color: #999; font-size: 14px; margin-bottom: 6px;">Pick your speed. Month-to-month. Cancel anytime.</p>
+          <p style="color: #FFD700; font-size: 12px; margin-bottom: 25px;">🐾 Same system that ranked Sandbar Soft Wash for 5 keywords in 3 weeks.</p>
 
-          <hr style="border: none; border-top: 1px solid rgba(255,215,0,0.2); margin: 20px 0;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
 
-          <div style="margin: 25px 0;">
-            <h4 style="color: white; margin-bottom: 15px;">Option 2: Done-For-You ($600/month)</h4>
-            <p style="color: #999; margin: 10px 0; font-size: 14px;">We implement everything from this audit + ongoing optimization.</p>
-            <p style="color: #FFD700; font-weight: bold; font-size: 14px; margin: 15px 0;">30-day implementation • Monthly reporting • Direct access</p>
-            <a href="https://calendly.com/ty/lola-strategy-call?utm_source=lola&utm_campaign=retainer" style="display: inline-block; background: #FF6B35; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; cursor: pointer;">
-              💪 Start $600/month Retainer
-            </a>
-            <p style="color: #999; font-size: 12px; margin-top: 10px;">$${revenue_leak.recovery_potential.toLocaleString()}/month recovery potential</p>
+            <!-- Starter -->
+            <div style="background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: 12px; padding: 25px 20px; text-align: left; display: flex; flex-direction: column;">
+              <div style="font-size: 13px; color: #FFD700; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 10px;">Starter</div>
+              <div style="font-size: 32px; font-weight: 900; color: white;">$297<span style="font-size: 14px; color: #999; font-weight: normal;">/mo</span></div>
+              <p style="color: #999; font-size: 13px; margin: 12px 0;">Get on the map. Optimized Google profile, fast website built to convert, core local SEO, and your live proof dashboard.</p>
+              <a href="https://calendar.app.google/J7idjUDitd2Hziuc7" style="margin-top: auto; display: block; text-align: center; background: rgba(255,215,0,0.15); color: #FFD700; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 14px;">Book a Call</a>
+            </div>
+
+            <!-- Growth (most popular) -->
+            <div style="background: rgba(255,107,53,0.12); border: 2px solid #FF6B35; border-radius: 12px; padding: 25px 20px; text-align: left; display: flex; flex-direction: column; position: relative;">
+              <div style="position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: #FF6B35; color: white; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 20px; white-space: nowrap;">Most Popular</div>
+              <div style="font-size: 13px; color: #FF8C42; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 10px;">Growth</div>
+              <div style="font-size: 32px; font-weight: 900; color: white;">$697<span style="font-size: 14px; color: #999; font-weight: normal;">/mo</span></div>
+              <p style="color: #ccc; font-size: 13px; margin: 12px 0;">Outrank your competition. Everything in Starter + city pages, call tracking, expanded keywords, and AI-search optimization.</p>
+              <a href="https://calendar.app.google/J7idjUDitd2Hziuc7" style="margin-top: auto; display: block; text-align: center; background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 14px;">Book a Call</a>
+            </div>
+
+            <!-- Pro -->
+            <div style="background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: 12px; padding: 25px 20px; text-align: left; display: flex; flex-direction: column;">
+              <div style="font-size: 13px; color: #FFD700; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 10px;">Pro</div>
+              <div style="font-size: 32px; font-weight: 900; color: white;">$997<span style="font-size: 14px; color: #999; font-weight: normal;">/mo</span></div>
+              <p style="color: #999; font-size: 13px; margin: 12px 0;">Own your market. Everything in Growth + multi-city expansion, priority optimization, deeper reporting, and direct access to Ty.</p>
+              <a href="https://calendar.app.google/J7idjUDitd2Hziuc7" style="margin-top: auto; display: block; text-align: center; background: rgba(255,215,0,0.15); color: #FFD700; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 14px;">Book a Call</a>
+            </div>
+
           </div>
+          <p style="color: #999; font-size: 12px; margin-top: 18px;">Book a free call and we'll map the right plan together — no guessing, no pressure. ($${revenue_leak.recovery_potential.toLocaleString()}/mo recovery potential)</p>
         </div>
       `;
       container.appendChild(cta);
@@ -821,7 +840,7 @@
           <p style="color: #FFD700; font-size: 14px; margin: 15px 0; font-weight: bold;">
             This audit is free. The strategy call is free. The only thing you invest is 20 minutes of your time.
           </p>
-          <a href="https://calendly.com/ty/lola-strategy-call" style="display: inline-block; background: #FFD700; color: black; padding: 15px 40px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; margin-top: 15px; cursor: pointer;">
+          <a href="https://calendar.app.google/J7idjUDitd2Hziuc7" style="display: inline-block; background: #FFD700; color: black; padding: 15px 40px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; margin-top: 15px; cursor: pointer;">
             → Book Your Call Now
           </a>
         </div>
