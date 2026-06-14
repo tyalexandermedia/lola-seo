@@ -666,7 +666,7 @@
       revenueSection.className = 'revenue-card';
       revenueSection.innerHTML = `
         <h3>💰 Your Monthly Revenue Loss</h3>
-        <p style="font-size: 14px; margin: 10px 0; opacity: 0.9;">Based on ${revenue_leak.missed_calls_per_month} missed calls @ $${revenue_leak.avg_job_value}/job</p>
+        <p style="font-size: 14px; margin: 10px 0; opacity: 0.9;">Based on ${revenue_leak.missed_calls_per_month} missed customers @ $${revenue_leak.avg_job_value} each</p>
         
         <div class="revenue-grid">
           <div class="revenue-item">
@@ -775,10 +775,10 @@
           <h3 style="margin-top: 0;">✅ Recovery Potential</h3>
           <div style="font-size: 32px; font-weight: bold; margin: 15px 0;">+$${revenue_leak.recovery_potential.toLocaleString()}/month</div>
           <p style="margin: 10px 0; font-size: 14px;">
-            If we fix these gaps, you'd recover <strong>${revenue_leak.recovery_calls} additional calls/month</strong>
+            If we fix these gaps, you'd recover <strong>${revenue_leak.recovery_calls} additional customers/month</strong>
           </p>
           <p style="margin: 0; font-size: 12px; opacity: 0.9;">
-            Payback in <strong>${revenue_leak.payback_months} months</strong> at $600/month
+            Plans start at <strong>$297/month</strong> — most clients land on Growth ($697/mo)
           </p>
         </div>
       `;
@@ -801,11 +801,11 @@
           <hr style="border: none; border-top: 1px solid rgba(255,215,0,0.2); margin: 20px 0;">
 
           <div style="margin: 25px 0;">
-            <h4 style="color: white; margin-bottom: 15px;">Option 2: Done-For-You ($600/month)</h4>
-            <p style="color: #999; margin: 10px 0; font-size: 14px;">We implement everything from this audit + ongoing optimization.</p>
+            <h4 style="color: white; margin-bottom: 15px;">Option 2: Done-For-You (from $297/month)</h4>
+            <p style="color: #999; margin: 10px 0; font-size: 14px;">We implement everything from this audit + ongoing optimization. Starter $297 · Growth $697 · Pro $997.</p>
             <p style="color: #FFD700; font-weight: bold; font-size: 14px; margin: 15px 0;">30-day implementation • Monthly reporting • Direct access</p>
             <a href="https://calendly.com/ty/lola-strategy-call?utm_source=lola&utm_campaign=retainer" style="display: inline-block; background: #FF6B35; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; cursor: pointer;">
-              💪 Start $600/month Retainer
+              💪 Start Your Plan
             </a>
             <p style="color: #999; font-size: 12px; margin-top: 10px;">$${revenue_leak.recovery_potential.toLocaleString()}/month recovery potential</p>
           </div>
