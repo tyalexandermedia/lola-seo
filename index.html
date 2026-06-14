@@ -780,13 +780,13 @@
       const recoverySection = document.createElement('div');
       recoverySection.innerHTML = `
         <div style="background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%); color: white; padding: 25px; border-radius: 12px; margin: 30px 0; text-align: center;">
-          <h3 style="margin-top: 0;">✅ Recovery Potential</h3>
+          <h3 style="margin-top: 0;">✅ Here's What You Can Win Back</h3>
           <div style="font-size: 32px; font-weight: bold; margin: 15px 0;">+$${revenue_leak.recovery_potential.toLocaleString()}/month</div>
           <p style="margin: 10px 0; font-size: 14px;">
-            If we fix these gaps, you'd recover <strong>${revenue_leak.recovery_calls} additional customers/month</strong>
+            Fix these gaps and you'd pull back about <strong>${revenue_leak.recovery_calls} customers a month</strong> that are choosing competitors right now.
           </p>
-          <p style="margin: 0; font-size: 12px; opacity: 0.9;">
-            Plans start at <strong>$297/month</strong> — most clients land on Growth ($697/mo)
+          <p style="margin: 0; font-size: 13px; opacity: 0.95;">
+            That's <strong>$${(revenue_leak.recovery_potential * 12).toLocaleString()}/year</strong> — recoverable for a fraction of what you're losing. Plans from <strong>$297/mo</strong>.
           </p>
         </div>
       `;
