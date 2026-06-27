@@ -59,12 +59,36 @@ SERVICES = {
                              phrases=["pressure washing near me", "{city} soft wash", "house washing {city}", "driveway cleaning near me"],
                              pain="Homeowners search “pressure washing near me” and book whoever shows up first with before/after photos.",
                              wins=["Rank for “pressure washing near me” in {city}", "Win recurring exterior-cleaning jobs", "Turn before/afters and reviews into bookings"]),
+    "auto-repair":      dict(label="Auto Repair Shops", noun="auto shop",
+                             phrases=["mechanic near me", "auto repair {city}", "{city} oil change", "brake repair near me"],
+                             pain="A driver with a check-engine light searches “mechanic near me” and calls whoever ranks first with reviews.",
+                             wins=["Rank for “mechanic near me” in {city}", "Win same-day repair searches", "Turn reviews into booked bays"]),
+    "hvac":             dict(label="HVAC Companies", noun="HVAC company",
+                             phrases=["ac repair near me", "hvac {city}", "{city} air conditioning repair", "heater repair near me"],
+                             pain="In Florida heat, a dead AC means homeowners call the first HVAC company on Google with reviews.",
+                             wins=["Rank for emergency “AC repair near me”", "Win high-ticket install leads", "Keep the schedule full from search"]),
+    "electrician":      dict(label="Electricians", noun="electrical company",
+                             phrases=["electrician near me", "{city} electrician", "emergency electrician {city}", "panel upgrade near me"],
+                             pain="An electrical problem isn't DIY — people call the first licensed electrician that shows up on Google.",
+                             wins=["Rank for “electrician near me” in {city}", "Win urgent and project leads", "Build trust with reviews and licensing"]),
+    "real-estate":      dict(label="Real Estate Agents", noun="real estate agent",
+                             phrases=["realtor near me", "{city} real estate agent", "homes for sale {city}", "sell my house {city}"],
+                             pain="Buyers and sellers search for a local agent and reach out to whoever ranks with strong reviews.",
+                             wins=["Rank for “{city} realtor” searches", "Win buyer and seller leads", "Stand out with reviews and local authority"]),
+    "landscaping":      dict(label="Landscapers", noun="landscaping company",
+                             phrases=["landscaping near me", "lawn care {city}", "{city} lawn service", "landscaper near me"],
+                             pain="Homeowners search “lawn care near me” and book whoever shows up first with photos and reviews.",
+                             wins=["Rank for “lawn care near me” in {city}", "Win recurring maintenance contracts", "Turn project photos into bookings"]),
+    "pet-grooming":     dict(label="Pet Groomers", noun="pet grooming salon",
+                             phrases=["dog groomer near me", "pet grooming {city}", "{city} dog grooming", "mobile dog grooming near me"],
+                             pain="Pet owners search “dog groomer near me” and book whoever ranks with great photos and reviews.",
+                             wins=["Rank for “dog groomer near me” in {city}", "Fill your grooming calendar", "Show off your work and reviews"]),
 }
 
 CITIES = {
-    "tampa":          "Tampa",
-    "st-petersburg":  "St. Petersburg",
-    "clearwater":     "Clearwater",
+    "tampa":          dict(name="Tampa", areas=["South Tampa", "Ybor City", "Hyde Park", "Westshore", "Channelside", "New Tampa"]),
+    "st-petersburg":  dict(name="St. Petersburg", areas=["Downtown St. Pete", "Kenwood", "the Old Northeast", "the Grand Central District", "St. Pete Beach"]),
+    "clearwater":     dict(name="Clearwater", areas=["Clearwater Beach", "Countryside", "downtown Clearwater", "Island Estates"]),
 }
 
 # Coverage: every service in Tampa; top movers also in St. Pete + Clearwater.
@@ -80,7 +104,10 @@ def esc(t):
 
 def render(service_key, city_key):
     s = SERVICES[service_key]
-    city = CITIES[city_key]
+    cinfo = CITIES[city_key]
+    city = cinfo["name"]
+    areas = cinfo["areas"]
+    areas_str = ", ".join(areas[:-1]) + ", and " + areas[-1]
     label = s["label"]
     noun = s["noun"]
     slug = f"{service_key}-seo-{city_key}"
@@ -120,6 +147,7 @@ def render(service_key, city_key):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🐾&lt;/text&gt;&lt;/svg&gt;">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{url}">
@@ -182,6 +210,9 @@ footer a{{color:#FFD700;text-decoration:none}}
   <ul>{win_items}</ul>
 
   <div class="proof">\U0001FAB4 <strong>Proof, not promises:</strong> we built this for our own business first — Sandbar Soft Wash ranked for <strong>5 keywords in 3 weeks</strong>, 100/100 PageSpeed, 22 pages. Same system we run for your {esc(noun)}.</div>
+
+  <h2>Serving every corner of {esc(city)}</h2>
+  <p>From {esc(areas_str)} — wherever your customers are searching, Lola puts your {esc(noun)} in front of them. We build {esc(city)}-specific pages and optimize your Google Business Profile for the neighborhoods that actually drive your business.</p>
 
   <h2>What {esc(city)} customers are typing</h2>
   <ul>{phrase_items}</ul>
