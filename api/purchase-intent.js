@@ -3,8 +3,9 @@
 // Sends Ty an instant notification email with full context.
 // ─────────────────────────────────────────────────────────────────
 
-const RESEND_API_KEY = 're_Ar7MjxPa_HzuGzAD9Qwq6nRHVw4PMp5yD';
+const RESEND_API_KEY = process.env.RESEND_API_KEY; // set in Vercel dashboard → Settings → Environment Variables
 const NOTIFY_EMAIL  = 'ty@tyalexandermedia.com';
+if (!RESEND_API_KEY) console.error('RESEND_API_KEY env var is not set — email sending will fail');
 
 async function sendEmail(to, subject, html) {
   const res = await fetch('https://api.resend.com/emails', {
