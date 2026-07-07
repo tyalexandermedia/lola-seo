@@ -117,7 +117,7 @@ def render(service_key, city_key):
     pain = s["pain"].replace("{city}", city)
 
     title = f"Local SEO for {label} in {city} | Get Found on Google — Lola"
-    desc = f"Get your {noun} to the top of Google in {city}. Lola is a done-for-you local SEO system — website, Google Business Profile, and rankings that bring more customers. Free audit."
+    desc = f"Get your {noun} to the top of Google in {city}. Lola is the AI Leads Expert — website, Google Business Profile, and rankings on Google and in AI answers that bring more customers. Get your free Growth Score."
     h1 = f"{city} {label}: Show Up on Google &amp; Get More Customers"
 
     phrase_items = "".join(f"<li>“{esc(p)}”</li>" for p in phrases)
@@ -200,7 +200,7 @@ footer a{{color:#FFD700;text-decoration:none}}
 
   <h1>{h1}</h1>
   <p class="sub">Your competitors in {esc(city)} show up when locals search. You don't. Lola fixes that — done for you.</p>
-  <a class="btn" href="/">Get My Free Audit</a>
+  <a class="btn" href="/">Get Your Free Growth Score</a>
   <a class="btn alt" href="{BOOK}">Book a Call</a>
 
   <h2>The problem</h2>
@@ -222,8 +222,8 @@ footer a{{color:#FFD700;text-decoration:none}}
   {faq_html}
 
   <h2>Ready to get found?</h2>
-  <p>Run your free 60-second audit to see exactly why customers aren't finding you yet — or book a call and we'll map the plan.</p>
-  <a class="btn" href="/">Get My Free Audit</a>
+  <p>Run your free 60-second Growth Score to see exactly why customers aren't finding you yet — or book a call and we'll map the plan.</p>
+  <a class="btn" href="/">Get Your Free Growth Score</a>
   <a class="btn alt" href="{BOOK}">Book a Call</a>
 
   <h2>More local SEO in {esc(city)}</h2>
