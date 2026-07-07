@@ -224,22 +224,22 @@ module.exports = async (req, res) => {
           <p style="font-size:13px;color:#7a8db8;margin:0 0 16px">These are the highest-leverage moves ranked by speed and impact. Each one includes a how-to.</p>
           ${winsHtml}` : ''}
 
-          <!-- Quick Fix Offer -->
+          <!-- DIY offer -->
           <div style="background:linear-gradient(135deg,#0f1d3a,#091020);border:1px solid rgba(228,177,24,0.3);border-radius:12px;padding:24px;margin-top:24px;margin-bottom:16px">
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#e4b118;margin-bottom:10px">⚡ Instant Fix Available</div>
-            <h2 style="font-size:20px;font-weight:800;color:#fff;margin:0 0 10px">The Quick Fix Package — $97</h2>
-            <p style="font-size:13px;color:#94a8cc;margin:0 0 16px;line-height:1.7">Ty's team implements your fixable items — title tags, meta descriptions, schema markup, and Open Graph tags — directly on your site within 24 hours. No call needed.</p>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#e4b118;margin-bottom:10px">⚡ Fix It Yourself</div>
+            <h2 style="font-size:20px;font-weight:800;color:#fff;margin:0 0 10px">DIY — $197</h2>
+            <p style="font-size:13px;color:#94a8cc;margin:0 0 16px;line-height:1.7"><strong style="color:#dde4f5">See your score. Fix it yourself.</strong> Your full Growth Score plus a simple 5-step fix-it checklist — the exact moves that get you found. Self-service, no call needed.</p>
             <div style="margin-bottom:16px">
-              <div style="font-size:12px;color:#94a8cc;margin-bottom:8px">✓ Title tag optimized for your city + service<br>✓ Meta description written to convert clicks<br>✓ Schema markup installed<br>✓ Open Graph tags for social sharing</div>
+              <div style="font-size:12px;color:#94a8cc;margin-bottom:8px">✓ Your full Growth Score<br>✓ A simple 5-step fix-it checklist<br>✓ Fix it on your own time</div>
             </div>
-            <a href="https://www.tyalexandermedia.com/contact?offer=quick-fix" style="display:inline-block;padding:14px 28px;background:linear-gradient(135deg,#f0c840,#e4b118);color:#07100a;font-weight:800;border-radius:8px;text-decoration:none;font-size:15px">Get It Fixed for $97 →</a>
+            <a href="https://www.tyalexandermedia.com/contact?offer=diy" style="display:inline-block;padding:14px 28px;background:linear-gradient(135deg,#f0c840,#e4b118);color:#07100a;font-weight:800;border-radius:8px;text-decoration:none;font-size:15px">Get the DIY Guide — $197 →</a>
           </div>
 
-          <!-- Upsell block -->
+          <!-- Full Build block -->
           <div style="background:linear-gradient(135deg,#111828,rgba(26,58,143,0.25));border:1px solid rgba(212,161,23,0.2);border-radius:12px;padding:24px;margin-top:0;text-align:center">
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#d4a117;margin-bottom:10px">Want the Full Strategy?</div>
-            <h2 style="font-size:20px;font-weight:800;color:#fff;margin:0 0 12px;line-height:1.3">Every Day You're Not on Page 1,<br>Your Competitor Gets the Sale.</h2>
-            <p style="font-size:13px;color:#7a8db8;margin:0 0 20px;line-height:1.7">Lola just handed you the full playbook. But most business owners read reports like this, feel overwhelmed, and do nothing — which is exactly why their competitors keep winning. Ty's team implements everything in this report for you.</p>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#d4a117;margin-bottom:10px">Prefer We Just Handle It?</div>
+            <h2 style="font-size:20px;font-weight:800;color:#fff;margin:0 0 12px;line-height:1.3">Full Build — $997<br>We build it. We rank it.</h2>
+            <p style="font-size:13px;color:#7a8db8;margin:0 0 20px;line-height:1.7">Lola just handed you the playbook. Most owners read a report like this, feel overwhelmed, and do nothing — which is exactly why their competitors keep winning. For $997, we build it and get you found — everywhere people search now.</p>
 
             <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:16px">
               <div style="background:#0a1228;border:1px solid #1c2b4a;border-radius:8px;padding:14px 16px;min-width:140px;text-align:center">
@@ -257,16 +257,21 @@ module.exports = async (req, res) => {
             </div>
 
             <div style="text-align:left;background:#0a1228;border-radius:8px;padding:16px;margin-bottom:20px">
-              <div style="font-size:12px;font-weight:700;color:#dde4f5;margin-bottom:12px">What Ty's team does for you:</div>
+              <div style="font-size:12px;font-weight:700;color:#dde4f5;margin-bottom:12px">What you get in the Full Build:</div>
               <div style="display:flex;flex-direction:column;gap:8px">
-                <div style="display:flex;gap:8px;font-size:13px;color:#7a8db8"><span style="color:#22c55e;font-weight:800;flex-shrink:0">✓</span><div><strong style="color:#dde4f5">Local keyword domination</strong> — we find the exact searches your buyers type when they're ready to spend money in ${cityName}</div></div>
-                <div style="display:flex;gap:8px;font-size:13px;color:#7a8db8"><span style="color:#22c55e;font-weight:800;flex-shrink:0">✓</span><div><strong style="color:#dde4f5">Google Business Profile</strong> — fully optimized GBP is the fastest path into the local pack</div></div>
-                <div style="display:flex;gap:8px;font-size:13px;color:#7a8db8"><span style="color:#22c55e;font-weight:800;flex-shrink:0">✓</span><div><strong style="color:#dde4f5">On-page fixes, speed &amp; citations</strong> — everything in this report, implemented for you</div></div>
-                <div style="display:flex;gap:8px;font-size:13px;color:#7a8db8"><span style="color:#22c55e;font-weight:800;flex-shrink:0">✓</span><div><strong style="color:#dde4f5">Transparent monthly reporting</strong> — you see exactly what ranked, what moved, what revenue it drove</div></div>
+                <div style="display:flex;gap:8px;font-size:13px;color:#7a8db8"><span style="color:#22c55e;font-weight:800;flex-shrink:0">✓</span><div><strong style="color:#dde4f5">A new website, built to win jobs</strong> — in front of the exact customers searching in ${cityName}</div></div>
+                <div style="display:flex;gap:8px;font-size:13px;color:#7a8db8"><span style="color:#22c55e;font-weight:800;flex-shrink:0">✓</span><div><strong style="color:#dde4f5">30 days of visibility work</strong> — get found on Google and when people ask ChatGPT, Perplexity, or Gemini for a company like yours</div></div>
+                <div style="display:flex;gap:8px;font-size:13px;color:#7a8db8"><span style="color:#22c55e;font-weight:800;flex-shrink:0">✓</span><div><strong style="color:#dde4f5">Google Business Profile optimization</strong> — the fastest path into the map pack</div></div>
+                <div style="display:flex;gap:8px;font-size:13px;color:#7a8db8"><span style="color:#22c55e;font-weight:800;flex-shrink:0">✓</span><div><strong style="color:#dde4f5">Direct access to Ty during the build</strong> — you answer your own phone; so does he</div></div>
               </div>
             </div>
 
-            <a href="https://www.tyalexandermedia.com/contact" style="display:inline-block;padding:16px 32px;background:#d4a117;color:#000;font-weight:700;border-radius:8px;text-decoration:none;font-size:16px;margin-bottom:10px">Book a Free Strategy Call →</a>
+            <div style="text-align:left;background:#0a1228;border:1px solid rgba(212,161,23,0.25);border-radius:8px;padding:16px;margin-bottom:20px">
+              <div style="font-size:12px;font-weight:700;color:#e4b118;margin-bottom:6px">🛡️ Half-Back Guarantee</div>
+              <div style="font-size:13px;color:#7a8db8;line-height:1.7">We pick 5 money keywords for your business together in week 1. If we don't get at least 1 of them ranking on page 1 or in the map pack within 30 days, you get half your investment back. No fine print.</div>
+            </div>
+
+            <a href="https://www.tyalexandermedia.com/contact" style="display:inline-block;padding:16px 32px;background:#d4a117;color:#000;font-weight:700;border-radius:8px;text-decoration:none;font-size:16px;margin-bottom:10px">Book a Free Call →</a>
             <p style="color:#4a5d80;font-size:12px;margin:0">30 minutes. No pitch. We walk through this report live and show you exactly what we'd do — yours to keep even if you never hire us.</p>
           </div>
 
