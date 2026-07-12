@@ -132,7 +132,7 @@ def render(service_key, city_key):
         (f"How do I get my {noun} to show up on Google in {city}?",
          f"It comes down to three things: a Google Business Profile optimized for {city}, a fast website built to rank and convert, and the local signals (reviews, citations, schema) Google trusts. Lola does all three for you."),
         (f"How long until my {noun} ranks in {city}?",
-         "Most local businesses see movement in 30–60 days. We ranked Sandbar Soft Wash for 5 keywords in 3 weeks using this same system."),
+         "Most local businesses see movement in 30–60 days. We run this same system on our own family business, Sandbar Soft Wash — every ranking move tracked on a live public dashboard."),
     ]
     faq_html = "".join(
         f'<div class="card"><div class="q">{esc(q)}</div><p>{esc(a)}</p></div>' for q, a in faq
@@ -209,7 +209,7 @@ footer a{{color:#FFD700;text-decoration:none}}
   <h2>What Lola does for {esc(label.lower())} in {esc(city)}</h2>
   <ul>{win_items}</ul>
 
-  <div class="proof">\U0001FAB4 <strong>Proof, not promises:</strong> we built this for our own business first — Sandbar Soft Wash ranked for <strong>5 keywords in 3 weeks</strong>, 100/100 PageSpeed, 22 pages. Same system we run for your {esc(noun)}.</div>
+  <div class="proof">\U0001FAB4 <strong>Proof, not promises:</strong> we built this for our own business first — Sandbar Soft Wash, a 15-year family operation, with <strong>every ranking move tracked on a live public dashboard</strong>. Same system we run for your {esc(noun)}.</div>
 
   <h2>Serving every corner of {esc(city)}</h2>
   <p>From {esc(areas_str)} — wherever your customers are searching, Lola puts your {esc(noun)} in front of them. We build {esc(city)}-specific pages and optimize your Google Business Profile for the neighborhoods that actually drive your business.</p>
