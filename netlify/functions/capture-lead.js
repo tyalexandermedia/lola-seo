@@ -1,4 +1,4 @@
-const { execSync } = require("child_process");
+const { execFileSync } = require("child_process");
 
 function callTool(sourceId, toolName, args) {
   const params = JSON.stringify({
@@ -6,7 +6,9 @@ function callTool(sourceId, toolName, args) {
     tool_name: toolName,
     arguments: args,
   });
-  const result = execSync(`external-tool call '${params}'`, {
+  // Args passed as an array → no shell involved, so user-supplied field values
+  // cannot break out and inject commands (hardened from the prior execSync form).
+  const result = execFileSync("external-tool", ["call", params], {
     timeout: 30000,
   }).toString();
   return JSON.parse(result);

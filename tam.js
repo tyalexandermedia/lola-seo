@@ -10,6 +10,8 @@
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  try {
+
   /* ---- Header: solid on scroll ---- */
   var header = document.querySelector(".site-header");
   if (header) {
@@ -25,17 +27,16 @@
   var toggle = document.querySelector(".nav-toggle");
   var links = document.querySelector(".nav-links");
   if (toggle && links) {
-    toggle.addEventListener("click", function () {
-      var open = links.classList.toggle("is-open");
+    var setNav = function (open) {
+      links.classList.toggle("is-open", open);
       document.body.classList.toggle("nav-open", open);
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-    links.addEventListener("click", function (e) {
-      if (e.target.closest("a")) {
-        links.classList.remove("is-open");
-        document.body.classList.remove("nav-open");
-        toggle.setAttribute("aria-expanded", "false");
-      }
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+    toggle.addEventListener("click", function () { setNav(!links.classList.contains("is-open")); });
+    links.addEventListener("click", function (e) { if (e.target.closest("a")) setNav(false); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && links.classList.contains("is-open")) { setNav(false); toggle.focus(); }
     });
   }
 
@@ -114,17 +115,18 @@
       if (form.querySelector("[name=company_website]") && form.querySelector("[name=company_website]").value) {
         return; // bot
       }
+      if (!form.checkValidity()) { form.reportValidity(); return; }
       var data = {};
       new FormData(form).forEach(function (v, k) { data[k] = v; });
       if (status) { status.className = "form-status"; status.textContent = ""; }
-      if (submitBtn) { submitBtn.disabled = true; submitBtn.dataset.label = submitBtn.textContent; submitBtn.textContent = "Sending…"; }
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.dataset.html = submitBtn.innerHTML; submitBtn.textContent = "Sending…"; }
 
       fetch("/.netlify/functions/request-shoot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       }).then(function (r) {
-        return r.json().then(function (j) { return { ok: r.ok, j: j }; });
+        return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; });
       }).then(function (res) {
         if (res.ok && res.j && res.j.success) {
           form.reset();
@@ -133,18 +135,27 @@
             status.textContent = "Request received. Ty will reach out to confirm availability and scope — this is a request, not a confirmed booking.";
           }
           form.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
-        } else {
-          throw new Error((res.j && res.j.error) || "Something went wrong.");
+        } else if (status) {
+          // Server responded but rejected the request → surface the specific reason.
+          status.classList.add("is-err");
+          status.textContent = (res.j && res.j.error)
+            ? res.j.error
+            : "We couldn't send that just now. Please email ty@tyalexandermedia.com or call 727-300-6573 and we'll get you scheduled.";
         }
       }).catch(function (err) {
+        // True network / parse failure → human fallback.
         if (status) {
           status.classList.add("is-err");
-          status.textContent = "We couldn't send that just now. Please email ty@tyalexandermedia.com or call 727-300-6573 and we'll get you scheduled.";
+          status.textContent = "We couldn't reach the server. Please email ty@tyalexandermedia.com or call 727-300-6573 and we'll get you scheduled.";
         }
         console.error(err);
       }).finally(function () {
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = submitBtn.dataset.label || "Request a Shoot"; }
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = submitBtn.dataset.html || "Request a Shoot"; }
       });
     });
+  }
+  } catch (err) {
+    console.error(err);
+    document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("is-in"); });
   }
 })();
