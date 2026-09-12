@@ -1,0 +1,63 @@
+# ── Coach Ty Alexander — migration redirects ─────────────────────────────
+# coachtyalexander.com is now the personal-training / athletic-performance site.
+# The old Lola local-business-marketing pages move to Coach Ty Leads
+# (www.coachtyleads.com). 301s preserve any existing link equity.
+# `301!` forces the redirect even if a stale file is still present.
+# Full rationale + gaps: see MIGRATION.md.
+
+# ── Confirmed service equivalents on coachtyleads.com ────────────────────
+/plumber-seo-tampa             https://www.coachtyleads.com/lp/plumber-seo-tampa             301!
+/plumber-seo-tampa/*           https://www.coachtyleads.com/lp/plumber-seo-tampa             301!
+/plumber-seo-st-petersburg     https://www.coachtyleads.com/lp/plumber-seo-st-petersburg     301!
+/plumber-seo-st-petersburg/*   https://www.coachtyleads.com/lp/plumber-seo-st-petersburg     301!
+/plumber-seo-clearwater        https://www.coachtyleads.com/lp/plumber-seo-clearwater        301!
+/plumber-seo-clearwater/*      https://www.coachtyleads.com/lp/plumber-seo-clearwater        301!
+/hvac-seo-tampa                https://www.coachtyleads.com/lp/hvac-seo-tampa                301!
+/hvac-seo-tampa/*              https://www.coachtyleads.com/lp/hvac-seo-tampa                301!
+/electrician-seo-tampa         https://www.coachtyleads.com/lp/electrician-seo-tampa         301!
+/electrician-seo-tampa/*       https://www.coachtyleads.com/lp/electrician-seo-tampa         301!
+/pressure-washing-seo-tampa    https://www.coachtyleads.com/lp/pressure-washing-seo-tampa    301!
+/pressure-washing-seo-tampa/*  https://www.coachtyleads.com/lp/pressure-washing-seo-tampa    301!
+/roofer-seo-tampa              https://www.coachtyleads.com/lp/roofing-seo-tampa             301!
+/roofer-seo-tampa/*            https://www.coachtyleads.com/lp/roofing-seo-tampa             301!
+# landscaping → lawn-care is the nearest available service on coachtyleads.com
+/landscaping-seo-tampa         https://www.coachtyleads.com/lp/lawn-care-seo-tampa           301!
+/landscaping-seo-tampa/*       https://www.coachtyleads.com/lp/lawn-care-seo-tampa           301!
+
+# ── No exact equivalent yet → industries hub (see MIGRATION.md "gaps") ───
+/restaurant-seo-tampa          https://www.coachtyleads.com/lp/industries   301!
+/restaurant-seo-tampa/*        https://www.coachtyleads.com/lp/industries   301!
+/restaurant-seo-st-petersburg    https://www.coachtyleads.com/lp/industries   301!
+/restaurant-seo-st-petersburg/*  https://www.coachtyleads.com/lp/industries   301!
+/restaurant-seo-clearwater       https://www.coachtyleads.com/lp/industries   301!
+/restaurant-seo-clearwater/*     https://www.coachtyleads.com/lp/industries   301!
+/salon-seo-tampa               https://www.coachtyleads.com/lp/industries   301!
+/salon-seo-tampa/*             https://www.coachtyleads.com/lp/industries   301!
+/salon-seo-st-petersburg       https://www.coachtyleads.com/lp/industries   301!
+/salon-seo-st-petersburg/*     https://www.coachtyleads.com/lp/industries   301!
+/salon-seo-clearwater          https://www.coachtyleads.com/lp/industries   301!
+/salon-seo-clearwater/*        https://www.coachtyleads.com/lp/industries   301!
+/gym-seo-tampa                 https://www.coachtyleads.com/lp/industries   301!
+/gym-seo-tampa/*               https://www.coachtyleads.com/lp/industries   301!
+/gym-seo-st-petersburg         https://www.coachtyleads.com/lp/industries   301!
+/gym-seo-st-petersburg/*       https://www.coachtyleads.com/lp/industries   301!
+/gym-seo-clearwater            https://www.coachtyleads.com/lp/industries   301!
+/gym-seo-clearwater/*          https://www.coachtyleads.com/lp/industries   301!
+/med-spa-seo-tampa             https://www.coachtyleads.com/lp/industries   301!
+/med-spa-seo-tampa/*           https://www.coachtyleads.com/lp/industries   301!
+/dentist-seo-tampa             https://www.coachtyleads.com/lp/industries   301!
+/dentist-seo-tampa/*           https://www.coachtyleads.com/lp/industries   301!
+/chiropractor-seo-tampa        https://www.coachtyleads.com/lp/industries   301!
+/chiropractor-seo-tampa/*      https://www.coachtyleads.com/lp/industries   301!
+/law-firm-seo-tampa            https://www.coachtyleads.com/lp/industries   301!
+/law-firm-seo-tampa/*          https://www.coachtyleads.com/lp/industries   301!
+/auto-repair-seo-tampa         https://www.coachtyleads.com/lp/industries   301!
+/auto-repair-seo-tampa/*       https://www.coachtyleads.com/lp/industries   301!
+/real-estate-seo-tampa         https://www.coachtyleads.com/lp/industries   301!
+/real-estate-seo-tampa/*       https://www.coachtyleads.com/lp/industries   301!
+/pet-grooming-seo-tampa        https://www.coachtyleads.com/lp/industries   301!
+/pet-grooming-seo-tampa/*      https://www.coachtyleads.com/lp/industries   301!
+
+# ── Roadmap (Lola product roadmap → Coach Ty Leads) ──────────────────────
+/roadmap        https://www.coachtyleads.com/roadmap   301!
+/roadmap/*      https://www.coachtyleads.com/roadmap   301!
