@@ -105,7 +105,7 @@
   }
   </script>
 </head>
-<body>
+<body class="has-cta">
 
   <!-- ── Header ─────────────────────────────────────────── -->
   <header class="site-header" id="header">
@@ -147,7 +147,7 @@
           </div>
           <div class="hero-media reveal d1">
             <img src="/images/ty-coaching-gym.jpg" width="360" height="450"
-                 alt="Coach Ty Alexander coaching a training session in a St. Petersburg gym.">
+                 alt="Coach Ty Alexander coaching a training session in a St. Petersburg gym." fetchpriority="high" decoding="async">
             <span class="hero-badge"><span class="dot" aria-hidden="true"></span> Coached, not random</span>
           </div>
         </div>
@@ -233,7 +233,7 @@
           <div class="flagship-foot">
             <div class="flagship-price">
               <div class="amt">$249<span>&nbsp;/ month to start</span></div>
-              <div class="note">Final plan depends on your goals, schedule &amp; availability.</div>
+              <div class="note">Final plan depends on your goals, schedule &amp; availability. Semi-private means small groups, so spots are limited.</div>
             </div>
             <a href="/apply/" class="btn btn--primary btn--lg">Apply for Coaching <span class="arrow" aria-hidden="true">→</span></a>
           </div>
@@ -282,7 +282,7 @@
         <div class="split split--reverse">
           <div class="split-media reveal">
             <img src="/images/ty-coaching-gym.jpg" width="360" height="450"
-                 alt="Coach Ty Alexander coaching in the gym, whistle in hand, during a basketball performance session.">
+                 alt="Coach Ty Alexander coaching in the gym, whistle in hand, during a basketball performance session." loading="lazy" decoding="async">
           </div>
           <div class="reveal d1">
             <span class="eyebrow">Basketball Performance</span>
@@ -308,7 +308,7 @@
         <div class="split">
           <div class="split-media split-media--tall reveal">
             <img src="/images/ty-lola-beach.jpg" width="660" height="996"
-                 alt="Coach Ty Alexander at sunset on a St. Petersburg beach with his dog Lola.">
+                 alt="Coach Ty Alexander at sunset on a St. Petersburg beach with his dog Lola." loading="lazy" decoding="async">
           </div>
           <div class="reveal d1">
             <span class="eyebrow">About Coach Ty</span>
@@ -425,6 +425,10 @@
     </div>
   </footer>
 
+  <div class="sticky-cta" aria-label="Apply for coaching">
+    <a href="/apply/" class="btn btn--primary">Apply for Coaching</a>
+    <a href="tel:+17273006573" class="btn btn--ghost btn--call" aria-label="Call Coach Ty at (727) 300-6573"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+  </div>
   <script src="/site.js" defer></script>
 </body>
 </html>
