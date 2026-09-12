@@ -3,3 +3,28 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# --- Security headers (safe for all pages) ---
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# --- Static asset caching (no fingerprinting yet: keep TTL modest) ---
+[[headers]]
+  for = "/tam.css"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/tam.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# NOTE: Domain canonicalization (apex -> www) is best set in Netlify's
+# domain settings (primary domain = www.tyalexandermedia.com). Legacy Lola
+# SEO redirects are intentionally NOT declared here — see MIGRATION-REPORT.md;
+# add them only once the exact destination URLs are confirmed.

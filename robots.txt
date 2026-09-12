@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://lola.tyalexandermedia.com/sitemap.xml
+
+Sitemap: https://www.tyalexandermedia.com/sitemap.xml
