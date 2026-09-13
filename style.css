@@ -533,6 +533,37 @@ strong { color: var(--paper); font-weight: 600; }
   font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
 }
 
+/* ── Fit Finder quiz ───────────────────────────────────── */
+.quiz { max-width: 680px; margin-inline: auto; }
+.quiz-bar { height: 4px; border-radius: 3px; background: var(--ink-4); overflow: hidden; margin-bottom: 32px; }
+.quiz-bar span { display: block; height: 100%; width: 20%; background: linear-gradient(90deg, var(--accent-deep), var(--accent)); border-radius: 3px; transition: width 0.45s var(--ease); }
+.quiz-step, .quiz-result { display: none; }
+.quiz-step.active, .quiz-result.active { display: block; animation: quizIn 0.4s var(--ease); }
+@keyframes quizIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.quiz-kicker { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+.quiz-q { font-size: clamp(24px, 4vw, 34px); color: var(--paper); font-weight: 700; line-height: 1.12; margin-bottom: 24px; letter-spacing: -0.01em; }
+.quiz-opts { display: grid; gap: 12px; }
+.quiz-opt {
+  display: flex; align-items: center; gap: 14px;
+  width: 100%; text-align: left;
+  padding: 18px 20px; border-radius: var(--r-md);
+  border: 1px solid var(--line-2); background: var(--ink-3);
+  color: var(--paper); font-size: 16px; font-weight: 500;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), transform 0.15s var(--ease);
+}
+.quiz-opt:hover { border-color: var(--accent-line); background: var(--ink-4); }
+.quiz-opt:active { transform: scale(0.99); }
+.quiz-opt .dot { flex: none; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--line-2); transition: all 0.2s var(--ease); }
+.quiz-opt.sel { border-color: var(--accent); background: var(--accent-soft); }
+.quiz-opt.sel .dot { border-color: var(--accent); background: var(--accent); box-shadow: inset 0 0 0 3px var(--ink-3); }
+.quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 26px; }
+.quiz-back { font-size: 14px; color: var(--paper-dim); display: inline-flex; align-items: center; gap: 7px; }
+.quiz-back:hover { color: var(--paper); }
+.quiz-back[hidden] { visibility: hidden; display: inline-flex; }
+.quiz-count { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--paper-faint); }
+.prefill-note { display: block; background: var(--accent-soft); border: 1px solid var(--accent-line); color: var(--paper); border-radius: var(--r-sm); padding: 13px 16px; font-size: 14px; margin-bottom: 18px; }
+.prefill-note[hidden] { display: none; }
+
 /* ── Split feature (basketball / about) ────────────────── */
 .split { display: grid; gap: clamp(30px, 6vw, 60px); align-items: center; }
 .split-media {

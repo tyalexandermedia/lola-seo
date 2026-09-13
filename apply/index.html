@@ -93,6 +93,7 @@
           <div class="reveal d1">
             <div class="form-card">
               <div class="form-status" id="formStatus" role="alert" aria-live="polite"></div>
+              <div class="prefill-note" id="prefillNote" hidden></div>
 
               <form id="applyForm" novalidate>
                 <!-- honeypot: hidden from users, catches bots -->
@@ -150,6 +151,7 @@
                       <option>Semi-Private (recommended)</option>
                       <option>Private one-on-one</option>
                       <option>Basketball performance</option>
+                      <option>HYROX &amp; hybrid performance</option>
                       <option>Not sure — help me choose</option>
                     </select>
                   </div>
@@ -219,6 +221,7 @@
         <div class="footer-col">
           <h4>Explore</h4>
           <ul>
+            <li><a href="/start/">Find Your Fit</a></li>
             <li><a href="/#philosophy">The Approach</a></li>
             <li><a href="/#flagship">Everyday Athlete Coaching</a></li>
             <li><a href="/#ways">Ways to Train</a></li>
@@ -253,6 +256,30 @@
     var successEl = document.getElementById('formSuccess');
     var btn = document.getElementById('submitBtn');
     if (!form) return;
+
+    // Pre-fill from the Fit Finder (or any ?option=/?goal=/?experience= link)
+    (function prefill() {
+      var params = new URLSearchParams(location.search);
+      function set(name, val) {
+        if (!val) return false;
+        var sel = form[name];
+        if (!sel || !sel.options) return false;
+        for (var i = 0; i < sel.options.length; i++) {
+          var o = sel.options[i];
+          if (o.value === val || o.text === val) { sel.selectedIndex = i; return true; }
+        }
+        return false;
+      }
+      var did = false;
+      if (set('option', params.get('option'))) did = true;
+      if (set('goal', params.get('goal'))) did = true;
+      if (set('experience', params.get('experience'))) did = true;
+      var note = document.getElementById('prefillNote');
+      if (did && note) {
+        note.textContent = "Based on your fit finder, I've pre-selected your best options below — change anything before you send.";
+        note.hidden = false;
+      }
+    })();
 
     var ENDPOINT = '/.netlify/functions/apply';
 
