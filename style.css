@@ -723,6 +723,9 @@ button[disabled] { opacity: 0.6; cursor: not-allowed; }
   .ways-grid { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
   .way--featured { transform: scale(1.03); }
   .way--featured:hover { transform: scale(1.03) translateY(-4px); }
+  .ways-grid--4 { grid-template-columns: repeat(2, 1fr); }
+  .ways-grid--4 .way--featured { transform: none; }
+  .ways-grid--4 .way--featured:hover { transform: translateY(-4px); }
   .split { grid-template-columns: 1fr 1fr; }
   .split--reverse .split-media { order: 2; }
   .apply-grid { grid-template-columns: 0.9fr 1.1fr; }
