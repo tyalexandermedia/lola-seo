@@ -477,6 +477,62 @@ strong { color: var(--paper); font-weight: 600; }
 .way .link .arrow { transition: transform 0.25s var(--ease); }
 .way .link:hover .arrow { transform: translateX(4px); }
 
+/* ── Pricing packages (clickable cards) ────────────────── */
+.pkg-grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 620px) { .pkg-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .pkg-grid { grid-template-columns: repeat(auto-fit, minmax(238px, 1fr)); } }
+.pkg {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 26px 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: linear-gradient(180deg, var(--ink-3), var(--ink-2));
+  color: var(--paper-dim);
+  overflow: hidden;
+  transition: transform 0.35s var(--ease), border-color 0.3s var(--ease), box-shadow 0.35s var(--ease);
+}
+.pkg::before {
+  content: "";
+  position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s var(--ease);
+}
+.pkg:hover { transform: translateY(-6px); border-color: var(--accent-line); box-shadow: var(--shadow); }
+.pkg:hover::before { transform: scaleX(1); }
+.pkg-name { font-size: 22px; font-weight: 700; color: var(--paper); letter-spacing: -0.01em; line-height: 1.15; }
+.pkg-who { display: block; margin-top: 9px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); }
+.pkg-desc { display: block; margin-top: 15px; font-size: 14px; line-height: 1.6; color: var(--paper-dim); flex: 1 0 auto; }
+.pkg-foot { display: block; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); }
+.pkg-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: 16px; }
+.pkg-from { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--paper-faint); }
+.pkg-amt { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 42px; line-height: 0.9; color: var(--paper); letter-spacing: 0.01em; }
+.pkg-amt--sm { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0; }
+.pkg-per { font-size: 13px; color: var(--paper-faint); }
+.pkg-cta {
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  width: 100%; padding: 13px 18px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-2);
+  font-size: 14.5px; font-weight: 600; color: var(--paper);
+  transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.pkg-cta .arrow { transition: transform 0.25s var(--ease); }
+.pkg:hover .pkg-cta { background: var(--accent); color: #1a1206; border-color: var(--accent); }
+.pkg:hover .pkg-cta .arrow { transform: translateX(4px); }
+.pkg--featured { border-color: var(--accent-line); background: radial-gradient(130% 90% at 50% 0%, var(--accent-soft), transparent 58%), linear-gradient(180deg, var(--ink-3), var(--ink-2)); }
+.pkg--featured::before { transform: scaleX(1); }
+.pkg--featured .pkg-cta { background: var(--accent); color: #1a1206; border-color: var(--accent); }
+.pkg--featured:hover .pkg-cta { background: var(--accent-deep); border-color: var(--accent-deep); }
+.pkg-flag {
+  position: absolute; top: 15px; right: 15px;
+  padding: 5px 11px; border-radius: var(--r-pill);
+  background: var(--accent); color: #1a1206;
+  font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+}
+
 /* ── Split feature (basketball / about) ────────────────── */
 .split { display: grid; gap: clamp(30px, 6vw, 60px); align-items: center; }
 .split-media {
