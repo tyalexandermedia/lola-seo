@@ -60,4 +60,23 @@
       reveals.forEach(function (el) { io.observe(el); });
     }
   }
+
+  // Offer stack — accordion (one open at a time)
+  var offerHeads = document.querySelectorAll('.offer-head');
+  offerHeads.forEach(function (head) {
+    head.addEventListener('click', function () {
+      var offer = head.parentElement;
+      var isOpen = offer.classList.contains('open');
+      var group = offer.parentElement;
+      group.querySelectorAll('.offer.open').forEach(function (o) {
+        if (o !== offer) {
+          o.classList.remove('open');
+          var h = o.querySelector('.offer-head');
+          if (h) h.setAttribute('aria-expanded', 'false');
+        }
+      });
+      offer.classList.toggle('open', !isOpen);
+      head.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
 })();
