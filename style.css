@@ -564,6 +564,56 @@ strong { color: var(--paper); font-weight: 600; }
 .prefill-note { display: block; background: var(--accent-soft); border: 1px solid var(--accent-line); color: var(--paper); border-radius: var(--r-sm); padding: 13px 16px; font-size: 14px; margin-bottom: 18px; }
 .prefill-note[hidden] { display: none; }
 
+/* ── Offer stack (expandable editorial rows) ───────────── */
+.offers { border-top: 1px solid var(--line); max-width: 940px; margin-inline: auto; }
+.offer { border-bottom: 1px solid var(--line); position: relative; }
+.offer::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); transform: scaleY(0); transform-origin: top; transition: transform 0.35s var(--ease); }
+.offer.open::before { transform: scaleY(1); }
+.offer-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: clamp(14px, 3vw, 30px);
+  width: 100%;
+  text-align: left;
+  padding: clamp(22px, 3.4vw, 30px) 6px clamp(22px, 3.4vw, 30px) 14px;
+  transition: padding-left 0.3s var(--ease), background 0.3s var(--ease);
+}
+.offer-head:hover { padding-left: 22px; }
+.offer-num { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--paper-faint); transition: color 0.3s var(--ease); }
+.offer.open .offer-num, .offer-head:hover .offer-num { color: var(--accent); }
+.offer-title { min-width: 0; }
+.offer-name { display: block; font-size: clamp(20px, 3.2vw, 30px); font-weight: 700; color: var(--paper); letter-spacing: -0.015em; line-height: 1.08; }
+.offer-name .flag { display: inline-block; vertical-align: middle; margin-left: 12px; padding: 4px 10px; border-radius: var(--r-pill); background: var(--accent); color: #1a1206; font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+.offer-who { display: block; margin-top: 7px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper-faint); }
+.offer-price { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: clamp(24px, 3.4vw, 32px); color: var(--paper); letter-spacing: 0.02em; white-space: nowrap; }
+.offer-price small { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--paper-faint); font-weight: 500; }
+.offer-toggle { flex: none; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-2); position: relative; transition: background 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.3s var(--ease); }
+.offer-toggle::before, .offer-toggle::after { content: ""; position: absolute; top: 50%; left: 50%; width: 13px; height: 2px; background: var(--paper); border-radius: 2px; transform: translate(-50%, -50%); transition: transform 0.3s var(--ease), background 0.3s var(--ease); }
+.offer-toggle::after { transform: translate(-50%, -50%) rotate(90deg); }
+.offer.open .offer-toggle { background: var(--accent); border-color: var(--accent); transform: rotate(135deg); }
+.offer.open .offer-toggle::before, .offer.open .offer-toggle::after { background: #1a1206; }
+/* Expanding body (grid-rows technique) */
+.offer-body { display: grid; grid-template-rows: 1fr; }
+.js .offer-body { grid-template-rows: 0fr; transition: grid-template-rows 0.45s var(--ease); }
+.js .offer.open .offer-body { grid-template-rows: 1fr; }
+.offer-body > .offer-body-clip { overflow: hidden; min-height: 0; }
+.offer-body-inner { padding: 2px 14px 32px 14px; max-width: 68ch; }
+.offer-desc { font-size: 15.5px; color: var(--paper-dim); margin-bottom: 18px; }
+.offer-feats { display: grid; gap: 10px; margin-bottom: 24px; }
+.offer-feats li { display: flex; gap: 11px; align-items: flex-start; font-size: 14.5px; color: var(--paper); }
+.offer-feats .tick { flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--accent-soft); border: 1px solid var(--accent-line); display: grid; place-items: center; margin-top: 1px; }
+.offer-feats .tick svg { width: 11px; height: 11px; stroke: var(--accent); }
+.offer-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.offer-toggle-btn { display: none; }
+@media (max-width: 560px) {
+  .offer-head { grid-template-columns: auto 1fr auto; gap: 12px; }
+  .offer-price { display: none; }
+  .offer-price--m { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--paper); margin-bottom: 16px; }
+  .offer-price--m small { font-family: 'DM Sans'; font-size: 12px; color: var(--paper-faint); }
+}
+@media (min-width: 561px) { .offer-price--m { display: none; } }
+
 /* ── Split feature (basketball / about) ────────────────── */
 .split { display: grid; gap: clamp(30px, 6vw, 60px); align-items: center; }
 .split-media {
