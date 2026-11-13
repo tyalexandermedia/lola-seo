@@ -771,21 +771,6 @@ button[disabled] { opacity: 0.6; cursor: not-allowed; }
 .footer-col a { font-size: 14.5px; color: var(--paper-dim); transition: color 0.2s var(--ease); }
 .footer-col a:hover { color: var(--paper); }
 .footer-contact a { display: block; }
-.cross-link {
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  background: var(--ink-3);
-  padding: 16px 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 14px;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 36px;
-}
-.cross-link p { font-size: 14px; color: var(--paper-dim); }
-.cross-link a { font-size: 14px; font-weight: 600; color: var(--accent); display: inline-flex; align-items: center; gap: 7px; }
-.cross-link a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .footer-bottom {
   display: flex;
   flex-wrap: wrap;
@@ -875,6 +860,36 @@ button[disabled] { opacity: 0.6; cursor: not-allowed; }
 
 /* Hide mobile menu container on desktop */
 @media (min-width: 900px) { .mobile-menu { display: none; } }
+
+/* ── Nov 2026 repositioning additions ──────────────────── */
+.hero-sub + .hero-note { margin-top: -14px; }
+.hero-note { font-size: 15.5px; color: var(--paper-dim); max-width: 46ch; margin-bottom: 32px; }
+.teaser-copy { color: var(--paper-dim); max-width: 58ch; margin-bottom: 12px; }
+.flagship .lede + .teaser-copy { margin-top: -14px; }
+.teaser-actions { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 14px; }
+.flagship-price .amt.amt--planned { font-size: clamp(26px, 5vw, 34px); letter-spacing: 0.02em; }
+/* Apply page: the aside heading is the page H1 but keeps the smaller sans style */
+.page-hero .apply-aside h1 {
+  font-family: inherit;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  font-size: clamp(28px, 4.4vw, 42px);
+  margin-bottom: 16px;
+}
+.focus-list { display: grid; gap: 14px; }
+.journal-empty {
+  border: 1px dashed var(--line-2);
+  border-radius: var(--r-md);
+  padding: clamp(24px, 5vw, 40px);
+  text-align: center;
+  color: var(--paper-dim);
+}
+.journal-empty strong { display: block; font-size: clamp(19px, 3vw, 24px); margin-bottom: 8px; }
+@media (min-width: 900px) and (max-width: 1099px) {
+  .nav-links { gap: 20px; }
+}
 
 /* ── Reduced motion ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

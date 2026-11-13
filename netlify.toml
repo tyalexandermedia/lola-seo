@@ -1,10 +1,7 @@
 [build]
   publish = "."
-  functions = "netlify/functions"
 
-[functions]
-  node_bundler = "esbuild"
-
+# The /apply/ form is handled by Netlify Forms (no functions).
 # Redirects live in ./_redirects (see also MIGRATION.md).
 
 # ── Security headers (all routes) ────────────────────────────

@@ -5,23 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>document.documentElement.classList.add('js');</script>
   <title>Apply for Coaching | Coach Ty Alexander — St. Petersburg</title>
-  <meta name="description" content="Apply to train with Coach Ty Alexander in St. Petersburg. Tell me your goals and how you want to train — I review every application personally.">
+  <meta name="description" content="Apply to train with Coach Ty Alexander in St. Petersburg, or join the semi-private waitlist. I review every application personally.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0C0C0D">
-  <link rel="canonical" href="https://www.coachtyalexander.com/apply/">
+  <link rel="canonical" href="https://coachtyalexander.com/apply/">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Coach Ty Alexander">
   <meta property="og:title" content="Apply for Coaching | Coach Ty Alexander">
   <meta property="og:description" content="Apply to train with Coach Ty Alexander in St. Petersburg. I review every application personally and follow up to build the right plan for you.">
-  <meta property="og:url" content="https://www.coachtyalexander.com/apply/">
-  <meta property="og:image" content="https://www.coachtyalexander.com/images/og.jpg">
+  <meta property="og:url" content="https://coachtyalexander.com/apply/">
+  <meta property="og:image" content="https://coachtyalexander.com/images/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Apply for Coaching | Coach Ty Alexander">
   <meta name="twitter:description" content="Apply to train with Coach Ty Alexander in St. Petersburg.">
-  <meta name="twitter:image" content="https://www.coachtyalexander.com/images/og.jpg">
+  <meta name="twitter:image" content="https://coachtyalexander.com/images/og.jpg">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230C0C0D'/><text x='50' y='72' font-size='62' font-family='Arial Black,Arial' font-weight='900' text-anchor='middle' fill='%23E6A94E'>T</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,8 +34,8 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.coachtyalexander.com/" },
-      { "@type": "ListItem", "position": 2, "name": "Apply", "item": "https://www.coachtyalexander.com/apply/" }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://coachtyalexander.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Apply", "item": "https://coachtyalexander.com/apply/" }
     ]
   }
   </script>
@@ -49,6 +49,7 @@
         <a href="/coaching/">Coaching</a>
         <a href="/basketball-performance/">Basketball</a>
         <a href="/hyrox/">HYROX</a>
+        <a href="/road-to-miami/">Road to Miami</a>
         <a href="/about/">About</a>
       </nav>
       <a href="/apply/" class="btn btn--primary nav-cta" aria-current="page">Apply for Coaching</a>
@@ -58,7 +59,8 @@
   <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
     <a href="/coaching/">Coaching <span aria-hidden="true">→</span></a>
     <a href="/basketball-performance/">Basketball Performance <span aria-hidden="true">→</span></a>
-    <a href="/hyrox/">HYROX Performance <span aria-hidden="true">→</span></a>
+    <a href="/hyrox/">HYROX <span aria-hidden="true">→</span></a>
+    <a href="/road-to-miami/">Road to Miami <span aria-hidden="true">→</span></a>
     <a href="/about/">About Coach Ty <span aria-hidden="true">→</span></a>
     <a href="/apply/" class="btn btn--primary btn--block">Apply for Coaching</a>
   </nav>
@@ -72,8 +74,8 @@
         <div class="apply-grid">
           <aside class="apply-aside reveal">
             <span class="eyebrow">Apply for Coaching</span>
-            <h2>Let's build the right plan for you.</h2>
-            <p>This takes about two minutes. Tell me your goals and how you'd like to train — I review every application personally and follow up to talk it through. No pressure, no hard sell.</p>
+            <h1>Tell me what you're training for.</h1>
+            <p>This takes about two minutes. Tell me your goals and how you'd like to train — I review every application personally and follow up to talk it through. Semi-private coaching is a waitlist right now; private 1:1 depends on current availability.</p>
             <div class="apply-steps">
               <div class="apply-step">
                 <span class="n">1</span>
@@ -85,7 +87,7 @@
               </div>
               <div class="apply-step">
                 <span class="n">3</span>
-                <div><h4>You train</h4><p>We match you to the right coaching option and get to work.</p></div>
+                <div><h4>Next step</h4><p>We sort out the right option — training now if there's availability, or a spot on the waitlist.</p></div>
               </div>
             </div>
           </aside>
@@ -95,8 +97,9 @@
               <div class="form-status" id="formStatus" role="alert" aria-live="polite"></div>
               <div class="prefill-note" id="prefillNote" hidden></div>
 
-              <form id="applyForm" novalidate>
-                <!-- honeypot: hidden from users, catches bots -->
+              <form id="applyForm" name="apply" method="POST" data-netlify="true" netlify-honeypot="company" novalidate>
+                <input type="hidden" name="form-name" value="apply">
+                <!-- honeypot: hidden from users, catches bots (Netlify Forms reads the "company" field) -->
                 <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;" tabindex="-1">
                   <label>Company (leave blank)<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
                 </div>
@@ -124,7 +127,7 @@
                     <option value="" disabled selected>Choose one…</option>
                     <option>Get stronger</option>
                     <option>Improve conditioning / lose fat</option>
-                    <option>Move better / fix aches &amp; mobility</option>
+                    <option>Move better / improve mobility</option>
                     <option>Athletic performance</option>
                     <option>Basketball performance</option>
                     <option>General health &amp; consistency</option>
@@ -148,7 +151,7 @@
                     <label for="option">Preferred coaching option <span class="req">*</span></label>
                     <select id="option" name="option" required>
                       <option value="" disabled selected>Choose one…</option>
-                      <option>Semi-Private (recommended)</option>
+                      <option>Semi-Private waitlist</option>
                       <option>Private one-on-one</option>
                       <option>Basketball performance</option>
                       <option>HYROX &amp; hybrid performance</option>
@@ -177,7 +180,7 @@
 
                 <div class="field">
                   <label for="notes">Anything else? <span style="color:var(--paper-faint);font-weight:400;">(optional)</span></label>
-                  <textarea id="notes" name="notes" placeholder="Injuries, schedule notes, what you're hoping for…"></textarea>
+                  <textarea id="notes" name="notes" placeholder="Schedule notes, training history, what you're hoping for…"></textarea>
                 </div>
 
                 <button type="submit" class="btn btn--primary btn--block btn--lg" id="submitBtn">Apply for Coaching <span class="arrow" aria-hidden="true">→</span></button>
@@ -187,7 +190,7 @@
               <div class="form-success" id="formSuccess">
                 <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
                 <h3>Application received.</h3>
-                <p>Thanks — I've got it. I read every application personally and I'll follow up soon to talk through your goals and the best way to train together. Keep an eye on your inbox and phone.</p>
+                <p>Thanks — I've got it. I read every application personally and I'll follow up to talk through your goals and what's currently available. Keep an eye on your inbox and phone.</p>
               </div>
             </div>
           </div>
@@ -198,22 +201,19 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <div class="cross-link">
-        <p>Own a local business and need more customers?</p>
-        <a href="https://www.coachtyleads.com/" rel="noopener">Visit Coach Ty Leads <span aria-hidden="true">→</span></a>
-      </div>
       <div class="footer-grid">
         <div class="footer-brand">
           <div class="brand">COACH&nbsp;TY<span class="brand-mark">.</span></div>
-          <p>Strength, conditioning and athletic-performance coaching for everyday athletes and basketball players in St. Petersburg, FL.</p>
+          <p>Ankle, hip and knee mobility, strength and conditioning coaching for athletes in St. Petersburg, FL.</p>
         </div>
         <div class="footer-col">
           <h4>Train</h4>
           <ul>
             <li><a href="/coaching/">Coaching</a></li>
-            <li><a href="/founding/">Founding Cohort</a></li>
+            <li><a href="/founding/">Semi-Private Waitlist</a></li>
             <li><a href="/basketball-performance/">Basketball Performance</a></li>
             <li><a href="/hyrox/">HYROX &amp; Hybrid</a></li>
+            <li><a href="/road-to-miami/">Road to Miami</a></li>
             <li><a href="/about/">About Coach Ty</a></li>
             <li><a href="/apply/">Apply for Coaching</a></li>
           </ul>
@@ -238,9 +238,9 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; <span id="year">2026</span> Coach Ty Alexander · Ty Alexander Media LLC</p>
+        <p>&copy; <span id="year">2026</span> Coach Ty Alexander</p>
         <div class="footer-social">
-          <a href="https://www.instagram.com/tyalexandermedia" rel="noopener" aria-label="Instagram">
+          <a href="https://www.instagram.com/coachtyrellalexander" rel="noopener" aria-label="Instagram">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           </a>
         </div>
@@ -257,12 +257,19 @@
     var btn = document.getElementById('submitBtn');
     if (!form) return;
 
-    // Pre-fill from the Fit Finder (or any ?option=/?goal=/?experience= link)
+    // Older links used earlier option labels — map them to the current ones.
+    var OPTION_ALIASES = {
+      'Semi-Private (recommended)': 'Semi-Private waitlist',
+      'Semi-Private': 'Semi-Private waitlist'
+    };
+
+    // Pre-select from a link (?option= / ?goal= / ?experience=), e.g. the
+    // waitlist buttons or the Fit Finder.
     (function prefill() {
       var params = new URLSearchParams(location.search);
       function set(name, val) {
         if (!val) return false;
-        var sel = form[name];
+        var sel = form.elements[name];
         if (!sel || !sel.options) return false;
         for (var i = 0; i < sel.options.length; i++) {
           var o = sel.options[i];
@@ -270,18 +277,22 @@
         }
         return false;
       }
+      var option = params.get('option');
+      if (option && OPTION_ALIASES[option]) option = OPTION_ALIASES[option];
       var did = false;
-      if (set('option', params.get('option'))) did = true;
+      if (set('option', option)) did = true;
       if (set('goal', params.get('goal'))) did = true;
       if (set('experience', params.get('experience'))) did = true;
       var note = document.getElementById('prefillNote');
       if (did && note) {
-        note.textContent = "Based on your fit finder, I've pre-selected your best options below — change anything before you send.";
+        note.textContent = "I've pre-selected a few answers based on the link you came from — change anything before you send.";
         note.hidden = false;
       }
     })();
 
-    var ENDPOINT = '/.netlify/functions/apply';
+    // Netlify Forms: POST the urlencoded form (including the hidden
+    // form-name field) to the site root.
+    var ENDPOINT = '/';
 
     function showStatus(msg, kind) {
       statusEl.textContent = msg;
@@ -293,13 +304,6 @@
       e.preventDefault();
       clearStatus();
 
-      // Honeypot — silently succeed for bots
-      if (form.company && form.company.value) {
-        form.style.display = 'none';
-        successEl.classList.add('show');
-        return;
-      }
-
       if (!form.checkValidity()) {
         var firstInvalid = form.querySelector(':invalid');
         showStatus('Please fill in the required fields so I can follow up properly.', 'err');
@@ -307,17 +311,7 @@
         return;
       }
 
-      var data = {
-        name: form.name.value.trim(),
-        email: form.email.value.trim(),
-        phone: form.phone.value.trim(),
-        goal: form.goal.value,
-        experience: form.experience.value,
-        option: form.option.value,
-        availability: form.availability.value.trim(),
-        referral: form.referral.value,
-        notes: form.notes.value.trim()
-      };
+      var body = new URLSearchParams(new FormData(form)).toString();
 
       btn.disabled = true;
       var original = btn.innerHTML;
@@ -325,12 +319,12 @@
 
       fetch(ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body
       })
-        .then(function (res) { return res.json().then(function (b) { return { ok: res.ok, body: b }; }); })
-        .then(function (r) {
-          if (!r.ok) throw new Error((r.body && r.body.error) || 'Request failed');
+        .then(function (res) {
+          // Success panel only after a successful HTTP response.
+          if (!res.ok) throw new Error('Request failed: ' + res.status);
           form.style.display = 'none';
           successEl.classList.add('show');
           successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
