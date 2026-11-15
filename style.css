@@ -170,10 +170,10 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* Photo treatment: warm monochrome + grain, so the photo reads as part of the brand. */
 .hero-media { position: relative; overflow: hidden; isolation: isolate; background: var(--ink); }
-.hero-media img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 22%;
-  filter: grayscale(1) contrast(1.18) brightness(.9); }
-.hero-media::before { content: ""; position: absolute; inset: 0; z-index: 1; background: #E6A94E; mix-blend-mode: multiply; opacity: .32; pointer-events: none; }
-.hero-media::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: .22; mix-blend-mode: overlay;
+.hero-media img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 4%;
+  filter: grayscale(1) contrast(1.12) brightness(.92); }
+.hero-media::before { content: ""; position: absolute; inset: 0; z-index: 1; background: #E6A94E; mix-blend-mode: multiply; opacity: .26; pointer-events: none; }
+.hero-media::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: .14; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
 /* Phones: the photo is the cover. Full-bleed under the header, headline set over its lower edge. */
@@ -425,3 +425,8 @@ a:hover { text-decoration-thickness: 2px; }
 .updates .form-status { margin: 10px 0 0; }
 .updates .form-note { margin-top: 8px; }
 .cols-head .note { margin-top: 14px; }
+
+/* Photo credit for event photography */
+.media, .hero-media { position: relative; }
+.credit { position: absolute; z-index: 4; right: 10px; bottom: 8px; font-size: 11px; font-stretch: 87%; font-weight: 600; letter-spacing: .01em; color: rgba(244, 239, 231, .78); text-shadow: 0 1px 2px rgba(0,0,0,.6); pointer-events: none; }
+@media (max-width: 899px) { .hero-media .credit { top: 10px; bottom: auto; } }
