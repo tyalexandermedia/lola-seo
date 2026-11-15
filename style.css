@@ -432,3 +432,9 @@ a:hover { text-decoration-thickness: 2px; }
 @media (max-width: 899px) { .hero-media .credit { top: 10px; bottom: auto; } }
 .rtm-photo { margin-top: 28px; max-width: 480px; }
 .rtm-photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 18%; }
+
+/* Offer stack */
+.offer { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+.offer li { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.offer b { display: block; font-stretch: 87%; font-weight: 700; font-size: 1.1em; }
+.guarantee { border-left: 3px solid var(--accent, #9A6418); padding: 4px 0 4px 16px; }
