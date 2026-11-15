@@ -1,24 +1,12 @@
 /* Coach Ty Alexander — site interactions
-   Nav scroll state · mobile menu · reveal-on-scroll · footer year */
+   Footer year, mobile menu, Road to Miami ruler, mobile apply bar. */
 (function () {
   'use strict';
 
-  // Current year
   var yr = document.getElementById('year');
   if (yr) yr.textContent = new Date().getFullYear();
 
-  // Header shadow/border on scroll
-  var header = document.getElementById('header');
-  if (header) {
-    var onScroll = function () {
-      if (window.scrollY > 8) header.classList.add('scrolled');
-      else header.classList.remove('scrolled');
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
-
-  // Mobile menu
+  // Mobile menu (full-screen sheet)
   var toggle = document.getElementById('navToggle');
   var menu = document.getElementById('mobileMenu');
   if (toggle && menu) {
@@ -35,48 +23,44 @@
       if (e.target.closest('a')) setOpen(false);
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && menu.classList.contains('open')) setOpen(false);
+      if (e.key === 'Escape' && menu.classList.contains('open')) { setOpen(false); toggle.focus(); }
     });
     window.addEventListener('resize', function () {
       if (window.innerWidth >= 900 && menu.classList.contains('open')) setOpen(false);
     });
   }
 
-  // Reveal on scroll
-  var reveals = document.querySelectorAll('.reveal');
-  if (reveals.length) {
-    if (!('IntersectionObserver' in window) ||
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      reveals.forEach(function (el) { el.classList.add('in'); });
-    } else {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in');
-            io.unobserve(entry.target);
-          }
-        });
-      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-      reveals.forEach(function (el) { io.observe(el); });
-    }
+  // Road to Miami ruler: 20 weekly ticks, Mon Nov 9 2026 to Mar 28 2027.
+  // The HTML ships a static week-1 state; this sets the real week.
+  var rulers = document.querySelectorAll('[data-ruler]');
+  if (rulers.length) {
+    var WEEKS = 20;
+    var days = Math.floor((Date.now() - new Date(2026, 10, 9).getTime()) / 864e5);
+    var week = days < 0 ? 0 : Math.min(WEEKS, Math.floor(days / 7) + 1);
+    var text = week === 0 ? 'Starts November 9' : 'Week ' + week + ' of ' + WEEKS;
+    rulers.forEach(function (r) {
+      var ticks = r.querySelectorAll('.ruler-ticks i:not(.end)');
+      for (var i = 0; i < ticks.length; i++) {
+        ticks[i].className = i < week - 1 ? 'done' : (i === week - 1 ? 'now' : '');
+        ticks[i].style.setProperty('--n', i);
+      }
+      r.style.setProperty('--step', Math.round(600 / Math.max(week, 1)) + 'ms');
+      var label = r.querySelector('.ruler-week');
+      if (label) label.textContent = text;
+      r.setAttribute('aria-label', 'Road to Miami: ' + (week === 0 ? 'training starts November 9' : 'week ' + week + ' of ' + WEEKS) + '. Miami is March 28. Not registered yet.');
+    });
   }
 
-  // Offer stack — accordion (one open at a time)
-  var offerHeads = document.querySelectorAll('.offer-head');
-  offerHeads.forEach(function (head) {
-    head.addEventListener('click', function () {
-      var offer = head.parentElement;
-      var isOpen = offer.classList.contains('open');
-      var group = offer.parentElement;
-      group.querySelectorAll('.offer.open').forEach(function (o) {
-        if (o !== offer) {
-          o.classList.remove('open');
-          var h = o.querySelector('.offer-head');
-          if (h) h.setAttribute('aria-expanded', 'false');
-        }
-      });
-      offer.classList.toggle('open', !isOpen);
-      head.setAttribute('aria-expanded', String(!isOpen));
-    });
-  });
+  // Mobile apply bar: appears once the page's top section has scrolled out.
+  var bar = document.querySelector('.sticky-cta');
+  if (bar) {
+    var hero = document.querySelector('[data-hero]');
+    if (hero && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        bar.classList.toggle('show', !entries[0].isIntersecting);
+      }).observe(hero);
+    } else {
+      bar.classList.add('show');
+    }
+  }
 })();

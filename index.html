@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>document.documentElement.classList.add('js');</script>
   <title>Movement &amp; Mobility Coach in St. Pete | Coach Ty Alexander</title>
   <meta name="description" content="Ankle, hip and knee mobility and strength coaching for athletes in St. Petersburg, FL. Follow Coach Ty's HYROX journey and apply to train.">
   <meta name="robots" content="index, follow">
@@ -32,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="/images/ty-coaching-gym.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
 
   <!-- Structured data -->
@@ -74,432 +73,222 @@
   }
   </script>
 </head>
-<body class="has-cta">
+<body class="has-sticky">
 
-  <!-- ── Header ─────────────────────────────────────────── -->
-  <header class="site-header" id="header">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header ink" id="header">
     <div class="wrap nav">
-      <a href="/" class="brand" aria-label="Coach Ty Alexander — home">
-        COACH&nbsp;TY<span class="brand-mark">.</span>
-      </a>
+      <a href="/" class="brand" aria-label="Coach Ty Alexander, home">Coach Ty</a>
       <nav class="nav-links" aria-label="Primary">
         <a href="/coaching/">Coaching</a>
-        <a href="/basketball-performance/">Basketball</a>
-        <a href="/hyrox/">HYROX</a>
         <a href="/road-to-miami/">Road to Miami</a>
+        <a href="/basketball-performance/">Basketball</a>
         <a href="/about/">About</a>
+        <a href="/apply/" class="btn btn--sm">Apply</a>
       </nav>
-      <a href="/apply/" class="btn btn--primary nav-cta">Apply for Coaching</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
-        <span></span><span></span><span></span>
-      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span></button>
     </div>
   </header>
-  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
-    <a href="/coaching/">Coaching <span aria-hidden="true">→</span></a>
-    <a href="/basketball-performance/">Basketball Performance <span aria-hidden="true">→</span></a>
-    <a href="/hyrox/">HYROX <span aria-hidden="true">→</span></a>
-    <a href="/road-to-miami/">Road to Miami <span aria-hidden="true">→</span></a>
-    <a href="/about/">About Coach Ty <span aria-hidden="true">→</span></a>
-    <a href="/apply/" class="btn btn--primary btn--block">Apply for Coaching</a>
+  <nav class="mobile-menu ink" id="mobileMenu" aria-label="Mobile">
+    <a href="/coaching/">Coaching</a>
+    <a href="/road-to-miami/">Road to Miami</a>
+    <a href="/basketball-performance/">Basketball</a>
+    <a href="/about/">About</a>
+    <a href="/apply/" class="btn btn--block">Apply for coaching</a>
   </nav>
 
-  <main>
-    <!-- ── Hero ─────────────────────────────────────────── -->
-    <section class="hero">
+  <main id="main">
+    <section class="hero ink" data-hero>
       <div class="wrap">
         <div class="hero-grid">
-          <div class="hero-copy reveal">
-            <span class="eyebrow">Mobility Coaching · St. Petersburg, FL</span>
-            <h1>Move better<br>under <span class="accent">load.</span></h1>
-            <p class="hero-sub">Ankle, hip and knee mobility for athletes who want to move well and train hard.</p>
-            <p class="hero-note">I'm Coach Ty — basketball player and coach, personal trainer, HYROX finisher in St. Pete. My first solo HYROX took 1:29:59 and exposed my ankles, calves and running under fatigue. Now I'm working on them and sharing what I learn.</p>
-            <div class="hero-actions">
-              <a href="/apply/" class="btn btn--primary btn--lg">Apply for Coaching <span class="arrow" aria-hidden="true">→</span></a>
-              <a href="#ways" class="btn btn--ghost btn--lg">See Coaching Options</a>
+          <div class="hero-copy">
+            <h1>Move better under load.</h1>
+            <p>I'm Coach Ty, a basketball player and coach, personal trainer and HYROX finisher in St. Pete. My first solo HYROX took 1:29:59 and exposed my ankles, calves and running under fatigue. Now I'm working on them and sharing what I learn.</p>
+            <div class="actions">
+              <a href="/apply/" class="btn">Apply for coaching</a>
+              <a href="/coaching/" class="link">See how coaching works</a>
             </div>
           </div>
-          <div class="hero-media reveal d1">
+          <div class="hero-media">
             <img src="/images/ty-coaching-gym.jpg" width="360" height="450" fetchpriority="high" decoding="async"
                  alt="Coach Ty Alexander coaching a training session in a St. Petersburg gym.">
-            <span class="hero-badge"><span class="dot" aria-hidden="true"></span> Found my weakness. Fixing it in public.</span>
+          </div>
+        </div>
+        <div class="ruler" data-ruler role="img" aria-label="Road to Miami: week 1 of 20. Miami is March 28. Not registered yet.">
+          <div class="ruler-ticks" aria-hidden="true"><i class="now"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="end"></i></div>
+          <div class="ruler-labels" aria-hidden="true">
+            <span class="ruler-week">Week 1 of 20</span>
+            <span class="ruler-end">Miami, March 28 <small>Not registered yet</small></span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── Outcome strip ────────────────────────────────── -->
-    <section class="outcomes" aria-label="What you build">
-      <div class="wrap">
-        <div class="outcome-grid">
-          <div class="outcome reveal">
-            <div class="num">01</div>
-            <h3>Ankles, hips and knees</h3>
-            <p>Mobility work aimed at the joints that carry you through every run, jump and lift.</p>
+    <section class="section section--first" id="approach">
+      <div class="wrap"><div class="inner">
+        <h2>Start with how you move.</h2>
+        <p class="lede">Mobility work aimed at the joints that carry you through every run, jump and lift.</p>
+        <div class="trio">
+          <div>
+            <h3>Ankles</h3>
+            <p>We check how far your knee can travel over your toes with a knee-to-wall test.</p>
+            <p>Then we train that range with weight on it, along with calf capacity.</p>
           </div>
-          <div class="outcome reveal d1">
-            <div class="num">02</div>
-            <h3>Strength you can use</h3>
-            <p>Range of motion matters most when there's weight on it. We train both together.</p>
+          <div>
+            <h3>Hips</h3>
+            <p>We check seated hip rotation, in and out, on both sides.</p>
+            <p>Then we build strength through that rotation so it shows up when you squat, lunge and run.</p>
           </div>
-          <div class="outcome reveal d2">
-            <div class="num">03</div>
-            <h3>Movement under fatigue</h3>
-            <p>Holding good positions when you're tired — the thing my first HYROX showed I was missing.</p>
-          </div>
-          <div class="outcome reveal d3">
-            <div class="num">04</div>
-            <h3>Conditioning</h3>
-            <p>Work capacity for your sport, your race or just training hard through the week.</p>
+          <div>
+            <h3>Knees</h3>
+            <p>We watch a slow, controlled step-down on each leg.</p>
+            <p>Then we train single-leg strength and control for landing, stopping and changing direction.</p>
           </div>
         </div>
-      </div>
+        <p class="trio-close">Then strength and conditioning, every session.</p>
+      </div></div>
     </section>
-
-    <!-- ── Road to Miami teaser ─────────────────────────── -->
-    <section class="section section--tight" id="road-to-miami">
-      <div class="wrap">
-        <div class="flagship reveal">
-          <span class="flagship-tag">HYROX Training Journal</span>
-          <h2>Road to Miami</h2>
-          <p class="lede">One HYROX finish. A lot to improve.</p>
-          <p class="teaser-copy">I'm working on ankle mobility, calf capacity, running consistency, and moving better under fatigue.</p>
-          <p class="teaser-copy">Miami on March 28 is a possible next race. I'm not registered yet.</p>
-          <div class="teaser-actions">
-            <a href="/road-to-miami/" class="btn btn--ghost btn--lg">Follow the Journey <span class="arrow" aria-hidden="true">→</span></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Coaching philosophy ──────────────────────────── -->
-    <section class="section" id="philosophy">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <span class="eyebrow">The Approach</span>
-          <h2>One system. Mobility, strength and conditioning together.</h2>
-          <p>Training here isn't random workouts or punishment. It's mobility, strength, athletic movement and conditioning in one progressive program, coached in person.</p>
-        </div>
-        <div class="pillars">
-          <div class="pillar reveal">
-            <div class="k">01</div>
-            <h3>Strength</h3>
-            <p>Progressive lifting that builds a foundation you can actually use.</p>
-          </div>
-          <div class="pillar reveal d1">
-            <div class="k">02</div>
-            <h3>Athletic movement</h3>
-            <p>Move like an athlete — power, coordination and control under load.</p>
-          </div>
-          <div class="pillar reveal d2">
-            <div class="k">03</div>
-            <h3>Mobility</h3>
-            <p>Ankle, hip and knee range you can actually use with weight on it.</p>
-          </div>
-          <div class="pillar reveal d3">
-            <div class="k">04</div>
-            <h3>Conditioning</h3>
-            <p>Real work capacity so you finish strong instead of gassing out.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Flagship offer ───────────────────────────────── -->
-    <section class="section section--tight" id="flagship">
-      <div class="wrap">
-        <div class="flagship reveal">
-          <span class="flagship-tag">Semi-Private · Waitlist</span>
-          <h2>Everyday Athlete Coaching</h2>
-          <p class="lede">Semi-private coaching is planned as small-group training on a real program, with individual coaching every session. It's a waitlist right now — the St. Petersburg location and schedule are being confirmed. Here's what it's built to include.</p>
-          <div class="include-grid">
-            <div class="include"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Structured strength &amp; conditioning</div>
-            <div class="include"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Hands-on coaching &amp; exercise feedback</div>
-            <div class="include"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Progress tracking that keeps you moving forward</div>
-            <div class="include"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Mobility &amp; movement work built in</div>
-            <div class="include"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Clear training progression, week to week</div>
-            <div class="include"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Support &amp; accountability that sticks</div>
-          </div>
-          <p style="margin:-8px 0 26px;font-size:14px;"><a href="/founding/" style="color:var(--accent);font-weight:600;">How the waitlist works <span aria-hidden="true">→</span></a></p>
-          <div class="flagship-foot">
-            <div class="flagship-price">
-              <div class="amt amt--planned">Planned price: $249/month</div>
-              <div class="note">Waitlist only. The St. Petersburg location and schedule are being confirmed, so there are no sessions to enroll in yet.</div>
-            </div>
-            <a href="/apply/?option=Semi-Private%20waitlist" class="btn btn--primary btn--lg">Join the Waitlist <span class="arrow" aria-hidden="true">→</span></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Ways to train ────────────────────────────────── -->
-    <section class="section" id="ways">
-      <div class="wrap">
-        <div class="section-head center reveal">
-          <span class="eyebrow center">Ways to Train</span>
-          <h2>Ways to work with Ty</h2>
-          <p class="mx-auto measure">One coaching system, different levels of access — and different availability right now. Not sure which fits? <a href="/start/" style="color:var(--accent);font-weight:600;">Take the 60-second Fit Finder →</a></p>
-        </div>
-        <div class="offers reveal">
-
-          <div class="offer offer--featured open">
-            <button class="offer-head" aria-expanded="true" aria-controls="off-1">
-              <span class="offer-num">01</span>
-              <span class="offer-title">
-                <span class="offer-name">Semi-Private <span class="flag">Waitlist</span></span>
-                <span class="offer-who">Small group · location &amp; schedule being confirmed</span>
-              </span>
-              <span class="offer-price">Waitlist</span>
-              <span class="offer-toggle" aria-hidden="true"></span>
-            </button>
-            <div class="offer-body" id="off-1"><div class="offer-body-clip"><div class="offer-body-inner">
-              <p class="offer-price--m">Waitlist</p>
-              <p class="offer-desc"><strong>Planned price: $249/month.</strong> Small-group training on a progressive program with individual coaching. The St. Petersburg location and schedule are being confirmed, so this is a waitlist — no sessions are open yet.</p>
-              <ul class="offer-feats">
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Structured strength &amp; conditioning, coached live</li>
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Progress tracking</li>
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Mobility &amp; movement work built in</li>
-              </ul>
-              <div class="offer-actions">
-                <a href="/apply/?option=Semi-Private%20waitlist" class="btn btn--primary">Join the Waitlist <span class="arrow" aria-hidden="true">→</span></a>
-                <a href="/coaching/" class="btn btn--ghost">Details</a>
-              </div>
-            </div></div></div>
-          </div>
-
-          <div class="offer">
-            <button class="offer-head" aria-expanded="false" aria-controls="off-2">
-              <span class="offer-num">02</span>
-              <span class="offer-title">
-                <span class="offer-name">Private One-on-One</span>
-                <span class="offer-who">Most personal · availability by inquiry</span>
-              </span>
-              <span class="offer-price">$400<small>&nbsp;/mo</small></span>
-              <span class="offer-toggle" aria-hidden="true"></span>
-            </button>
-            <div class="offer-body" id="off-2"><div class="offer-body-clip"><div class="offer-body-inner">
-              <p class="offer-price--m">$400<small>&nbsp;/mo to start</small></p>
-              <p class="offer-desc">Just you and me. Every session, program and progression built around your goals, your body and your schedule. <strong>Contact for current availability.</strong></p>
-              <ul class="offer-feats">
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> 100% individualized programming</li>
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Every rep coached, every session</li>
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Scheduled around your life</li>
-              </ul>
-              <div class="offer-actions">
-                <a href="/apply/?option=Private%20one-on-one" class="btn btn--primary">Ask About Availability <span class="arrow" aria-hidden="true">→</span></a>
-                <a href="/coaching/" class="btn btn--ghost">Details</a>
-              </div>
-            </div></div></div>
-          </div>
-
-          <div class="offer">
-            <button class="offer-head" aria-expanded="false" aria-controls="off-3">
-              <span class="offer-num">03</span>
-              <span class="offer-title">
-                <span class="offer-name">Basketball Performance</span>
-                <span class="offer-who">Strength &amp; movement for players</span>
-              </span>
-              <span class="offer-price">Custom</span>
-              <span class="offer-toggle" aria-hidden="true"></span>
-            </button>
-            <div class="offer-body" id="off-3"><div class="offer-body-clip"><div class="offer-body-inner">
-              <p class="offer-price--m">Custom to you</p>
-              <p class="offer-desc">Off-court strength, movement and conditioning for basketball players, from a coach who plays and coaches the game. Skills clinics are coming soon.</p>
-              <ul class="offer-feats">
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Strength &amp; power for an explosive base</li>
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Movement: deceleration, change of direction, landing</li>
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Conditioning to finish games strong</li>
-              </ul>
-              <div class="offer-actions">
-                <a href="/apply/?option=Basketball%20performance" class="btn btn--primary">Apply — Basketball <span class="arrow" aria-hidden="true">→</span></a>
-                <a href="/basketball-performance/" class="btn btn--ghost">Details</a>
-              </div>
-            </div></div></div>
-          </div>
-
-          <div class="offer">
-            <button class="offer-head" aria-expanded="false" aria-controls="off-4">
-              <span class="offer-num">04</span>
-              <span class="offer-title">
-                <span class="offer-name">HYROX &amp; Hybrid</span>
-                <span class="offer-who">Run · lift · keep going</span>
-              </span>
-              <span class="offer-price">Inquire</span>
-              <span class="offer-toggle" aria-hidden="true"></span>
-            </button>
-            <div class="offer-body" id="off-4"><div class="offer-body-clip"><div class="offer-body-inner">
-              <p class="offer-price--m">Inquire</p>
-              <p class="offer-desc">I've finished one solo HYROX Open (1:29:59) and I'm training for the next one. I'll coach you through what I'm learning and testing — running, functional strength and conditioning.</p>
-              <ul class="offer-feats">
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Running engine + functional strength</li>
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Training built toward your event date, if you have one</li>
-                <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Honest coaching from someone doing the work too</li>
-              </ul>
-              <div class="offer-actions">
-                <a href="/apply/?option=HYROX%20%26%20hybrid%20performance" class="btn btn--primary">Apply — HYROX <span class="arrow" aria-hidden="true">→</span></a>
-                <a href="/hyrox/" class="btn btn--ghost">Details</a>
-              </div>
-            </div></div></div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Basketball performance ────────────────────────── -->
-    <section class="section" id="basketball">
-      <div class="wrap">
-        <div class="split split--reverse">
-          <div class="split-media reveal">
-            <img src="/images/ty-coaching-gym.jpg" width="360" height="450" loading="lazy" decoding="async"
-                 alt="Coach Ty Alexander coaching in the gym, whistle in hand, during a basketball performance session.">
-          </div>
-          <div class="reveal d1">
-            <span class="eyebrow">Basketball Performance</span>
-            <h2 style="font-size:clamp(28px,4.6vw,44px);margin:16px 0 14px;">Build the athlete under the player.</h2>
-            <p>Basketball is where I come from — I play, and I'm Head Coach with Florida Rain. Off the court I train players on strength, movement and conditioning so the work in the weight room carries over to the game.</p>
-            <ul class="check-list">
-              <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Strength &amp; power for a stronger, more explosive base</li>
-              <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Movement: deceleration, change of direction and landing</li>
-              <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Conditioning to compete deep into the fourth</li>
-              <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Confidence that comes from being prepared</li>
-            </ul>
-            <div style="margin-top:26px;">
-              <a href="/basketball-performance/" class="btn btn--ghost">Explore basketball training <span class="arrow" aria-hidden="true">→</span></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── About ────────────────────────────────────────── -->
     <section class="section" id="about">
-      <div class="wrap">
-        <div class="split">
-          <div class="split-media split-media--tall reveal">
+      <div class="wrap"><div class="inner">
+        <div class="cols cols--media">
+          <div class="media">
             <img src="/images/ty-lola-beach.jpg" width="660" height="996" loading="lazy" decoding="async"
                  alt="Coach Ty Alexander at sunset on a St. Petersburg beach with his dog Lola.">
           </div>
-          <div class="reveal d1">
-            <span class="eyebrow">About Coach Ty</span>
-            <h2 style="font-size:clamp(28px,4.6vw,44px);margin:16px 0 14px;">I train people the way I wish I'd been trained.</h2>
-            <p>I'm Ty — Coach Ty to most people. I coach strength, conditioning and athletic performance in St. Petersburg because I believe everyday people deserve real coaching, not another random workout or a program built for someone else's body.</p>
-            <p>My background is strength and conditioning, mobility, group training and basketball — as a player and as Head Coach with Florida Rain. I've finished one HYROX and I'm training for the next. Faith, family and this work are what I'm built around.</p>
-            <div class="creds" aria-label="Certifications">
-              <span class="cred"><span class="dot" aria-hidden="true"></span> Certified Personal Trainer</span>
-              <span class="cred"><span class="dot" aria-hidden="true"></span> TRIBE Team Training Certified</span>
-              <span class="cred"><span class="dot" aria-hidden="true"></span> Les Mills GRIT Certified</span>
-              <span class="cred"><span class="dot" aria-hidden="true"></span> CPR/AED</span>
-              <span class="cred"><span class="dot" aria-hidden="true"></span> NSCA-CPT (in progress)</span>
-              <span class="cred"><span class="dot" aria-hidden="true"></span> USA Basketball Gold Coach</span>
-              <span class="cred"><span class="dot" aria-hidden="true"></span> Head Coach, Florida Rain</span>
+          <div>
+            <h2>Basketball built the base. HYROX found the gaps.</h2>
+            <div class="stack">
+              <p>Basketball is my athletic foundation. I play it and I coach it as Head Coach with Florida Rain, and it shaped how I think about movement.</p>
+              <p>HYROX is my current journey. I started as a non-runner, and my first race showed me exactly where I'm limited. That's also how I coach: ankles, hips and knees get real attention, mobility gets trained with load on it, and the program is built for your body.</p>
             </div>
-            <div style="margin-top:26px;">
-              <a href="/about/" class="btn btn--ghost">More about Ty <span class="arrow" aria-hidden="true">→</span></a>
+            <p class="creds"><b>Credentials</b>Certified Personal Trainer, TRIBE Team Training Certified, Les Mills GRIT Certified, CPR/AED, NSCA-CPT (in progress), USA Basketball Gold Coach, Head Coach with Florida Rain.</p>
+            <p><a href="/about/" class="link">More about Ty</a></p>
+          </div>
+        </div>
+      </div></div>
+    </section>
+    <section class="section" id="ways">
+      <div class="wrap"><div class="inner">
+        <div class="cols">
+          <div class="cols-head">
+            <h2>Ways to train with me.</h2>
+            <p class="muted">Not sure which fits? <a href="/start/">Take the 60-second fit finder</a>.</p>
+          </div>
+          <div class="rows rows--action">
+            <div>
+              <h3>Small-group training</h3>
+              <p>Waitlist. Planned price $249/month. Location and schedule being confirmed in St. Pete.</p>
+              <a href="/apply/?option=Semi-Private%20waitlist" class="link">Join the waitlist</a>
+            </div>
+            <div>
+              <h3>Private 1:1</h3>
+              <p>From $400/month. Ask about current availability.</p>
+              <a href="/apply/?option=Private%20one-on-one" class="link">Ask about 1:1</a>
+            </div>
+            <div>
+              <h3>HYROX and hybrid</h3>
+              <p>I'll coach you through what I'm learning and testing.</p>
+              <a href="/apply/?option=HYROX%20%26%20hybrid%20performance" class="link">Ask about HYROX</a>
+            </div>
+            <div>
+              <h3>Basketball</h3>
+              <p>Skills clinics and sessions coming soon. Head Coach, Florida Rain.</p>
+              <a href="/basketball-performance/" class="link">Basketball training</a>
             </div>
           </div>
         </div>
-      </div>
+      </div></div>
     </section>
-
-    <!-- ── FAQ ──────────────────────────────────────────── -->
-    <section class="section section--tight" id="faq">
+    <section class="section">
+      <div class="wrap"><div class="inner">
+        <div class="cols">
+          <h2>What happens after you apply.</h2>
+          <ol class="steps">
+            <li><div><h3>You apply</h3><p>Share your goals, experience and availability. It takes about two minutes.</p></div></li>
+            <li><div><h3>We talk</h3><p>I read it and follow up personally to understand what you're after.</p></div></li>
+            <li><div><h3>Next step</h3><p>We sort out the right option: training now if there's availability, or a spot on the waitlist.</p></div></li>
+          </ol>
+        </div>
+      </div></div>
+    </section>
+    <section class="section" id="road-to-miami">
+      <div class="wrap"><div class="inner">
+        <div class="cols">
+          <h2>Road to Miami.</h2>
+          <div>
+            <p class="lede">One HYROX finish. A lot to improve. Miami on March 28 is a possible next race, and I'm not registered yet.</p>
+            <p><a href="/road-to-miami/" class="link">Follow the journey</a></p>
+          </div>
+        </div>
+      </div></div>
+    </section>
+    <section class="section" id="faq">
+      <div class="wrap"><div class="inner">
+        <div class="cols">
+          <h2>Straight answers.</h2>
+          <div class="faq">
+            <details>
+              <summary>Do I need to be an athlete to train with you?</summary>
+              <div class="faq-body">No. You need to want to move well and train hard. We start from where you are today and build strength, mobility and conditioning from there.</div>
+            </details>
+            <details>
+              <summary>What is semi-private coaching?</summary>
+              <div class="faq-body">Small-group training on a structured program, with individual coaching on form, loads and progress. It's a waitlist right now while the St. Petersburg location and schedule are being confirmed.</div>
+            </details>
+            <details>
+              <summary>Where are you located?</summary>
+              <div class="faq-body">I coach in St. Petersburg, Florida. The location and schedule for semi-private coaching are still being confirmed. For private 1:1 coaching, contact me for current availability.</div>
+            </details>
+            <details>
+              <summary>How much does coaching cost?</summary>
+              <div class="faq-body">Semi-private coaching is on a waitlist with a planned price of $249/month. Private 1:1 coaching starts at $400/month. Contact me for current availability.</div>
+            </details>
+            <details>
+              <summary>How do I start?</summary>
+              <div class="faq-body">Apply for coaching. It takes about two minutes. I review every application personally and follow up to talk through your goals and what's currently available.</div>
+            </details>
+          </div>
+        </div>
+      </div></div>
+    </section>
+    <section class="cta-final ink">
       <div class="wrap">
-        <div class="section-head center reveal">
-          <span class="eyebrow center">Questions</span>
-          <h2>Straight answers</h2>
-        </div>
-        <div class="faq reveal" style="max-width:780px;margin-inline:auto;">
-          <details>
-            <summary>Do I need to be an athlete to train with you? <span class="plus" aria-hidden="true"></span></summary>
-            <div class="faq-body">No. You need to want to move well and train hard. We start from where you are today and build strength, mobility and conditioning from there.</div>
-          </details>
-          <details>
-            <summary>What is semi-private coaching? <span class="plus" aria-hidden="true"></span></summary>
-            <div class="faq-body">Small-group training on a structured program, with individual coaching on form, loads and progress. It's a waitlist right now while the St. Petersburg location and schedule are being confirmed.</div>
-          </details>
-          <details>
-            <summary>Where are you located? <span class="plus" aria-hidden="true"></span></summary>
-            <div class="faq-body">I coach in St. Petersburg, Florida. The location and schedule for semi-private coaching are still being confirmed. For private 1:1 coaching, contact me for current availability.</div>
-          </details>
-          <details>
-            <summary>How much does coaching cost? <span class="plus" aria-hidden="true"></span></summary>
-            <div class="faq-body">Semi-private coaching is on a waitlist with a planned price of $249/month. Private 1:1 coaching starts at $400/month — contact me for current availability.</div>
-          </details>
-          <details>
-            <summary>How do I start? <span class="plus" aria-hidden="true"></span></summary>
-            <div class="faq-body">Apply for coaching — it takes about two minutes. I review every application personally and follow up to talk through your goals and what's currently available.</div>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── CTA band ─────────────────────────────────────── -->
-    <section class="section cta-band" id="apply-cta">
-      <div class="wrap reveal">
-        <h2 class="display">Want to Train Together?</h2>
-        <p>Tell me your goals and how you want to train. I read every application personally and follow up.</p>
-        <div class="cta-actions">
-          <a href="/apply/" class="btn btn--primary btn--lg">Apply for Coaching <span class="arrow" aria-hidden="true">→</span></a>
-          <a href="/coaching/" class="btn btn--ghost btn--lg">See Coaching Options</a>
-        </div>
+        <h2>Start with an application.</h2>
+        <p>It takes about two minutes. I read every one personally and follow up.</p>
+        <div class="actions"><a href="/apply/" class="btn">Apply for coaching</a></div>
       </div>
     </section>
   </main>
 
-  <!-- ── Footer ───────────────────────────────────────── -->
-  <footer class="site-footer">
+  <footer class="site-footer ink">
     <div class="wrap">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="brand">COACH&nbsp;TY<span class="brand-mark">.</span></div>
-          <p>Ankle, hip and knee mobility, strength and conditioning coaching for athletes in St. Petersburg, FL.</p>
+        <div>
+          <div class="brand">Coach Ty</div>
         </div>
-        <div class="footer-col">
-          <h4>Train</h4>
+        <nav class="footer-nav" aria-label="Footer">
           <ul>
             <li><a href="/coaching/">Coaching</a></li>
-            <li><a href="/founding/">Semi-Private Waitlist</a></li>
-            <li><a href="/basketball-performance/">Basketball Performance</a></li>
-            <li><a href="/hyrox/">HYROX &amp; Hybrid</a></li>
             <li><a href="/road-to-miami/">Road to Miami</a></li>
-            <li><a href="/about/">About Coach Ty</a></li>
-            <li><a href="/apply/">Apply for Coaching</a></li>
+            <li><a href="/basketball-performance/">Basketball</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/apply/">Apply</a></li>
+            <li><a href="https://www.instagram.com/coachtyrellalexander" rel="noopener">Instagram</a></li>
           </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Explore</h4>
-          <ul>
-            <li><a href="/start/">Find Your Fit</a></li>
-            <li><a href="/#philosophy">The Approach</a></li>
-            <li><a href="/#flagship">Everyday Athlete Coaching</a></li>
-            <li><a href="/#ways">Ways to Train</a></li>
-            <li><a href="/#faq">FAQ</a></li>
-          </ul>
-        </div>
-        <div class="footer-col footer-contact">
-          <h4>Contact</h4>
-          <ul>
-            <li><a href="tel:+17273006573">(727) 300-6573</a></li>
-            <li><a href="mailto:ty@tyalexandermedia.com">ty@tyalexandermedia.com</a></li>
-            <li>St. Petersburg, FL</li>
-          </ul>
-        </div>
+        </nav>
+        <ul aria-label="Contact">
+          <li><a href="tel:+17273006573">(727) 300-6573</a></li>
+          <li><a href="mailto:ty@tyalexandermedia.com">ty@tyalexandermedia.com</a></li>
+          <li><span>St. Petersburg, FL</span></li>
+        </ul>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; <span id="year">2026</span> Coach Ty Alexander</p>
-        <div class="footer-social">
-          <a href="https://www.instagram.com/coachtyrellalexander" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-          </a>
-        </div>
-      </div>
+      <p class="footer-bottom">&copy; <span id="year">2026</span> Coach Ty Alexander</p>
     </div>
   </footer>
 
-  <div class="sticky-cta" aria-label="Apply for coaching">
-    <a href="/apply/" class="btn btn--primary">Apply for Coaching</a>
-    <a href="tel:+17273006573" class="btn btn--ghost btn--call" aria-label="Call Coach Ty at (727) 300-6573"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+  <div class="sticky-cta ink">
+    <a href="/apply/" class="btn">Apply for coaching</a>
+    <a href="tel:+17273006573" class="btn btn--call" aria-label="Call Coach Ty at (727) 300-6573"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
   </div>
 
   <script src="/site.js" defer></script>
