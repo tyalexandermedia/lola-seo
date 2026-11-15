@@ -430,3 +430,5 @@ a:hover { text-decoration-thickness: 2px; }
 .media, .hero-media { position: relative; }
 .credit { position: absolute; z-index: 4; right: 10px; bottom: 8px; font-size: 11px; font-stretch: 87%; font-weight: 600; letter-spacing: .01em; color: rgba(244, 239, 231, .78); text-shadow: 0 1px 2px rgba(0,0,0,.6); pointer-events: none; }
 @media (max-width: 899px) { .hero-media .credit { top: 10px; bottom: auto; } }
+.rtm-photo { margin-top: 28px; max-width: 480px; }
+.rtm-photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 18%; }
