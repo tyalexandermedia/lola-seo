@@ -438,3 +438,8 @@ a:hover { text-decoration-thickness: 2px; }
 .offer li { padding: 16px 0; border-bottom: 1px solid var(--line); }
 .offer b { display: block; font-stretch: 87%; font-weight: 700; font-size: 1.1em; }
 .guarantee { border-left: 3px solid var(--accent, #9A6418); padding: 4px 0 4px 16px; }
+.pack-form { margin-top: 8px; padding: 22px 20px 6px; background: #FFFDF9; border: 1px solid var(--line); border-radius: 8px; }
+.pack-form h3 { margin: 0; }
+.pack-form .form-note { margin: 6px 0 18px; }
+.pack-form .btn { margin-bottom: 18px; }
+@media (min-width: 700px) { .pack-fields { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; } .pack-fields .btn { grid-column: 1 / -1; } }

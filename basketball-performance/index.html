@@ -85,7 +85,7 @@
         <h1 class="h1--page">Build the athlete under the player.</h1>
         <p class="lede">Basketball is my foundation. I play, and I'm Head Coach with Florida Rain. Off the court I train players on strength, movement and conditioning. On the court I coach the game. I train players now in Pinellas County, mainly in Clearwater.</p>
         <div class="actions">
-          <a href="/apply/?option=Basketball%20performance" class="btn">Start with the 4-pack</a>
+          <a href="#start" class="btn">Claim a 4-pack spot</a>
           <a href="#clinics" class="link">See what's included</a>
         </div>
       </div>
@@ -136,12 +136,38 @@
             <ul class="offer">
               <li><b>Four coached sessions.</b> Skills, strength and conditioning, built around the player's position and goals.</li>
               <li><b>A movement baseline in session one.</b> Ankles, hips and knees checked and written down, so we can retest and see what changed.</li>
-              <li><b>My training app, included.</b> The player's program and logged sessions, so the work between sessions isn't guesswork.</li>
             </ul>
             <p class="guarantee"><b>First-session guarantee.</b> If you're not happy after the first session, I refund the full $160.</p>
             <p>That's $40 a session. After the 4-pack, sessions are $50 each. I take 4 new players a month.</p>
-            <div class="actions"><a href="/apply/?option=Basketball%20performance" class="btn">Start with the 4-pack</a></div>
-            <p>Tell me the player's age, position and goals, and I'll send current times and location.</p>
+            <form id="packForm" name="basketball-4pack" method="POST" data-netlify="true" netlify-honeypot="company" class="pack-form" novalidate>
+              <input type="hidden" name="form-name" value="basketball-4pack">
+              <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;" tabindex="-1">
+                <label>Company (leave blank)<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
+              </div>
+              <h3 id="start">Claim a 4-pack spot</h3>
+              <p class="form-note">Takes 30 seconds. No payment now. I'll text you times and location.</p>
+              <div class="pack-fields">
+                <div class="field">
+                  <label for="packName">Your name</label>
+                  <input type="text" id="packName" name="name" autocomplete="name" required>
+                </div>
+                <div class="field">
+                  <label for="packPhone">Mobile number</label>
+                  <input type="tel" id="packPhone" name="phone" autocomplete="tel" inputmode="tel" required>
+                </div>
+                <div class="field">
+                  <label for="packAge">Player's age</label>
+                  <input type="text" id="packAge" name="player_age" inputmode="numeric" required>
+                </div>
+                <div class="field">
+                  <label for="packGoal">What should we work on? <span class="opt">(optional)</span></label>
+                  <input type="text" id="packGoal" name="goals" placeholder="Shooting, handles, strength, conditioning">
+                </div>
+                <button type="submit" class="btn btn--block" id="packBtn">Claim my spot</button>
+              </div>
+              <div class="form-status" id="packStatus" role="status" aria-live="polite"></div>
+            </form>
+            <p>Rather text? <a href="sms:+17273006573?&amp;body=Hi%20Coach%20Ty%2C%20I%27m%20interested%20in%20the%20basketball%204-pack." class="link">Text me at (727) 300-6573</a></p>
             <p><a href="https://www.instagram.com/floridarainhoops" rel="noopener" class="link">Follow @floridarainhoops</a> &nbsp; <a href="https://linktr.ee/coachtyhoops" rel="noopener" class="link">Coach Ty Hoops, all links</a></p>
           </div>
         </div>
@@ -184,5 +210,35 @@
   </footer>
 
   <script src="/site.js" defer></script>
+  <script>
+  (function () {
+    var form = document.getElementById('packForm');
+    if (!form) return;
+    var statusEl = document.getElementById('packStatus');
+    var btn = document.getElementById('packBtn');
+    function showStatus(msg, kind) { statusEl.textContent = msg; statusEl.className = 'form-status show' + (kind ? ' ' + kind : ''); }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      statusEl.className = 'form-status';
+      if (!form.checkValidity()) {
+        showStatus('Add your name, mobile number and the player\'s age.', 'err');
+        var bad = form.querySelector(':invalid'); if (bad) bad.focus();
+        return;
+      }
+      var body = new URLSearchParams(new FormData(form)).toString();
+      btn.disabled = true; var original = btn.textContent; btn.textContent = 'Sending…';
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Request failed: ' + res.status);
+          form.querySelector('.pack-fields').hidden = true;
+          showStatus("Got it. I'll text you with times and location.");
+        })
+        .catch(function () {
+          btn.disabled = false; btn.textContent = original;
+          showStatus("That didn't send. Try again, or text me at (727) 300-6573.", 'err');
+        });
+    });
+  })();
+  </script>
 </body>
 </html>
