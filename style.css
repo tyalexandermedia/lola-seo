@@ -616,10 +616,13 @@ a:hover { text-decoration-thickness: 2px; }
   .photo-band img { border-radius: 0; }
   .photo-band figcaption { padding-inline: var(--gutter); }
 }
-@media (min-width: 900px) { .photo-band img { aspect-ratio: 21 / 9; } .photo-band--wide img { object-position: 50% 45%; } }
+@media (min-width: 900px) { .photo-band { max-width: 820px; } .photo-band img { aspect-ratio: 5 / 4; } .photo-band--wide { max-width: none; } .photo-band--wide img { aspect-ratio: 16 / 9; object-position: 50% 50%; } }
 .strip-title { margin-top: 36px; font-stretch: 75%; font-weight: 700; font-size: 1.35rem; }
 .photo-strip { display: flex; gap: 12px; margin-top: 14px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); scrollbar-width: none; }
 .photo-strip::-webkit-scrollbar { display: none; }
 .photo-strip figure { margin: 0; flex: 0 0 78%; scroll-snap-align: start; }
 .photo-strip img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; filter: grayscale(1) contrast(1.06); }
 @media (min-width: 700px) { .photo-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; overflow: visible; margin-inline: 0; padding-inline: 0; } .photo-strip figure { flex: none; } }
+.photo-band--team img { aspect-ratio: 5 / 4; object-position: 50% 50%; }
+@media (min-width: 900px) { .photo-band--team { max-width: 820px; } .photo-band--team img { aspect-ratio: 5 / 4; } }
+.photo-band--top img { object-position: 0% 0%; }
