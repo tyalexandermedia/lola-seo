@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Find Your Fit | Coach Ty Alexander — Pinellas County</title>
-  <meta name="description" content="Answer 3 quick questions and get matched to the right way to train with Coach Ty in Pinellas County — semi-private waitlist, one-on-one, basketball or HYROX.">
+  <title>Get Your Price in 30 Seconds | Coach Ty Alexander</title>
+  <meta name="description" content="See your price for basketball training or strength and conditioning with Coach Ty in Pinellas County, pick your days and request your first session.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0C0C0D">
   <link rel="canonical" href="https://coachtyalexander.com/start/">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Coach Ty Alexander">
-  <meta property="og:title" content="Find Your Fit | Coach Ty Alexander">
-  <meta property="og:description" content="60-second fit finder — get matched to the right way to train with Coach Ty in Pinellas County.">
+  <meta property="og:title" content="Get Your Price in 30 Seconds | Coach Ty Alexander">
+  <meta property="og:description" content="See your price for basketball training or strength and conditioning with Coach Ty in Pinellas County, pick your days and request your first session.">
   <meta property="og:url" content="https://coachtyalexander.com/start/">
   <meta property="og:image" content="https://coachtyalexander.com/images/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Find Your Fit | Coach Ty Alexander">
-  <meta name="twitter:description" content="60-second fit finder — get matched to the right way to train with Coach Ty.">
+  <meta name="twitter:title" content="Get Your Price in 30 Seconds | Coach Ty Alexander">
+  <meta name="twitter:description" content="See your price for basketball training or strength and conditioning with Coach Ty in Pinellas County, pick your days and request your first session.">
   <meta name="twitter:image" content="https://coachtyalexander.com/images/og.jpg">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230C0C0D'/><text x='50' y='72' font-size='62' font-family='Arial Black,Arial' font-weight='900' text-anchor='middle' fill='%23E6A94E'>T</text></svg>">
@@ -52,9 +52,9 @@
         <a href="/basketball-performance/">Basketball</a>
         <a href="/strength/">Strength</a>
         <a href="/about/">About</a>
-        <a href="/apply/" class="btn btn--sm">Apply</a>
+        <a href="/start/" class="btn btn--sm">Get my price</a>
       </nav>
-      <a href="/apply/" class="btn btn--sm nav-apply">Apply</a>
+      <a href="/start/" class="btn btn--sm nav-apply">Get my price</a>
       <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span></button>
     </div>
   </header>
@@ -71,61 +71,114 @@
   <main id="main">
     <section class="page-head">
       <div class="wrap">
-        <h1 class="h1--page">Find the right way to train.</h1>
-        <p class="lede">Three quick questions and I'll point you to the option that fits your goals. Then it's a two-minute application. Semi-private is a waitlist right now; private 1:1 is by current availability.</p>
+        <h1 class="h1--page">Get your price in 30 seconds.</h1>
+        <p class="lede">Three taps to see your price. Then pick your days and request your first session. No payment now.</p>
       </div>
     </section>
 
     <section class="section section--first">
       <div class="wrap"><div class="inner">
-        <div class="quiz" id="quiz">
-          <div class="quiz-bar" aria-hidden="true"><span id="quizBar"></span></div>
+        <div class="quiz" id="tool">
+          <div class="quiz-bar" aria-hidden="true"><span id="toolBar"></span></div>
 
-          <div class="quiz-step active" data-step="0">
-            <h2 class="quiz-q">What are you training for?</h2>
-            <div class="quiz-opts" role="group" aria-label="Goal">
-              <button type="button" class="quiz-opt" data-q="goal" data-key="strength" data-apply="Get stronger">Get stronger</button>
-              <button type="button" class="quiz-opt" data-q="goal" data-key="conditioning" data-apply="Improve conditioning / lose fat">Conditioning and fat loss</button>
-              <button type="button" class="quiz-opt" data-q="goal" data-key="mobility" data-apply="Move better / improve mobility">Move better, improve mobility</button>
-              <button type="button" class="quiz-opt" data-q="goal" data-key="hyrox" data-apply="Athletic performance">HYROX or hybrid performance</button>
-              <button type="button" class="quiz-opt" data-q="goal" data-key="basketball" data-apply="Basketball performance">Basketball</button>
+          <div class="quiz-step active" data-step="who">
+            <h2 class="quiz-q">Who's training?</h2>
+            <div class="quiz-opts" role="group" aria-label="Who is training">
+              <button type="button" class="quiz-opt" data-set="path" data-val="basketball">A basketball player</button>
+              <button type="button" class="quiz-opt" data-set="path" data-val="strength">An adult, for strength and conditioning</button>
             </div>
           </div>
 
-          <div class="quiz-step" data-step="1">
-            <h2 class="quiz-q">How do you want to train?</h2>
-            <div class="quiz-opts" role="group" aria-label="Training style">
-              <button type="button" class="quiz-opt" data-q="train" data-key="semi">Small group (waitlist)</button>
-              <button type="button" class="quiz-opt" data-q="train" data-key="private">One-on-one, the most personal</button>
-              <button type="button" class="quiz-opt" data-q="train" data-key="unsure">Not sure yet, help me choose</button>
+          <div class="quiz-step" data-step="format-basketball">
+            <h2 class="quiz-q">How does the player want to train?</h2>
+            <div class="quiz-opts" role="group" aria-label="Training format">
+              <button type="button" class="quiz-opt" data-set="format" data-val="1-on-1">1-on-1</button>
+              <button type="button" class="quiz-opt" data-set="format" data-val="With one teammate">With one teammate</button>
+              <button type="button" class="quiz-opt" data-set="format" data-val="Group of 3 or 4">In a group of 3 or 4</button>
             </div>
           </div>
 
-          <div class="quiz-step" data-step="2">
-            <h2 class="quiz-q">Where are you right now?</h2>
-            <div class="quiz-opts" role="group" aria-label="Experience">
-              <button type="button" class="quiz-opt" data-q="exp" data-key="new" data-apply="New to training">New to training</button>
-              <button type="button" class="quiz-opt" data-q="exp" data-key="some" data-apply="Some experience">Some experience</button>
-              <button type="button" class="quiz-opt" data-q="exp" data-key="consistent" data-apply="Consistent for 1+ years">Consistent for 1+ years</button>
-              <button type="button" class="quiz-opt" data-q="exp" data-key="former" data-apply="Former athlete getting back">Former athlete getting back</button>
-              <button type="button" class="quiz-opt" data-q="exp" data-key="advanced" data-apply="Advanced / competitive">Advanced or competitive</button>
+          <div class="quiz-step" data-step="format-strength">
+            <h2 class="quiz-q">Where do you want to train?</h2>
+            <div class="quiz-opts" role="group" aria-label="Training location">
+              <button type="button" class="quiz-opt" data-set="format" data-val="At my home">At my home</button>
+              <button type="button" class="quiz-opt" data-set="format" data-val="At my gym">At my gym</button>
             </div>
+          </div>
+
+          <div class="quiz-step" data-step="price" aria-live="polite">
+            <p class="price-kicker" id="priceKicker"></p>
+            <p class="price-big" id="priceBig"></p>
+            <p class="price-sub" id="priceSub"></p>
+            <ul class="offer" id="priceList"></ul>
+            <p class="price-after" id="priceAfter"></p>
+            <div class="actions"><button type="button" class="btn" id="toDays">Pick my days</button></div>
+          </div>
+
+          <div class="quiz-step" data-step="days">
+            <h2 class="quiz-q">Which days work best?</h2>
+            <p class="form-note">Pick all that work. I'll text you with open times.</p>
+            <div class="quiz-opts" role="group" aria-label="Preferred days">
+              <button type="button" class="quiz-opt" data-day="Weekday mornings" aria-pressed="false">Weekday mornings</button>
+              <button type="button" class="quiz-opt" data-day="Weekday evenings" aria-pressed="false">Weekday evenings</button>
+              <button type="button" class="quiz-opt" data-day="Friday afternoon" aria-pressed="false">Friday afternoon</button>
+              <button type="button" class="quiz-opt" data-day="Saturday" aria-pressed="false">Saturday</button>
+              <button type="button" class="quiz-opt" data-day="Sunday" aria-pressed="false">Sunday</button>
+            </div>
+            <div class="actions"><button type="button" class="btn" id="toContact">Continue</button></div>
+            <div class="form-status" id="daysStatus" role="status" aria-live="polite"></div>
+          </div>
+
+          <div class="quiz-step" data-step="contact">
+            <h2 class="quiz-q">Where should I text you?</h2>
+            <p class="price-recap" id="priceRecap"></p>
+            <form id="toolForm" name="price-tool" method="POST" data-netlify="true" netlify-honeypot="company" novalidate>
+              <input type="hidden" name="form-name" value="price-tool">
+              <input type="hidden" name="path" id="fPath">
+              <input type="hidden" name="format" id="fFormat">
+              <input type="hidden" name="price_shown" id="fPrice">
+              <input type="hidden" name="days" id="fDays">
+              <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;" tabindex="-1">
+                <label>Company (leave blank)<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
+              </div>
+              <div class="tool-fields">
+                <div class="field">
+                  <label for="tName">Your name</label>
+                  <input type="text" id="tName" name="name" autocomplete="name" required>
+                </div>
+                <div class="field">
+                  <label for="tPhone">Mobile number</label>
+                  <input type="tel" id="tPhone" name="phone" autocomplete="tel" inputmode="tel" required>
+                </div>
+                <div class="field" id="ageField">
+                  <label for="tAge">Player's age</label>
+                  <input type="text" id="tAge" name="player_age" inputmode="numeric">
+                </div>
+                <div class="field" id="areaField">
+                  <label for="tArea">Your city or neighborhood</label>
+                  <input type="text" id="tArea" name="area" placeholder="St. Pete, Largo, Clearwater">
+                </div>
+                <button type="submit" class="btn btn--block" id="toolBtn">Request my first session</button>
+                <p class="form-note">No payment now. Before session one you can pay by card, Venmo, Cash App or Zelle.</p>
+              </div>
+              <div class="form-status" id="toolStatus" role="status" aria-live="polite"></div>
+            </form>
+          </div>
+
+          <div class="quiz-step" data-step="done" aria-live="polite">
+            <h2 class="quiz-q">You're on my list.</h2>
+            <p class="lede" id="doneLine"></p>
+            <ol class="steps">
+              <li><div><h3>I text you</h3><p>You'll hear from me at (727) 300-6573 with open times on the days you picked.</p></div></li>
+              <li><div><h3>We lock in session one</h3><p>You get the exact location and what to bring.</p></div></li>
+              <li><div><h3>We start with a movement check</h3><p>Ankles, knees and hips, so the plan is built on how you move.</p></div></li>
+            </ol>
+            <p><a href="https://www.instagram.com/floridarainhoops" rel="noopener" class="link">Follow @floridarainhoops</a></p>
           </div>
 
           <div class="quiz-nav">
-            <span class="label" id="quizCount">Question 1 of 3</span>
-            <button type="button" class="quiz-back" id="quizBack" hidden>Back</button>
-          </div>
-
-          <div class="quiz-result" id="quizResult" aria-live="polite">
-            <p class="label" id="recTag">Your best fit</p>
-            <h2 id="recName">Your best fit</h2>
-            <p class="lede" id="recDesc"></p>
-            <div class="actions">
-              <a href="/apply/" class="btn" id="recApply">Apply for coaching</a>
-              <a href="/coaching/" class="link" id="recSee">See all options</a>
-            </div>
-            <p><button type="button" class="quiz-restart" id="quizRestart">Start over</button></p>
+            <span class="label" id="toolCount">Step 1 of 5</span>
+            <button type="button" class="quiz-back" id="toolBack" hidden>Back</button>
           </div>
         </div>
       </div></div>
@@ -164,87 +217,99 @@
   <script src="/site.js" defer></script>
   <script>
   (function () {
-    var STEPS = 3;
-    var answers = {};
-    var cur = 0;
-    var quiz = document.getElementById('quiz');
-    if (!quiz) return;
-    var steps = quiz.querySelectorAll('.quiz-step');
-    var bar = document.getElementById('quizBar');
-    var back = document.getElementById('quizBack');
-    var count = document.getElementById('quizCount');
-    var nav = quiz.querySelector('.quiz-nav');
-    var result = document.getElementById('quizResult');
-
-    var REC = {
-      semi:       { name: 'Semi-private coaching waitlist', short: 'Semi-Private', cta: 'Join the waitlist', tag: 'Your best fit: semi-private waitlist', desc: 'Small-group training on a progressive program with individual coaching. It\'s a waitlist right now — the Pinellas County location and schedule are being confirmed. Planned price: $249/month.', option: 'Semi-Private waitlist', see: '/coaching/' },
-      private:    { name: 'Private one-on-one', short: 'Private 1:1', cta: 'Ask about availability', tag: 'Your best fit: 1:1 coaching', desc: 'Every session and progression built around you. Starts at $400/month — contact for current availability.', option: 'Private one-on-one', see: '/coaching/' },
-      basketball: { name: 'Basketball performance', short: 'Basketball', tag: 'Your best fit: off-court training', desc: 'Off-court strength, movement and conditioning for basketball players. Skills training for players is running now in Clearwater and around Pinellas.', option: 'Basketball performance', see: '/basketball-performance/' },
-      hyrox:      { name: 'HYROX and hybrid', short: 'HYROX', tag: 'Your best fit: run, lift, keep going', desc: 'Running, functional strength and conditioning. I\'ve finished one solo HYROX Open and I\'ll coach you through what I\'m learning and testing.', option: 'HYROX & hybrid performance', see: '/hyrox/' }
+    var tool = document.getElementById('tool');
+    if (!tool) return;
+    var PRICES = {
+      'basketball|1-on-1': { kicker: 'Basketball training, 1-on-1', big: '$160', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $65 each.', label: '$160 intro 4-pack (1-on-1)' },
+      'basketball|With one teammate': { kicker: 'Basketball training, two players', big: '$120 per player', sub: 'Group intro 4-pack: four sessions each.', after: 'After the 4-pack, sessions are $45 per player.', label: '$120 per player intro 4-pack (2 players)' },
+      'basketball|Group of 3 or 4': { kicker: 'Basketball training, group of 3 or 4', big: '$120 per player', sub: 'Group intro 4-pack: four sessions each.', after: 'After the 4-pack, sessions are $35 per player.', label: '$120 per player intro 4-pack (3-4 players)' },
+      'strength|At my home': { kicker: 'Strength and conditioning, at your home', big: '$240', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (home)' },
+      'strength|At my gym': { kicker: 'Strength and conditioning, at your gym', big: '$240', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (gym)' }
     };
-
-    function render() {
-      steps.forEach(function (s, i) { s.classList.toggle('active', i === cur); });
-      bar.style.width = ((cur + 1) / STEPS * 100) + '%';
-      count.textContent = 'Question ' + (cur + 1) + ' of ' + STEPS;
-      back.hidden = cur === 0;
-      // restore selection highlight
-      steps[cur].querySelectorAll('.quiz-opt').forEach(function (b) {
-        var q = b.getAttribute('data-q');
-        b.classList.toggle('sel', answers[q] && answers[q].key === b.getAttribute('data-key'));
-      });
+    var INCLUDES = {
+      basketball: ['Four coached sessions on the court in Clearwater. I bring the equipment.', 'Skills, functional strength and conditioning in every session.', 'A player report card: ankles, knees, hips, vertical jump and sprint, tested in session one and again in session four.'],
+      strength: ['Four coached sessions. I come to you and bring the equipment.', 'A ground-up movement check in session one: ankles, knees, hips.', 'Strength and conditioning built on what we find.']
+    };
+    var state = { path: '', format: '', days: [] };
+    var order = [];
+    var idx = 0;
+    var $ = function (id) { return document.getElementById(id); };
+    function steps() { return ['who', state.path ? 'format-' + state.path : 'format-basketball', 'price', 'days', 'contact']; }
+    function show(name) {
+      tool.querySelectorAll('.quiz-step').forEach(function (el) { el.classList.toggle('active', el.getAttribute('data-step') === name); });
+      var list = steps(); var i = list.indexOf(name);
+      var done = name === 'done';
+      $('toolBar').style.width = done ? '100%' : ((i + 1) / list.length * 100) + '%';
+      $('toolCount').textContent = done ? '' : 'Step ' + (i + 1) + ' of ' + list.length;
+      $('toolBack').hidden = done || i <= 0;
+      idx = i;
+      var h = tool.querySelector('.quiz-step.active .quiz-q, .quiz-step.active .price-kicker');
+      if (h) { h.setAttribute('tabindex', '-1'); try { h.focus({ preventScroll: true }); } catch (e) {} }
+      var top = tool.getBoundingClientRect().top + window.pageYOffset - 90;
+      if (window.pageYOffset > top) window.scrollTo(0, top);
     }
-
-    function decide() {
-      var g = answers.goal || {}, t = answers.train || {};
-      if (g.key === 'basketball') return REC.basketball;
-      if (g.key === 'hyrox') return REC.hyrox;
-      if (t.key === 'private') return REC.private;
-      return REC.semi;
+    function renderPrice() {
+      var p = PRICES[state.path + '|' + state.format]; if (!p) return;
+      $('priceKicker').textContent = p.kicker;
+      $('priceBig').textContent = p.big;
+      $('priceSub').textContent = p.sub;
+      $('priceAfter').textContent = p.after;
+      var ul = $('priceList'); ul.innerHTML = '';
+      INCLUDES[state.path].forEach(function (line) { var li = document.createElement('li'); li.textContent = line; ul.appendChild(li); });
+      $('priceRecap').textContent = p.kicker + ': ' + p.big + '. ' + (state.days.length ? 'Days: ' + state.days.join(', ') + '.' : '');
+      $('fPath').value = state.path; $('fFormat').value = state.format; $('fPrice').value = p.label; $('fDays').value = state.days.join(', ');
+      var bb = state.path === 'basketball';
+      $('ageField').hidden = !bb; $('tAge').required = bb;
+      $('areaField').hidden = bb; $('tArea').required = !bb;
     }
-
-    function finish() {
-      var rec = decide();
-      var q = new URLSearchParams();
-      q.set('option', rec.option);
-      if (answers.goal && answers.goal.apply) q.set('goal', answers.goal.apply);
-      if (answers.exp && answers.exp.apply) q.set('experience', answers.exp.apply);
-      document.getElementById('recTag').textContent = rec.tag;
-      document.getElementById('recName').textContent = rec.name;
-      document.getElementById('recDesc').textContent = rec.desc;
-      var apply = document.getElementById('recApply');
-      apply.setAttribute('href', '/apply/?' + q.toString());
-      apply.textContent = rec.cta || 'Apply for coaching';
-      document.getElementById('recSee').setAttribute('href', rec.see);
-      steps.forEach(function (s) { s.classList.remove('active'); });
-      nav.style.display = 'none';
-      bar.style.width = '100%';
-      result.classList.add('active');
-      result.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    quiz.addEventListener('click', function (e) {
+    tool.addEventListener('click', function (e) {
       var opt = e.target.closest('.quiz-opt');
-      if (!opt) return;
-      var q = opt.getAttribute('data-q');
-      answers[q] = { key: opt.getAttribute('data-key'), apply: opt.getAttribute('data-apply') };
-      steps[cur].querySelectorAll('.quiz-opt').forEach(function (b) { b.classList.toggle('sel', b === opt); });
-      setTimeout(function () {
-        if (cur < STEPS - 1) { cur++; render(); }
-        else finish();
-      }, 220);
+      if (opt && opt.hasAttribute('data-set')) {
+        var key = opt.getAttribute('data-set'); state[key] = opt.getAttribute('data-val');
+        opt.parentNode.querySelectorAll('.quiz-opt').forEach(function (o) { o.classList.toggle('sel', o === opt); });
+        if (key === 'path') { state.format = ''; show('format-' + state.path); }
+        else { renderPrice(); show('price'); }
+        return;
+      }
+      if (opt && opt.hasAttribute('data-day')) {
+        var d = opt.getAttribute('data-day'); var on = state.days.indexOf(d) === -1;
+        if (on) state.days.push(d); else state.days.splice(state.days.indexOf(d), 1);
+        opt.classList.toggle('sel', on); opt.setAttribute('aria-pressed', on ? 'true' : 'false');
+        $('daysStatus').className = 'form-status';
+      }
     });
-
-    back.addEventListener('click', function () { if (cur > 0) { cur--; render(); } });
-
-    document.getElementById('quizRestart').addEventListener('click', function () {
-      answers = {}; cur = 0; result.classList.remove('active'); nav.style.display = '';
-      quiz.querySelectorAll('.quiz-opt').forEach(function (b) { b.classList.remove('sel'); });
-      render();
-      quiz.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    $('toDays').addEventListener('click', function () { show('days'); });
+    $('toContact').addEventListener('click', function () {
+      if (!state.days.length) { $('daysStatus').textContent = 'Pick at least one option.'; $('daysStatus').className = 'form-status show err'; return; }
+      renderPrice(); show('contact');
     });
-
-    render();
+    $('toolBack').addEventListener('click', function () { var list = steps(); if (idx > 0) show(list[idx - 1]); });
+    var form = $('toolForm'), statusEl = $('toolStatus'), btn = $('toolBtn');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      statusEl.className = 'form-status';
+      if (!form.checkValidity()) {
+        statusEl.textContent = state.path === 'basketball' ? 'Add your name, mobile number and the player\'s age.' : 'Add your name, mobile number and your city.';
+        statusEl.className = 'form-status show err';
+        var bad = form.querySelector(':invalid'); if (bad) bad.focus();
+        return;
+      }
+      var body = new URLSearchParams(new FormData(form)).toString();
+      btn.disabled = true; var original = btn.textContent; btn.textContent = 'Sending…';
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Request failed: ' + res.status);
+          $('doneLine').textContent = 'Thanks, ' + (form.elements.name.value.split(' ')[0] || 'got it') + '. Your price is locked in: ' + $('fPrice').value + '.';
+          show('done');
+        })
+        .catch(function () {
+          btn.disabled = false; btn.textContent = original;
+          statusEl.textContent = "That didn't send. Try again, or text me at (727) 300-6573.";
+          statusEl.className = 'form-status show err';
+        });
+    });
+    var pre = new URLSearchParams(location.search).get('path');
+    if (pre === 'basketball' || pre === 'strength') { state.path = pre; show('format-' + pre); } else { show('who'); }
   })();
   </script>
 </body>

@@ -480,3 +480,15 @@ a:hover { text-decoration-thickness: 2px; }
 .media--thumb img { border-radius: 4px; }
 .door-head picture { flex: none; display: block; width: 72px; height: 72px; }
 .doors-more .link, .lp-note .link { display: inline; min-height: 0; }
+/* Price tool */
+.price-kicker { font-stretch: 87%; font-weight: 700; font-size: 16px; color: var(--fg-muted); outline: none; }
+.price-big { font-family: var(--cond, inherit); font-stretch: 62%; font-weight: 800; font-size: clamp(3.4rem, 17vw, 5.5rem); line-height: .95; margin: 6px 0 8px; }
+.price-sub { font-size: 1.1em; font-weight: 600; max-width: 34ch; }
+.quiz-step[data-step="price"] .offer { margin-top: 20px; }
+.quiz-step[data-step="price"] .offer li { padding: 12px 0; }
+.price-after { margin-top: 14px; color: var(--fg-muted); }
+.price-recap { margin: -8px 0 20px; font-weight: 600; }
+.quiz-step .actions { margin-top: 22px; }
+.quiz-q { outline: none; }
+.quiz-opt[aria-pressed="true"]::after { content: "✓"; float: right; }
+.quiz-step[data-step="done"] .steps { margin: 18px 0; }
