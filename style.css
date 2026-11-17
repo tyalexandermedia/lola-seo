@@ -542,3 +542,11 @@ a:hover { text-decoration-thickness: 2px; }
 .report td:last-child { font-weight: 700; }
 .report-note { margin: 0; padding: 12px 16px; font-size: 14px; color: var(--fg-muted); }
 @media (max-width: 420px) { .report th, .report td { padding: 10px 10px; font-size: 14px; } }
+/* Keyword line in landing-page H1s, bundles, areas */
+.h1-kw { display: block; margin-bottom: 10px; font-family: var(--body, inherit); font-stretch: 87%; font-weight: 700; font-size: clamp(1rem, 4.2vw, 1.25rem); line-height: 1.2; letter-spacing: 0; color: var(--accent, #8C5A14); }
+.area-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; border-top: 1px solid var(--line); }
+.area-list li { border-bottom: 1px solid var(--line); }
+.area-list a { display: flex; align-items: center; min-height: 48px; font-weight: 600; color: var(--fg); text-decoration: none; }
+.area-list a:hover { text-decoration: underline; text-underline-offset: .2em; }
+@media (min-width: 700px) { .area-list { grid-template-columns: repeat(3, 1fr); } }
+.local p + p { margin-top: 12px; }
