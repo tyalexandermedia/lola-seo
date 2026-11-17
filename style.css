@@ -645,3 +645,38 @@ a:hover { text-decoration-thickness: 2px; }
   .photo-band figcaption { margin-top: 10px; }
   .proof-row { gap: 20px; }
 }
+
+/* ── Pro pass: photo mosaic, staggered pair, one-row team strip ── */
+.mosaic { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; grid-template-areas: "copy copy" "a a" "b c"; }
+.mosaic figure { margin: 0; }
+.mosaic-copy { grid-area: copy; margin-bottom: 10px; }
+.mosaic-copy p { margin-top: 14px; max-width: 46ch; }
+.mosaic-a { grid-area: a; } .mosaic-b { grid-area: b; } .mosaic-c { grid-area: c; }
+.mosaic img { display: block; width: 100%; height: auto; object-fit: cover; border-radius: 4px; filter: grayscale(1) contrast(1.06); }
+.mosaic-a img { aspect-ratio: 4 / 3; object-position: 0% 0%; }
+.mosaic-b img { aspect-ratio: 1 / 1; object-position: 62% 40%; }
+.mosaic-c img { aspect-ratio: 1 / 1; object-position: 50% 60%; }
+.mosaic figcaption, .photo-duo figcaption { margin-top: 8px; font-size: 13px; line-height: 1.35; font-stretch: 87%; font-weight: 600; color: var(--fg-muted); }
+@media (min-width: 900px) {
+  .mosaic { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: 64px; row-gap: 28px; grid-template-areas: "copy a" "b a" "b c"; align-items: start; }
+  .mosaic-copy { margin: 0; padding-top: 8px; }
+  .mosaic-a img { aspect-ratio: 5 / 4; }
+  .mosaic-b { align-self: end; } .mosaic-b img { aspect-ratio: 4 / 3; object-position: 50% 30%; }
+  .mosaic-c { width: 62%; justify-self: end; } .mosaic-c img { aspect-ratio: 4 / 3; object-position: 50% 62%; }
+  .mosaic figcaption, .photo-duo figcaption { font-size: 14px; }
+}
+.photo-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+.photo-duo figure { margin: 0; }
+.photo-duo figure + figure { margin-top: 28px; }
+.photo-duo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 4px; filter: grayscale(1) contrast(1.06); }
+.photo-duo figure:first-child img { object-position: 64% 50%; }
+.photo-duo figure + figure img { object-position: 38% 50%; }
+@media (min-width: 700px) { .photo-duo { gap: 28px; } .photo-duo img { aspect-ratio: 4 / 3; } .photo-duo figure:first-child img, .photo-duo figure + figure img { object-position: 50% 40%; } .photo-duo figure + figure { margin-top: 64px; } }
+@media (min-width: 700px) {
+  .photo-strip { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; padding-bottom: 12px; }
+  .photo-strip::-webkit-scrollbar { display: block; height: 6px; } .photo-strip::-webkit-scrollbar-thumb { background: #D8CFC0; border-radius: 3px; }
+  .photo-strip figure { flex: 0 0 31%; scroll-snap-align: start; }
+}
+.lp-media--coach img { object-position: 100% 50%; }
+.cta-final .reassure { margin-top: 18px; }
+.cta-final .reassure .link { color: #E6A94E; display: inline; min-height: 0; }
