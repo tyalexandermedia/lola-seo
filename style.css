@@ -554,3 +554,25 @@ a:hover { text-decoration-thickness: 2px; }
 .ink .reassure, .hero .reassure { color: rgba(244,239,231,.78); }
 .who { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .who li { padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; font-weight: 600; background: var(--field, #FFFDF9); }
+
+/* ── Cover v3: on phones the photo is the whole first screen and the button sits inside it ── */
+@media (max-width: 899px) {
+  .hero { position: relative; overflow: hidden; }
+  .hero > .wrap { padding-block: 0; }
+  .hero-grid { position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 0;
+    min-height: 560px; min-height: max(540px, calc(100svh - 65px)); padding-bottom: 22px; }
+  .hero-media { position: absolute; inset: 0 calc(-1 * var(--gutter)); margin: 0; order: 0; }
+  .hero-media picture { display: block; height: 100%; }
+  .hero-media img { height: 100%; aspect-ratio: auto; object-position: 50% 0; }
+  .hero-media .fade { background: linear-gradient(to bottom, rgba(12,12,13,.3) 0%, rgba(12,12,13,0) 18%, rgba(12,12,13,0) 38%, rgba(12,12,13,.72) 60%, rgba(12,12,13,.94) 78%, var(--ink) 100%); }
+  .hero-copy { margin-top: 0; z-index: 5; }
+  .hero-copy p { margin-top: 12px; color: rgba(244,239,231,.9); font-size: 16px; line-height: 1.45; }
+  .hero-copy .actions { margin-top: 18px; }
+  .hero-copy .reassure { margin-top: 10px; font-size: 14px; }
+  .section > .wrap > .inner { padding-block: 36px; }
+  .doors { margin-top: 18px; gap: 12px; }
+  .door { padding: 20px 18px; gap: 8px; }
+  .door-thumb, .door-head picture { width: 56px; height: 56px; }
+  .door-cta { margin-top: 6px; }
+  .doors-more { margin-top: 16px; }
+}
