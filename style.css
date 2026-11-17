@@ -460,3 +460,5 @@ a:hover { text-decoration-thickness: 2px; }
 .door--ink .door-cta { background: #E6A94E; color: #0C0C0D; }
 .door:focus-visible { outline: 2px solid var(--gold-deep, #9A6418); outline-offset: 3px; }
 .doors-more { margin-top: 18px; font-size: 15px; color: var(--fg-muted); }
+.check-body .start-here { border-left: 3px solid var(--gold-deep, #9A6418); padding-left: 14px; }
+.check-body .start-here dt { color: var(--fg); }
