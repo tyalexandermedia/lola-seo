@@ -443,3 +443,20 @@ a:hover { text-decoration-thickness: 2px; }
 .pack-form .form-note { margin: 6px 0 18px; }
 .pack-form .btn { margin-bottom: 18px; }
 @media (min-width: 700px) { .pack-fields { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; } .pack-fields .btn { grid-column: 1 / -1; } }
+
+/* Landing page head */
+.lp-price { margin-top: 18px; font-size: 1.08em; max-width: 46ch; }
+.lp-price b { display: block; font-stretch: 75%; font-weight: 700; font-size: 1.5em; line-height: 1.15; margin-bottom: 4px; }
+.lp-note { margin-top: 16px; font-size: 15px; color: var(--fg-muted); }
+/* Two doors */
+.doors { display: grid; gap: 16px; margin-top: 24px; }
+@media (min-width: 800px) { .doors { grid-template-columns: 1fr 1fr; gap: 24px; } }
+.door { display: flex; flex-direction: column; gap: 10px; padding: 26px 22px 24px; border: 1px solid var(--fg); border-radius: 8px; text-decoration: none; color: var(--fg); }
+.door--ink { background: #0C0C0D; color: #F4EFE7; border-color: #0C0C0D; }
+.door-kicker { font-stretch: 87%; font-weight: 600; font-size: 15px; opacity: .8; }
+.door-title { font-stretch: 75%; font-weight: 700; font-size: clamp(1.6rem, 6vw, 2rem); line-height: 1.08; }
+.door-body { font-size: 16px; line-height: 1.5; opacity: .88; }
+.door-cta { margin-top: 8px; align-self: flex-start; display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; border-radius: 8px; font-stretch: 87%; font-weight: 700; background: var(--fg); color: var(--bg, #F4EFE7); }
+.door--ink .door-cta { background: #E6A94E; color: #0C0C0D; }
+.door:focus-visible { outline: 2px solid var(--gold-deep, #9A6418); outline-offset: 3px; }
+.doors-more { margin-top: 18px; font-size: 15px; color: var(--fg-muted); }
