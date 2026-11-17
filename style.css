@@ -608,4 +608,21 @@ a:hover { text-decoration-thickness: 2px; }
 @media (min-width: 700px) { .proof-row--one { grid-template-columns: 1fr; max-width: 560px; } }
 .door--ink .door-thumb { object-position: 50% 40%; }
 .door--ink .door-thumb { object-position: 50% 50%; }
-.quiz-opt--photo img[src*="ty-coach-profile"] { object-position: 50% 50%; }
+.quiz-opt--photo img[src*="ty-coach-headshot"] { object-position: 50% 50%; }
+
+/* ── Photo bands between sections and the team photo strip ── */
+.photo-band { margin: 0 0 clamp(36px, 6vw, 72px); }
+.photo-band img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 30%; border-radius: 4px; filter: grayscale(1) contrast(1.06); }
+.photo-band figcaption, .photo-strip figcaption { margin-top: 8px; font-size: 14px; font-stretch: 87%; font-weight: 600; color: var(--fg-muted); }
+@media (max-width: 899px) {
+  .photo-band { margin-inline: calc(-1 * var(--gutter)); }
+  .photo-band img { border-radius: 0; }
+  .photo-band figcaption { padding-inline: var(--gutter); }
+}
+@media (min-width: 900px) { .photo-band img { aspect-ratio: 21 / 9; } .photo-band--wide img { object-position: 50% 45%; } }
+.strip-title { margin-top: 36px; font-stretch: 75%; font-weight: 700; font-size: 1.35rem; }
+.photo-strip { display: flex; gap: 12px; margin-top: 14px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+.photo-strip::-webkit-scrollbar { display: none; }
+.photo-strip figure { margin: 0; flex: 0 0 78%; scroll-snap-align: start; }
+.photo-strip img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; filter: grayscale(1) contrast(1.06); }
+@media (min-width: 700px) { .photo-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; overflow: visible; margin-inline: 0; padding-inline: 0; } .photo-strip figure { flex: none; } }
