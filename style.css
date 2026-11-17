@@ -467,3 +467,8 @@ a:hover { text-decoration-thickness: 2px; }
 .hero-copy .actions { gap: 12px; }
 @media (min-width: 600px) { .hero-copy .actions { gap: 14px; } }
 .door-kicker { opacity: 1; font-weight: 700; }
+.door { overflow: hidden; }
+.door-photo { display: block; margin: -26px -22px 8px; }
+.door-photo img { display: block; width: 100%; height: 190px; object-fit: cover; object-position: 50% 28%; filter: grayscale(1) contrast(1.1); }
+.door--ink .door-photo img { object-position: 50% 30%; }
+@media (min-width: 800px) { .door-photo img { height: 240px; } }
