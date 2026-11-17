@@ -705,3 +705,36 @@ a:hover { text-decoration-thickness: 2px; }
   .lp-media--coach img { height: auto; }
 }
 @media (max-width: 899px) { .page-head.lp-head--cover > .wrap { padding-top: 0; } }
+
+/* ── Fit pass: smaller home cover, photos shown whole instead of zoomed ── */
+@media (max-width: 899px) {
+  .hero-grid { min-height: 500px; min-height: clamp(480px, 74svh, 600px); }
+  .hero-media img { object-position: 50% 30%; }
+  .hero h1 { font-size: clamp(3rem, 15vw, 4.4rem); }
+  .lp-media { height: auto; }
+  .lp-media img { height: auto; aspect-ratio: 5 / 4; object-position: 50% 30%; }
+  .lp-media--wallball img { aspect-ratio: 1 / 1; object-position: 50% 36%; }
+  .lp-media--coach img { aspect-ratio: auto; }
+}
+@media (min-width: 900px) {
+  .hero > .wrap { padding-block: 40px 44px; }
+  .hero-grid { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 56px; align-items: center; }
+  .hero-media { max-width: 440px; }
+  .hero-media img { aspect-ratio: 4 / 5; object-position: 50% 30%; }
+  .lp-media { aspect-ratio: auto; }
+  .lp-media img { height: auto; }
+  .lp-media--wallball { max-width: 420px; justify-self: end; }
+}
+#about .media img, .cols--about .media img { aspect-ratio: auto; height: auto; object-position: 50% 50%; }
+.head-photo--portrait img { aspect-ratio: 4 / 5; object-position: 50% 22%; }
+@media (max-width: 899px) {
+  .hero-grid { min-height: 0; justify-content: flex-start; padding-bottom: 20px; }
+  .hero-media { position: relative; inset: auto; order: -1; margin-inline: calc(-1 * var(--gutter)); }
+  .hero-media picture { height: auto; }
+  .hero-media img { height: auto; aspect-ratio: 1 / 1; object-position: 50% 8%; }
+  .hero-media .fade { background: linear-gradient(to bottom, rgba(12,12,13,.25) 0%, rgba(12,12,13,0) 16%, rgba(12,12,13,0) 72%, var(--ink) 100%); }
+  .hero-copy { margin-top: -44px; }
+  .hero h1 { font-size: clamp(2.9rem, 14vw, 4rem); }
+  .hero-copy p { font-size: 15px; margin-top: 10px; }
+  .hero-copy .actions { margin-top: 14px; }
+}
