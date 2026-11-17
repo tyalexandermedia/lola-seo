@@ -242,7 +242,7 @@
       strength: ['Four coached sessions. I come to you and bring the equipment.', 'A ground-up movement check in session one: ankles, knees, hips.', 'Strength and conditioning built on what we find.']
     };
     // Payment handles: fill these in to show Pay buttons on the confirmation screen.
-    var PAY = { venmo: '', cashapp: '' };
+    var PAY = { venmo: '', cashapp: 'coachtyalexander' };
     var state = { path: '', format: '', day: '', dayLabel: '', time: '' };
     var order = [];
     var idx = 0;
@@ -354,7 +354,7 @@
             $('payTitle').textContent = 'Prepay $' + amount + pp.per + ' and your spot is held.';
             var btns = $('payBtns'); btns.innerHTML = '';
             if (PAY.venmo) { var v = document.createElement('a'); v.className = 'btn'; v.href = 'https://venmo.com/' + PAY.venmo + '?txn=pay&amount=' + amount + '&note=' + note; v.rel = 'noopener'; v.textContent = 'Pay $' + amount + ' with Venmo'; btns.appendChild(v); }
-            if (PAY.cashapp) { var c = document.createElement('a'); c.className = 'btn btn--quiet'; c.href = 'https://cash.app/$' + PAY.cashapp + '/' + amount; c.rel = 'noopener'; c.textContent = 'Pay $' + amount + ' with Cash App'; btns.appendChild(c); }
+            if (PAY.cashapp) { var c = document.createElement('a'); c.className = PAY.venmo ? 'btn btn--quiet' : 'btn'; c.href = 'https://cash.app/$' + PAY.cashapp + '/' + amount; c.rel = 'noopener'; c.textContent = 'Pay $' + amount + ' with Cash App'; btns.appendChild(c); }
             $('payText').textContent = (PAY.venmo || PAY.cashapp) ? 'Tap to pay. I\'ll confirm by text when it lands.' : 'I\'ll text you a Venmo or Cash App request for $' + amount + pp.per + ' with your confirmation.';
             $('payBox').hidden = false;
           }
