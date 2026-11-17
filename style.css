@@ -606,9 +606,6 @@ a:hover { text-decoration-thickness: 2px; }
 .proof-row--one { grid-template-columns: 1fr; }
 .proof-row--one img { aspect-ratio: 4 / 3; object-position: 50% 12%; }
 @media (min-width: 700px) { .proof-row--one { grid-template-columns: 1fr; max-width: 560px; } }
-.door--ink .door-thumb { object-position: 50% 40%; }
-.door--ink .door-thumb { object-position: 50% 50%; }
-.quiz-opt--photo img[src*="ty-coach-headshot"] { object-position: 50% 50%; }
 
 /* ── Photo bands between sections and the team photo strip ── */
 .photo-band { margin: 0 0 clamp(36px, 6vw, 72px); }
