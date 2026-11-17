@@ -69,10 +69,10 @@
   </nav>
 
   <main id="main">
-    <section class="page-head">
+    <section class="page-head tool-head">
       <div class="wrap">
-        <h1 class="h1--page">Get your price in 30 seconds.</h1>
-        <p class="lede">Three taps to see your price. Then pick your days and request your first session. No payment now.</p>
+        <h1 class="h1--page">Get your price.</h1>
+        <p class="lede">Three taps. No payment now.</p>
       </div>
     </section>
 
@@ -84,8 +84,8 @@
           <div class="quiz-step active" data-step="who">
             <h2 class="quiz-q">Who's training?</h2>
             <div class="quiz-opts" role="group" aria-label="Who is training">
-              <button type="button" class="quiz-opt" data-set="path" data-val="basketball">A basketball player</button>
-              <button type="button" class="quiz-opt" data-set="path" data-val="strength">An adult, for strength and conditioning</button>
+              <button type="button" class="quiz-opt quiz-opt--photo" data-set="path" data-val="basketball"><img src="/images/ty-coaching-gym.jpg" width="360" height="450" alt="" decoding="async"><span><b>Basketball training</b><small>For players. On the court in Clearwater.</small></span></button>
+              <button type="button" class="quiz-opt quiz-opt--photo" data-set="path" data-val="strength"><img src="/images/ty-hyrox-wall-ball.jpg" width="799" height="1200" alt="" decoding="async"><span><b>Strength and conditioning</b><small>For adults. At your home or gym.</small></span></button>
             </div>
           </div>
 
@@ -108,11 +108,12 @@
 
           <div class="quiz-step" data-step="price" aria-live="polite">
             <p class="price-kicker" id="priceKicker"></p>
-            <p class="price-big" id="priceBig"></p>
+            <p class="price-big"><s id="priceWas"></s> <span id="priceBig"></span></p>
             <p class="price-sub" id="priceSub"></p>
+            <div class="actions"><button type="button" class="btn btn--block" id="toDays">Pick my days</button></div>
+            <p class="price-note" id="priceNote"></p>
             <ul class="offer" id="priceList"></ul>
             <p class="price-after" id="priceAfter"></p>
-            <div class="actions"><button type="button" class="btn" id="toDays">Pick my days</button></div>
           </div>
 
           <div class="quiz-step" data-step="days">
@@ -173,7 +174,7 @@
               <li><div><h3>We lock in session one</h3><p>You get the exact location and what to bring.</p></div></li>
               <li><div><h3>We start with a movement check</h3><p>Ankles, knees and hips, so the plan is built on how you move.</p></div></li>
             </ol>
-            <p><a href="https://www.instagram.com/floridarainhoops" rel="noopener" class="link">Follow @floridarainhoops</a></p>
+            <div class="actions"><a class="btn" href="sms:+17273006573?&amp;body=Hi%20Coach%20Ty%2C%20I%20just%20requested%20my%20first%20session%20on%20your%20site.">Text me now to lock it in faster</a><a href="https://www.instagram.com/floridarainhoops" rel="noopener" class="link">Follow @floridarainhoops</a></div>
           </div>
 
           <div class="quiz-nav">
@@ -220,11 +221,11 @@
     var tool = document.getElementById('tool');
     if (!tool) return;
     var PRICES = {
-      'basketball|1-on-1': { kicker: 'Basketball training, 1-on-1', big: '$160', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $65 each.', label: '$160 intro 4-pack (1-on-1)' },
+      'basketball|1-on-1': { kicker: 'Basketball training, 1-on-1', was: '$260', big: '$160', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $65 each.', label: '$160 intro 4-pack (1-on-1)' },
       'basketball|With one teammate': { kicker: 'Basketball training, two players', big: '$120 per player', sub: 'Group intro 4-pack: four sessions each.', after: 'After the 4-pack, sessions are $45 per player.', label: '$120 per player intro 4-pack (2 players)' },
       'basketball|Group of 3 or 4': { kicker: 'Basketball training, group of 3 or 4', big: '$120 per player', sub: 'Group intro 4-pack: four sessions each.', after: 'After the 4-pack, sessions are $35 per player.', label: '$120 per player intro 4-pack (3-4 players)' },
-      'strength|At my home': { kicker: 'Strength and conditioning, at your home', big: '$240', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (home)' },
-      'strength|At my gym': { kicker: 'Strength and conditioning, at your gym', big: '$240', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (gym)' }
+      'strength|At my home': { kicker: 'Strength and conditioning, at your home', was: '$340', big: '$240', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (home)' },
+      'strength|At my gym': { kicker: 'Strength and conditioning, at your gym', was: '$340', big: '$240', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (gym)' }
     };
     var INCLUDES = {
       basketball: ['Four coached sessions on the court in Clearwater. I bring the equipment.', 'Skills, functional strength and conditioning in every session.', 'A player report card: ankles, knees, hips, vertical jump and sprint, tested in session one and again in session four.'],
@@ -252,6 +253,8 @@
       var p = PRICES[state.path + '|' + state.format]; if (!p) return;
       $('priceKicker').textContent = p.kicker;
       $('priceBig').textContent = p.big;
+      $('priceWas').textContent = p.was || ''; $('priceWas').hidden = !p.was;
+      $('priceNote').textContent = state.path === 'basketball' ? 'No payment now. I take 4 new players a month.' : 'No payment now. I come to you, anywhere from St. Pete to Palm Harbor.';
       $('priceSub').textContent = p.sub;
       $('priceAfter').textContent = p.after;
       var ul = $('priceList'); ul.innerHTML = '';

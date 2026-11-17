@@ -492,3 +492,14 @@ a:hover { text-decoration-thickness: 2px; }
 .quiz-q { outline: none; }
 .quiz-opt[aria-pressed="true"]::after { content: "✓"; float: right; }
 .quiz-step[data-step="done"] .steps { margin: 18px 0; }
+.tool-head .wrap { padding-block: 28px 8px; }
+.tool-head .h1--page { font-size: clamp(2.2rem, 9vw, 3.2rem); }
+.tool-head .lede { margin-top: 6px; }
+.tool-head + .section { padding-top: 20px; }
+.quiz-opt--photo { display: flex; align-items: center; gap: 14px; padding: 12px 14px; }
+.quiz-opt--photo img { width: 64px; height: 64px; flex: none; border-radius: 50%; object-fit: cover; object-position: 55% 26%; filter: grayscale(1) contrast(1.08); }
+.quiz-opt--photo b { display: block; font-stretch: 75%; font-size: 1.3rem; line-height: 1.1; }
+.quiz-opt--photo small { display: block; margin-top: 3px; font-size: 14px; font-weight: 400; opacity: .8; }
+.price-big s { font-size: .45em; font-weight: 600; color: var(--fg-muted); text-decoration-thickness: 2px; vertical-align: middle; }
+.price-big s[hidden] { display: none; }
+.price-note { margin-top: 12px; font-size: 14px; color: var(--fg-muted); }
