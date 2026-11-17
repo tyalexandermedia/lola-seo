@@ -584,7 +584,7 @@ a:hover { text-decoration-thickness: 2px; }
 .lp-media::before { content: ""; position: absolute; inset: 0; z-index: 1; background: #E6A94E; mix-blend-mode: multiply; opacity: .22; pointer-events: none; }
 .lp-media .fade { display: none; }
 @media (max-width: 899px) {
-  .lp-head > .wrap { padding-top: 0; }
+  .lp-head--cover > .wrap { padding-top: 0; }
   .lp-media { margin-inline: calc(-1 * var(--gutter)); height: min(46svh, 380px); }
   .lp-copy { padding-top: 26px; }
 }
@@ -602,3 +602,8 @@ a:hover { text-decoration-thickness: 2px; }
 .proof-row figcaption { margin-top: 8px; font-size: 14px; font-stretch: 87%; font-weight: 600; color: var(--fg-muted); }
 .lp-media .credit { top: 10px; bottom: auto; }
 @media (min-width: 900px) { .lp-media .credit { top: auto; bottom: 8px; } }
+.lp-media--wallball img { object-position: 50% 30%; }
+.proof-row--one { grid-template-columns: 1fr; }
+.proof-row--one img { aspect-ratio: 4 / 3; object-position: 50% 12%; }
+@media (min-width: 700px) { .proof-row--one { grid-template-columns: 1fr; max-width: 560px; } }
+.door--ink .door-thumb { object-position: 50% 40%; }
