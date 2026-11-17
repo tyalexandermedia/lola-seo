@@ -462,3 +462,8 @@ a:hover { text-decoration-thickness: 2px; }
 .doors-more { margin-top: 18px; font-size: 15px; color: var(--fg-muted); }
 .check-body .start-here { border-left: 3px solid var(--gold-deep, #9A6418); padding-left: 14px; }
 .check-body .start-here dt { color: var(--fg); }
+.btn--outline { background: transparent; color: var(--fg); border: 1.5px solid currentColor; }
+.btn--outline:hover { background: rgba(244,239,231,.08); }
+.hero-copy .actions { gap: 12px; }
+@media (min-width: 600px) { .hero-copy .actions { gap: 14px; } }
+.door-kicker { opacity: 1; font-weight: 700; }
