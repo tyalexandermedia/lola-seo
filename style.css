@@ -576,3 +576,29 @@ a:hover { text-decoration-thickness: 2px; }
   .door-cta { margin-top: 6px; }
   .doors-more { margin-top: 16px; }
 }
+
+/* ── Basketball page cover, bio photo and trophy row ── */
+.lp-media { position: relative; overflow: hidden; isolation: isolate; background: var(--ink); }
+.lp-media picture, .lp-media img { display: block; width: 100%; height: 100%; }
+.lp-media img { object-fit: cover; object-position: 50% 12%; filter: grayscale(1) contrast(1.1) brightness(.95); }
+.lp-media::before { content: ""; position: absolute; inset: 0; z-index: 1; background: #E6A94E; mix-blend-mode: multiply; opacity: .22; pointer-events: none; }
+.lp-media .fade { display: none; }
+@media (max-width: 899px) {
+  .lp-head > .wrap { padding-top: 0; }
+  .lp-media { margin-inline: calc(-1 * var(--gutter)); height: min(46svh, 380px); }
+  .lp-copy { padding-top: 26px; }
+}
+@media (min-width: 900px) {
+  .lp-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 64px; align-items: center; }
+  .lp-media { order: 2; aspect-ratio: 4 / 5; border-radius: 4px; }
+}
+.media--bio img { aspect-ratio: 1 / 1; object-position: 50% 60%; filter: grayscale(1) contrast(1.08); border-radius: 4px; }
+@media (max-width: 899px) { .media.media--bio img { aspect-ratio: 1 / 1; } }
+.cols--media p + p { margin-top: 14px; }
+.proof-row { display: grid; gap: 20px; margin-top: 32px; }
+@media (min-width: 700px) { .proof-row { grid-template-columns: 1fr 1fr; gap: 24px; } }
+.proof-row figure { margin: 0; }
+.proof-row img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; filter: grayscale(1) contrast(1.06); }
+.proof-row figcaption { margin-top: 8px; font-size: 14px; font-stretch: 87%; font-weight: 600; color: var(--fg-muted); }
+.lp-media .credit { top: 10px; bottom: auto; }
+@media (min-width: 900px) { .lp-media .credit { top: auto; bottom: 8px; } }
