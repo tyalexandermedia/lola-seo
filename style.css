@@ -680,3 +680,28 @@ a:hover { text-decoration-thickness: 2px; }
 .lp-media--coach img { object-position: 100% 50%; }
 .cta-final .reassure { margin-top: 18px; }
 .cta-final .reassure .link { color: #E6A94E; display: inline; min-height: 0; }
+
+/* ── Layout v4: one photo at a time, uncropped, tucked under the section heading; tighter even spacing ── */
+.section > .wrap > .inner { padding-block: clamp(36px, 5vw, 60px); }
+.page-head > .wrap { padding-block: clamp(32px, 5vw, 60px) clamp(36px, 5vw, 60px); }
+.head-photo { margin: 22px 0 0; }
+.head-photo img { display: block; width: 100%; height: auto; border-radius: 4px; filter: grayscale(1) contrast(1.06); }
+.head-photo figcaption { margin-top: 8px; font-size: 13px; line-height: 1.35; font-stretch: 87%; font-weight: 600; color: var(--fg-muted); }
+.head-photo--portrait img { aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 12%; }
+@media (min-width: 900px) {
+  .cols { gap: 56px; }
+  .cols > .cols-head:has(.head-photo) { position: static; }
+  .head-photo { margin-top: 26px; }
+  .cols--bio { align-items: start; }
+  .cols--bio .media--bio img { aspect-ratio: auto; height: auto; }
+  .lp-media--coach { aspect-ratio: auto; align-self: center; }
+  .lp-media--coach img { height: auto; }
+  .lp-grid { gap: 56px; }
+  .cta-final > .wrap { padding-block: clamp(44px, 6vw, 72px); }
+}
+@media (max-width: 899px) {
+  .media.media--bio img { aspect-ratio: auto; height: auto; }
+  .lp-media--coach { height: auto; }
+  .lp-media--coach img { height: auto; }
+}
+@media (max-width: 899px) { .page-head.lp-head--cover > .wrap { padding-top: 0; } }
