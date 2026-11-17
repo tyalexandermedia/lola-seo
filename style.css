@@ -550,3 +550,7 @@ a:hover { text-decoration-thickness: 2px; }
 .area-list a:hover { text-decoration: underline; text-underline-offset: .2em; }
 @media (min-width: 700px) { .area-list { grid-template-columns: repeat(3, 1fr); } }
 .local p + p { margin-top: 12px; }
+.reassure { margin-top: 10px; font-size: 14px; color: var(--fg-muted); }
+.ink .reassure, .hero .reassure { color: rgba(244,239,231,.78); }
+.who { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.who li { padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; font-weight: 600; background: var(--field, #FFFDF9); }
