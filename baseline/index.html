@@ -290,7 +290,7 @@
       var h = root.querySelector('.quiz-step.active .quiz-q, .quiz-step.active .price-kicker');
       if (h && !firstShow) { h.setAttribute('tabindex', '-1'); try { h.focus({ preventScroll: true }); } catch (e) {} }
       if (firstShow) { firstShow = false; return; }
-      var top = root.getBoundingClientRect().top + window.pageYOffset - 90;
+      var top = root.getBoundingClientRect().top + window.pageYOffset - (name === 'result' ? 72 : 90);
       if (window.pageYOffset > top || name === 'result') window.scrollTo(0, Math.max(top, 0));
     }
 
