@@ -68,36 +68,19 @@
   </nav>
 
   <main id="main">
-    <section class="page-head" data-hero>
-      <div class="wrap">
-        <p class="price-kicker">Build the athlete under the player.</p>
-        <h1 class="h1--page">Free movement check.</h1>
-        <p class="lede">Four quick tests from the ground up: ankles, knees, hips and balance. About 3 minutes at home. Tap what you see, and get your score and the one drill to start on.</p>
-        <p class="safety">This isn't a medical assessment. Stop if anything hurts, and talk to a doctor or physical therapist about pain.</p>
-      </div>
-    </section>
-
-    <section class="section section--first">
+    <section class="section section--first mc">
       <div class="wrap"><div class="inner">
+        <div class="mc-head">
+          <p class="mc-kicker">Build the athlete under the player.</p>
+          <h1 class="mc-title">Free movement check</h1>
+          <p class="mc-sub">4 quick tests at home, about 3 minutes. Tap what happened and get your score plus one drill.</p>
+          <p class="mc-last" id="checkLast" hidden></p>
+        </div>
         <div class="quiz" id="check">
           <div class="quiz-bar" aria-hidden="true"><span id="checkBar"></span></div>
 
-          <div class="quiz-step active" data-step="intro">
-            <h2 class="quiz-q">Ready? It takes about 3 minutes.</h2>
-            <ul class="offer">
-              <li><b>What you need</b>A wall, a stair and a little floor space.</li>
-              <li><b>How it works</b>One test at a time. Do it, then tap what happened.</li>
-              <li><b>What you get</b>A score out of 8, what it means, and the drill to start with.</li>
-            </ul>
-            <h3 class="cal-h">Who's taking it?</h3>
-            <div class="quiz-opts" role="group" aria-label="Who is taking the check">
-              <button type="button" class="quiz-opt quiz-start" data-who="basketball">A basketball player</button>
-              <button type="button" class="quiz-opt quiz-start" data-who="strength">Me, for my own training</button>
-            </div>
-            <p class="price-note" id="checkLast" hidden></p>
-          </div>
-
-          <div class="quiz-step" data-step="ankles">
+          <div class="quiz-step active" data-step="ankles">
+            <div class="mc-info">
             <p class="price-kicker">Test 1 of 4: Ankles</p>
             <h2 class="quiz-q">Knee to wall</h2>
             <ol class="howto">
@@ -107,14 +90,18 @@
             </ol>
             <p class="check-pass"><b>Pass:</b> your knee touches the wall on both sides with the heel flat.</p>
             <p class="check-why">Ankle bend lets your knee travel forward in every squat, landing and defensive stance.</p>
+            </div>
+            <div class="mc-ans">
             <h3 class="cal-h">How did it go?</h3>
             <div class="quiz-opts" role="group" aria-label="Ankles result">
               <button type="button" class="quiz-opt" data-test="ankles" data-score="2">Touched on both sides, heel down</button>
               <button type="button" class="quiz-opt" data-test="ankles" data-score="1">Only one side, or my heel lifted</button>
               <button type="button" class="quiz-opt" data-test="ankles" data-score="0">Couldn't reach the wall</button>
             </div>
+            </div>
           </div>
           <div class="quiz-step" data-step="knees">
+            <div class="mc-info">
             <p class="price-kicker">Test 2 of 4: Knees</p>
             <h2 class="quiz-q">Step-down</h2>
             <ol class="howto">
@@ -124,14 +111,18 @@
             </ol>
             <p class="check-pass"><b>Pass:</b> 5 slow reps each leg, knee over your middle toes, hips level.</p>
             <p class="check-why">Every stride, cut and landing happens on one leg. This shows whether you control it.</p>
+            </div>
+            <div class="mc-ans">
             <h3 class="cal-h">How did it go?</h3>
             <div class="quiz-opts" role="group" aria-label="Knees result">
               <button type="button" class="quiz-opt" data-test="knees" data-score="2">Steady, knee stayed over my foot</button>
               <button type="button" class="quiz-opt" data-test="knees" data-score="1">Some wobble</button>
               <button type="button" class="quiz-opt" data-test="knees" data-score="0">Knee caved in, or I grabbed the rail</button>
             </div>
+            </div>
           </div>
           <div class="quiz-step" data-step="hips">
+            <div class="mc-info">
             <p class="price-kicker">Test 3 of 4: Hips</p>
             <h2 class="quiz-q">Deep squat hold</h2>
             <ol class="howto">
@@ -142,14 +133,18 @@
             <p class="check-pass"><b>Pass:</b> hips below your knees, heels flat, for the full 10 seconds.</p>
             <div class="timer"><button type="button" class="btn btn--quiet" data-timer="10">Start 10-second timer</button></div>
             <p class="check-why">When the hips don't open, the knees and lower back do the work for them.</p>
+            </div>
+            <div class="mc-ans">
             <h3 class="cal-h">How did it go?</h3>
             <div class="quiz-opts" role="group" aria-label="Hips result">
               <button type="button" class="quiz-opt" data-test="hips" data-score="2">All the way down, heels flat, chest up</button>
               <button type="button" class="quiz-opt" data-test="hips" data-score="1">Got low, but my heels lifted or I tipped forward</button>
               <button type="button" class="quiz-opt" data-test="hips" data-score="0">Couldn't get much lower than a chair</button>
             </div>
+            </div>
           </div>
           <div class="quiz-step" data-step="balance">
+            <div class="mc-info">
             <p class="price-kicker">Test 4 of 4: Balance</p>
             <h2 class="quiz-q">One-leg stand</h2>
             <ol class="howto">
@@ -160,11 +155,23 @@
             <p class="check-pass"><b>Pass:</b> 30 seconds on each leg without the other foot touching down.</p>
             <div class="timer"><button type="button" class="btn btn--quiet" data-timer="30">Start 30-second timer</button></div>
             <p class="check-why">Balance is control. It is what keeps you strong in awkward positions.</p>
+            </div>
+            <div class="mc-ans">
             <h3 class="cal-h">How did it go?</h3>
             <div class="quiz-opts" role="group" aria-label="Balance result">
               <button type="button" class="quiz-opt" data-test="balance" data-score="2">30 seconds on both legs</button>
               <button type="button" class="quiz-opt" data-test="balance" data-score="1">Touched down once or twice</button>
               <button type="button" class="quiz-opt" data-test="balance" data-score="0">Under 10 seconds</button>
+            </div>
+            </div>
+          </div>
+
+          <div class="quiz-step" data-step="who">
+            <p class="price-kicker">Last question</p>
+            <h2 class="quiz-q">Who's this for?</h2>
+            <div class="quiz-opts" role="group" aria-label="Who took the check">
+              <button type="button" class="quiz-opt quiz-start" data-who="basketball">A basketball player</button>
+              <button type="button" class="quiz-opt quiz-start" data-who="strength">Me, for my own training</button>
             </div>
           </div>
 
@@ -186,8 +193,10 @@
           <div class="quiz-nav">
             <span class="label" id="checkCount"></span>
             <button type="button" class="quiz-back" id="checkBack" hidden>Back</button>
+            <button type="button" class="quiz-restart" id="checkAgain" hidden>Take it again</button>
           </div>
         </div>
+        <p class="mc-safety">Not a medical assessment. Stop if anything hurts, and see a doctor or physical therapist about pain.</p>
       </div></div>
     </section>
   </main>
@@ -240,7 +249,8 @@
     var scores = {};
     var who = '';
     var timerId = null;
-    var current = 'intro';
+    var current = 'ankles';
+    var firstShow = true;
     var $ = function (id) { return document.getElementById(id); };
 
     function load() { try { var v = JSON.parse(window.localStorage.getItem(KEY) || 'null'); return v && typeof v.total === 'number' ? v : null; } catch (e) { return null; } }
@@ -263,11 +273,13 @@
       current = name;
       root.querySelectorAll('.quiz-step').forEach(function (el) { el.classList.toggle('active', el.getAttribute('data-step') === name); });
       var i = ORDER.indexOf(name);
-      $('checkBar').style.width = name === 'intro' ? '0%' : name === 'result' ? '100%' : ((i + 1) / (ORDER.length + 1) * 100) + '%';
-      $('checkCount').textContent = i >= 0 ? 'Test ' + (i + 1) + ' of 4' : '';
-      $('checkBack').hidden = i < 0;
+      $('checkBar').style.width = name === 'result' ? '100%' : name === 'who' ? '90%' : ((i + 1) / (ORDER.length + 1) * 100) + '%';
+      $('checkCount').textContent = i >= 0 ? 'Test ' + (i + 1) + ' of 4' : name === 'who' ? 'Almost done' : '';
+      $('checkBack').hidden = !(i > 0 || name === 'who');
+      $('checkAgain').hidden = name !== 'result';
       var h = root.querySelector('.quiz-step.active .quiz-q, .quiz-step.active .price-kicker');
-      if (h) { h.setAttribute('tabindex', '-1'); try { h.focus({ preventScroll: true }); } catch (e) {} }
+      if (h && !firstShow) { h.setAttribute('tabindex', '-1'); try { h.focus({ preventScroll: true }); } catch (e) {} }
+      if (firstShow) { firstShow = false; return; }
       var top = root.getBoundingClientRect().top + window.pageYOffset - 90;
       if (window.pageYOffset > top) window.scrollTo(0, top);
     }
@@ -311,20 +323,21 @@
       var tb = e.target.closest('[data-timer]');
       if (tb) { runTimer(tb); return; }
       var st = e.target.closest('.quiz-start');
-      if (st) { who = st.getAttribute('data-who'); scores = {}; root.querySelectorAll('.quiz-opt.sel').forEach(function (o) { o.classList.remove('sel'); }); show(ORDER[0]); return; }
+      if (st) { who = st.getAttribute('data-who'); result(); return; }
       var opt = e.target.closest('.quiz-opt');
       if (!opt) return;
       var k = opt.getAttribute('data-test');
       scores[k] = Number(opt.getAttribute('data-score'));
       opt.parentNode.querySelectorAll('.quiz-opt').forEach(function (o) { o.classList.toggle('sel', o === opt); });
       var i = ORDER.indexOf(k);
-      if (i < ORDER.length - 1) show(ORDER[i + 1]); else result();
+      if (i < ORDER.length - 1) show(ORDER[i + 1]); else show('who');
     });
-    $('checkBack').addEventListener('click', function () { var i = ORDER.indexOf(current); show(i > 0 ? ORDER[i - 1] : 'intro'); });
+    $('checkBack').addEventListener('click', function () { var i = ORDER.indexOf(current); show(current === 'who' ? ORDER[ORDER.length - 1] : ORDER[Math.max(i - 1, 0)]); });
+    $('checkAgain').addEventListener('click', function () { scores = {}; root.querySelectorAll('.quiz-opt.sel').forEach(function (o) { o.classList.remove('sel'); }); show(ORDER[0]); });
 
     var prev = load();
     if (prev) { $('checkLast').textContent = 'Last time you scored ' + prev.total + '/8 on ' + nice(prev.at) + '. Take it again to see the change.'; $('checkLast').hidden = false; }
-    show('intro');
+    show(ORDER[0]);
   })();
   </script>
 </body>

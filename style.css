@@ -750,3 +750,32 @@ a:hover { text-decoration-thickness: 2px; }
 .check-pass b { font-weight: 800; }
 .timer { margin-top: 14px; }
 .timer .btn[disabled] { opacity: 1; font-variant-numeric: tabular-nums; }
+
+/* ── Movement check: test first, above the fold ─────────── */
+.mc > .wrap > .inner { padding-block: 20px 48px; }
+.mc-head { margin-bottom: 14px; }
+.mc-kicker { font-stretch: 87%; font-weight: 700; font-size: 14px; letter-spacing: .02em; color: var(--accent); }
+h1.mc-title { margin-top: 2px; font-size: clamp(2rem, 5vw, 2.75rem); line-height: 1; max-width: none; }
+.mc-sub { margin-top: 6px; font-size: 16px; color: var(--fg-muted); max-width: 60ch; }
+.mc-last { margin-top: 6px; font-size: 15px; font-weight: 600; }
+.mc .quiz { max-width: 1040px; padding: 18px 18px 6px; background: var(--field); border: 1px solid var(--line); border-radius: 12px; }
+.mc .quiz-bar { margin-bottom: 14px; }
+.mc .quiz-q { margin: 2px 0 10px; font-size: clamp(1.6rem, 4vw, 2.1rem); }
+.mc .quiz-step .howto { font-size: 1em; }
+.mc .howto li + li { margin-top: 2px; }
+.mc .check-pass { margin-top: 10px; }
+.mc .check-why { margin-top: 8px; font-size: 15px; }
+.mc .timer { margin-top: 10px; }
+.mc .quiz-step .cal-h { margin-top: 14px; margin-bottom: 8px; }
+.mc .quiz-opt { min-height: 50px; padding: 10px 16px; }
+.mc .quiz-nav { margin-top: 10px; }
+.mc .quiz-nav .label { font-weight: 700; font-size: 15px; color: var(--fg-muted); }
+.quiz-restart[hidden] { display: none; }
+.mc-safety { margin-top: 10px; font-size: 13px; color: var(--fg-muted); max-width: none; }
+@media (min-width: 900px) {
+  .mc > .wrap > .inner { padding-top: 24px; }
+  .mc .quiz { padding: 24px 28px 8px; }
+  .mc .quiz-step.active:not([data-step="result"]):not([data-step="who"]) { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+  .mc .mc-ans .cal-h { margin-top: 30px; }
+}
+.mc .quiz-nav .label { display: none; }
