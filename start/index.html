@@ -88,9 +88,8 @@
           <div class="quiz-step" data-step="format-basketball">
             <h2 class="quiz-q">How does the player want to train?</h2>
             <div class="quiz-opts" role="group" aria-label="Training format">
-              <button type="button" class="quiz-opt" data-set="format" data-val="1-on-1">1-on-1</button>
-              <button type="button" class="quiz-opt" data-set="format" data-val="With one teammate">With one teammate</button>
-              <button type="button" class="quiz-opt" data-set="format" data-val="Group of 3 or 4">In a group of 3 or 4</button>
+              <button type="button" class="quiz-opt" data-set="format" data-val="Semi-private">Semi-private group (3 to 4 players)</button>
+              <button type="button" class="quiz-opt" data-set="format" data-val="One-on-one">One-on-one (limited spots)</button>
             </div>
           </div>
 
@@ -225,14 +224,13 @@
     var tool = document.getElementById('tool');
     if (!tool) return;
     var PRICES = {
-      'basketball|1-on-1': { kicker: 'Basketball training, 1-on-1', was: '$260', big: '$160', full: 160, pre: 140, per: '', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $65 each.', label: '$160 intro 4-pack (1-on-1)' },
-      'basketball|With one teammate': { kicker: 'Basketball training, two players', big: '$120 per player', full: 120, pre: 100, per: ' per player', sub: 'Group intro 4-pack: four sessions each.', after: 'After the 4-pack, sessions are $45 per player.', label: '$120 per player intro 4-pack (2 players)' },
-      'basketball|Group of 3 or 4': { kicker: 'Basketball training, group of 3 or 4', big: '$120 per player', full: 120, pre: 100, per: ' per player', sub: 'Group intro 4-pack: four sessions each.', after: 'After the 4-pack, sessions are $35 per player.', label: '$120 per player intro 4-pack (3-4 players)' },
-      'strength|At my home': { kicker: 'Strength and conditioning, at your home', was: '$340', big: '$240', full: 240, pre: 220, per: '', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (home)' },
-      'strength|At my gym': { kicker: 'Strength and conditioning, at your gym', was: '$340', big: '$240', full: 240, pre: 220, per: '', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (gym)' }
+      'basketball|Semi-private': { kicker: 'Semi-private basketball, 3 to 4 players', was: '$360', big: '$320', full: 320, pre: 320, per: '', save: 0, sub: '4-week package: twice a week at set times, 8 sessions. That\'s $40 a session.', after: 'A single session is $45, so the package saves you $40.', label: '$320 semi-private 4-week package' },
+      'basketball|One-on-one': { kicker: 'One-on-one basketball, limited spots', was: '$400', big: '$340', full: 340, pre: 340, per: '', save: 0, sub: '4-week package: four weekly sessions. That\'s $85 a session.', after: 'A single one-on-one session is $100, so the package saves you $60.', label: '$340 one-on-one 4-week package' },
+      'strength|At my home': { save: 20, kicker: 'Strength and conditioning, at your home', was: '$340', big: '$240', full: 240, pre: 220, per: '', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (home)' },
+      'strength|At my gym': { save: 20, kicker: 'Strength and conditioning, at your gym', was: '$340', big: '$240', full: 240, pre: 220, per: '', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (gym)' }
     };
     var INCLUDES = {
-      basketball: ['Four coached sessions on the court in Pinellas County. I bring the equipment.', 'Skills, functional strength and conditioning in every session.', 'A player report card: ankles, knees, hips, vertical jump and three-quarter-court sprint, tested in session one and again in session four.'],
+      basketball: ['Coached sessions at set times each week, on the court in Pinellas County. I bring the equipment.', 'Skills, functional strength and conditioning in every session.', 'A player report card: ankles, knees, hips, vertical jump and three-quarter-court sprint, tested in session one and again at the end of the four weeks.'],
       strength: ['Four coached sessions. I come to you and bring the equipment.', 'A ground-up movement check in session one: ankles, knees, hips.', 'Strength and conditioning built on what we find.']
     };
     // Payment handles: fill these in to show Pay buttons on the confirmation screen.
@@ -260,12 +258,13 @@
       $('priceKicker').textContent = p.kicker;
       $('priceBig').textContent = p.big;
       $('priceWas').textContent = p.was || ''; $('priceWas').hidden = !p.was;
-      $('priceNote').textContent = state.path === 'basketball' ? 'Prepay and save another $20. I take 4 new players a month.' : 'Prepay and save another $20. I come to you, anywhere from St. Pete to Palm Harbor.';
+      $('priceNote').textContent = state.path === 'basketball' ? 'Groups max out at 4 players, so spots are limited.' : 'Prepay and save another $20. I come to you, anywhere in Pinellas County.';
       $('priceSub').textContent = p.sub;
       $('priceAfter').textContent = p.after;
       var ul = $('priceList'); ul.innerHTML = '';
       INCLUDES[state.path].forEach(function (line) { var li = document.createElement('li'); li.textContent = line; ul.appendChild(li); });
       $('priceRecap').textContent = p.kicker + ': ' + p.big + '. ' + (state.dayLabel ? state.dayLabel + ', ' + state.time.toLowerCase() + '.' : '');
+      $('payPreLabel').textContent = p.save ? 'Prepay now and save $' + p.save : 'Pay now and hold your spot';
       $('payPreSub').textContent = '$' + p.pre + p.per + ' today. Your spot is held as soon as it lands.';
       $('payLaterSub').textContent = '$' + p.full + p.per + ', paid before we start.';
       $('fPath').value = state.path; $('fFormat').value = state.format; $('fPrice').value = p.label; $('fDays').value = state.dayLabel; $('fTime').value = state.time;
@@ -344,7 +343,7 @@
           if (!res.ok) throw new Error('Request failed: ' + res.status);
           $('doneLine').textContent = 'Thanks, ' + (form.elements.name.value.split(' ')[0] || 'got it') + '. I have you down for ' + state.dayLabel + ', ' + state.time.toLowerCase() + '.';
           if (prepay) {
-            var note = encodeURIComponent('Coach Ty intro 4-pack');
+            var note = encodeURIComponent(state.path === 'basketball' ? 'Coach Ty 4-week package' : 'Coach Ty intro 4-pack');
             $('payTitle').textContent = 'Prepay $' + amount + pp.per + ' and your spot is held.';
             var btns = $('payBtns'); btns.innerHTML = '';
             if (PAY.venmo) { var v = document.createElement('a'); v.className = 'btn'; v.href = 'https://venmo.com/' + PAY.venmo + '?txn=pay&amount=' + amount + '&note=' + note; v.rel = 'noopener'; v.textContent = 'Pay $' + amount + ' with Venmo'; btns.appendChild(v); }
