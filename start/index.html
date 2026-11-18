@@ -350,7 +350,7 @@
           if (!res.ok) throw new Error('Request failed: ' + res.status);
           $('doneLine').textContent = 'Thanks, ' + (form.elements.name.value.split(' ')[0] || 'got it') + '. I have you down for ' + state.dayLabel + ', ' + state.time.toLowerCase() + '.';
           if (prepay) {
-            var note = encodeURIComponent(state.path === 'basketball' ? 'Coach Ty 4-week package' : 'Coach Ty intro 4-pack');
+            var note = encodeURIComponent(state.path === 'basketball' ? 'Coach Ty 4-week package' : 'Coach Ty 4-pack');
             $('payTitle').textContent = 'Prepay $' + amount + pp.per + ' and your spot is held.';
             var btns = $('payBtns'); btns.innerHTML = '';
             if (PAY.venmo) { var v = document.createElement('a'); v.className = 'btn'; v.href = 'https://venmo.com/' + PAY.venmo + '?txn=pay&amount=' + amount + '&note=' + note; v.rel = 'noopener'; v.textContent = 'Pay $' + amount + ' with Venmo'; btns.appendChild(v); }
