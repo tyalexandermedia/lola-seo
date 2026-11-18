@@ -738,3 +738,4 @@ a:hover { text-decoration-thickness: 2px; }
   .hero-copy p { font-size: 15px; margin-top: 10px; }
   .hero-copy .actions { margin-top: 14px; }
 }
+.area-list--plain li { display: flex; align-items: center; min-height: 44px; font-weight: 600; color: var(--fg); }
