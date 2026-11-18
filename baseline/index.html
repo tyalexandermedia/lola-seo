@@ -188,6 +188,31 @@
               <div class="actions"><a href="/start/" class="btn btn--block" id="ctaBtn">Get my price</a></div>
             </div>
             <p class="price-note">Your score is saved only on this device, so you can retest in 4 weeks and see the change.</p>
+
+            <form id="resultsForm" name="baseline-updates" method="POST" data-netlify="true" netlify-honeypot="company" class="updates" novalidate>
+              <input type="hidden" name="form-name" value="baseline-updates">
+              <input type="hidden" name="score" id="rfScore" value="">
+              <input type="hidden" name="who" id="rfWho" value="">
+              <input type="hidden" name="weakest" id="rfWeakest" value="">
+              <input type="hidden" name="results" id="rfResults" value="">
+              <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;" tabindex="-1">
+                <label>Company (leave blank)<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
+              </div>
+              <p class="cal-h">Want your results by email? <span class="opt">(optional)</span></p>
+              <div class="field">
+                <label for="rfName">First name</label>
+                <input type="text" id="rfName" name="name" autocomplete="given-name" placeholder="Your first name">
+              </div>
+              <div class="field">
+                <label for="rfEmail">Email</label>
+                <div class="updates-row">
+                  <input type="email" id="rfEmail" name="email" autocomplete="email" required placeholder="you@email.com">
+                  <button type="submit" class="btn btn--quiet" id="rfBtn">Email me my results</button>
+                </div>
+              </div>
+              <div class="form-status" id="rfStatus" role="status" aria-live="polite"></div>
+              <p class="form-note">I'll send your score and the drills to start on. Your email goes only to me.</p>
+            </form>
           </div>
 
           <div class="quiz-nav">
@@ -315,6 +340,11 @@
       $('ctaText').textContent = bb
         ? 'In session one I measure all of this, plus vertical jump and sprint, and build the player\u2019s training on it. Semi-private groups of 3 to 4, $35 a session in a 4-week package.'
         : 'In session one I measure all of this and build your strength and conditioning on what we find. Then we retest so you can see what changed.';
+      $('rfScore').value = total + '/8';
+      $('rfWho').value = who === 'basketball' ? 'Basketball player' : 'Adult, own training';
+      $('rfWeakest').value = weakest ? NAMES[weakest] : 'None';
+      $('rfResults').value = ORDER.map(function (k) { return NAMES[k] + ': ' + LEVEL[scores[k]]; }).join('; ');
+      resetForm();
       save({ total: total, at: Date.now(), scores: scores, who: who });
       show('result');
     }
@@ -334,6 +364,34 @@
     });
     $('checkBack').addEventListener('click', function () { var i = ORDER.indexOf(current); show(current === 'who' ? ORDER[ORDER.length - 1] : ORDER[Math.max(i - 1, 0)]); });
     $('checkAgain').addEventListener('click', function () { scores = {}; root.querySelectorAll('.quiz-opt.sel').forEach(function (o) { o.classList.remove('sel'); }); show(ORDER[0]); });
+
+    // Optional email of results. Netlify Forms: POST the urlencoded form
+    // (with the hidden form-name field) to the site root. Never blocks the score.
+    var rf = $('resultsForm');
+    function rfStatus(msg, kind) { $('rfStatus').textContent = msg; $('rfStatus').className = 'form-status' + (msg ? ' show' : '') + (kind ? ' ' + kind : ''); }
+    function resetForm() {
+      if (!rf) return;
+      rf.querySelectorAll('.field, .form-note, .cal-h').forEach(function (el) { el.hidden = false; });
+      $('rfBtn').disabled = false; $('rfBtn').textContent = 'Email me my results';
+      rfStatus('');
+    }
+    if (rf) rf.addEventListener('submit', function (e) {
+      e.preventDefault();
+      rfStatus('');
+      if (!rf.elements.email.checkValidity()) { rfStatus('Enter a valid email address.', 'err'); rf.elements.email.focus(); return; }
+      var btn = $('rfBtn');
+      btn.disabled = true; btn.textContent = 'Sending\u2026';
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(rf)).toString() })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Request failed: ' + res.status);
+          rf.querySelectorAll('.field, .form-note, .cal-h').forEach(function (el) { el.hidden = true; });
+          rfStatus("Got it. Your results are on the way to " + rf.elements.email.value + ".");
+        })
+        .catch(function () {
+          btn.disabled = false; btn.textContent = 'Email me my results';
+          rfStatus("That didn't send. Your score above is still yours, so try again in a moment.", 'err');
+        });
+    });
 
     var prev = load();
     if (prev) { $('checkLast').textContent = 'Last time you scored ' + prev.total + '/8 on ' + nice(prev.at) + '. Take it again to see the change.'; $('checkLast').hidden = false; }
