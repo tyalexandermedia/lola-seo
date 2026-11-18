@@ -740,3 +740,13 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .area-list--plain li { display: flex; align-items: center; min-height: 44px; font-weight: 600; color: var(--fg); }
 .tag { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; vertical-align: middle; background: var(--fg); color: var(--bg, #fff); }
+.check-why { margin-top: 14px; color: var(--fg-muted); font-size: 16px; max-width: 52ch; }
+.quiz-step .howto { margin-top: 4px; font-size: 1.1em; }
+.quiz-step .cal-h { margin-top: 24px; margin-bottom: 10px; }
+.quiz-step[data-step="intro"] .offer, .quiz-step[data-step="result"] .offer { margin-top: 18px; }
+.cta-box { margin-top: 28px; padding: 22px; border-radius: 10px; background: var(--field); border: 1px solid var(--line); }
+.cta-box p { margin-top: 8px; }
+.check-pass { margin-top: 14px; font-weight: 600; }
+.check-pass b { font-weight: 800; }
+.timer { margin-top: 14px; }
+.timer .btn[disabled] { opacity: 1; font-variant-numeric: tabular-nums; }
