@@ -88,7 +88,7 @@
           <div class="quiz-step" data-step="format-basketball">
             <h2 class="quiz-q">How does the player want to train?</h2>
             <div class="quiz-opts" role="group" aria-label="Training format">
-              <button type="button" class="quiz-opt" data-set="format" data-val="Semi-private">Semi-private group (3 to 4 players)</button>
+              <button type="button" class="quiz-opt" data-set="format" data-val="Semi-private">Semi-private group (2 to 4 players)</button>
               <button type="button" class="quiz-opt" data-set="format" data-val="One-on-one">One-on-one (limited spots)</button>
             </div>
           </div>
@@ -103,7 +103,7 @@
 
           <div class="quiz-step" data-step="price" aria-live="polite">
             <p class="price-kicker" id="priceKicker"></p>
-            <p class="price-big"><s id="priceWas"></s> <span id="priceBig"></span></p>
+            <p class="price-big"><s id="priceWas"></s> <span id="priceBig"></span> <small class="price-unit" id="priceUnit"></small></p>
             <p class="price-sub" id="priceSub"></p>
             <div class="actions"><button type="button" class="btn btn--block" id="toDays">Pick my days</button></div>
             <p class="price-note" id="priceNote"></p>
@@ -231,10 +231,10 @@
     var tool = document.getElementById('tool');
     if (!tool) return;
     var PRICES = {
-      'basketball|Semi-private': { kicker: 'Semi-private basketball, 3 to 4 players', was: '$320', big: '$280', full: 280, pre: 280, per: '', save: 0, sub: '4-week package: twice a week at set times, 8 sessions. That\'s $35 a session.', after: 'A single session is $40, so the package saves you $40.', label: '$280 semi-private 4-week package' },
-      'basketball|One-on-one': { kicker: 'One-on-one basketball, limited spots', was: '$300', big: '$260', full: 260, pre: 260, per: '', save: 0, sub: '4-week package: four weekly sessions. That\'s $65 a session.', after: 'A single one-on-one session is $75, so the package saves you $40.', label: '$260 one-on-one 4-week package' },
-      'strength|At my home': { save: 20, kicker: 'Strength and conditioning, at your home', was: '$340', big: '$240', full: 240, pre: 220, per: '', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (home)' },
-      'strength|At my gym': { save: 20, kicker: 'Strength and conditioning, at your gym', was: '$340', big: '$240', full: 240, pre: 220, per: '', sub: 'Intro 4-pack: four sessions. That\'s $100 off my regular rate.', after: 'After the 4-pack, sessions are $85 each.', label: '$240 intro 4-pack (gym)' }
+      'basketball|Semi-private': { kicker: 'Semi-private basketball, 2 to 4 players', was: '', big: '$35', unit: 'a session', full: 280, pre: 280, per: '', save: 0, sub: '4 weeks, twice a week at set times: 8 sessions for $280.', after: '', label: '$35 a session semi-private (4 weeks, $280)' },
+      'basketball|One-on-one': { kicker: 'One-on-one basketball, limited spots', was: '', big: '$65', unit: 'a session', full: 260, pre: 260, per: '', save: 0, sub: 'Four weekly sessions: $260.', after: '', label: '$65 a session one-on-one (4 sessions, $260)' },
+      'strength|At my home': { save: 0, kicker: 'Strength and conditioning, at your home', was: '', big: '$200', unit: 'for 4 sessions', full: 200, pre: 200, per: '', sub: 'Four sessions, $50 each.', after: '', label: '$200 4-pack (home)' },
+      'strength|At my gym': { save: 0, kicker: 'Strength and conditioning, at your gym', was: '', big: '$200', unit: 'for 4 sessions', full: 200, pre: 200, per: '', sub: 'Four sessions, $50 each.', after: '', label: '$200 4-pack (gym)' }
     };
     var INCLUDES = {
       basketball: ['Coached sessions at set times each week, on the court in Pinellas County. I bring the equipment.', 'Skills, functional strength and conditioning in every session.', 'A player report card: ankles, knees, hips, vertical jump and three-quarter-court sprint, tested in session one and again at the end of the four weeks.'],
@@ -263,14 +263,14 @@
     function renderPrice() {
       var p = PRICES[state.path + '|' + state.format]; if (!p) return;
       $('priceKicker').textContent = p.kicker;
-      $('priceBig').textContent = p.big;
+      $('priceBig').textContent = p.big; $('priceUnit').textContent = p.unit || '';
       $('priceWas').textContent = p.was || ''; $('priceWas').hidden = !p.was;
-      $('priceNote').textContent = state.path === 'basketball' ? 'Groups max out at 4 players, so spots are limited.' : 'Prepay and save another $20. I come to you, anywhere in Pinellas County.';
+      $('priceNote').textContent = state.path === 'basketball' ? 'Groups max out at 4 players, so spots are limited.' : 'I come to you, anywhere in Pinellas County.';
       $('priceSub').textContent = p.sub;
-      $('priceAfter').textContent = p.after;
+      $('priceAfter').textContent = p.after; $('priceAfter').hidden = !p.after;
       var ul = $('priceList'); ul.innerHTML = '';
       INCLUDES[state.path].forEach(function (line) { var li = document.createElement('li'); li.textContent = line; ul.appendChild(li); });
-      $('priceRecap').textContent = p.kicker + ': ' + p.big + '. ' + (state.dayLabel ? state.dayLabel + ', ' + state.time.toLowerCase() + '.' : '');
+      $('priceRecap').textContent = p.kicker + ': ' + p.big + (p.unit ? ' ' + p.unit : '') + '. ' + (state.dayLabel ? state.dayLabel + ', ' + state.time.toLowerCase() + '.' : '');
       $('payPreLabel').textContent = p.save ? 'Prepay now and save $' + p.save : 'Pay now and hold your spot';
       $('payPreSub').textContent = '$' + p.pre + p.per + ' today. Your spot is held as soon as it lands.';
       $('payLaterSub').textContent = '$' + p.full + p.per + ', paid before we start.';
@@ -372,8 +372,12 @@
           statusEl.className = 'form-status show err';
         });
     });
-    var pre = new URLSearchParams(location.search).get('path');
-    if (pre === 'basketball' || pre === 'strength') { state.path = pre; show('format-' + pre); } else { show('who'); }
+    var qs = new URLSearchParams(location.search), pre = qs.get('path'), fmt = qs.get('format');
+    if (pre === 'basketball' && (fmt === 'Semi-private' || fmt === 'One-on-one')) {
+      state.path = pre; state.format = fmt;
+      tool.querySelectorAll('[data-set="format"]').forEach(function (o) { o.classList.toggle('sel', o.getAttribute('data-val') === fmt); });
+      renderPrice(); show('price');
+    } else if (pre === 'basketball' || pre === 'strength') { state.path = pre; show('format-' + pre); } else { show('who'); }
   })();
   </script>
 </body>
