@@ -86,7 +86,7 @@ go somewhere, add a rule here.
 - Phone `(727) 300-6573`, email `ty@tyalexandermedia.com`
 - Instagram `@coachtyrellalexander`; basketball: `@floridarainhoops`, `linktr.ee/coachtyhoops`
 - Head Coach, Florida Rain
-- Credentials: Certified Personal Trainer, TRIBE Team Training Certified,
+- Credentials: TRIBE Team Training Certified,
   Les Mills GRIT Certified, CPR/AED, USA Basketball Gold Coach;
   NSCA-CPT **(in progress)**
 - HYROX: one solo Open completed in 1:29:59. Considering Miami on March 28,
