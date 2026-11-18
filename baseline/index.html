@@ -176,18 +176,28 @@
           </div>
 
           <div class="quiz-step" data-step="result" aria-live="polite">
-            <p class="price-kicker">Your score</p>
-            <p class="price-big"><span id="scoreBig"></span></p>
-            <p class="price-sub" id="scoreTitle"></p>
-            <p id="scoreText"></p>
-            <ul class="offer" id="scoreList"></ul>
-            <p class="price-after" id="scoreChange" hidden></p>
-            <div class="cta-box">
-              <h3 id="ctaTitle">Get the full baseline in session one.</h3>
-              <p id="ctaText">I run these with you in person, measure each one, and build your training on what we find. Then we retest so you can see what changed.</p>
-              <div class="actions"><a href="/start/" class="btn btn--block" id="ctaBtn">Get my price</a></div>
+            <div class="rs-board ink">
+              <div class="rs-score">
+                <div class="rs-ring" aria-hidden="true">
+                  <svg viewBox="0 0 120 120" focusable="false"><circle class="rs-track" cx="60" cy="60" r="52"/><circle class="rs-fill" id="rsFill" cx="60" cy="60" r="52"/></svg>
+                  <p class="rs-num"><b id="scoreBig"></b><span>out of 8</span></p>
+                </div>
+                <div class="rs-head">
+                  <p class="price-kicker rs-kicker">Your score</p>
+                  <h2 class="rs-title" id="scoreTitle"></h2>
+                  <p class="rs-text" id="scoreText"></p>
+                  <p class="rs-change" id="scoreChange" hidden></p>
+                </div>
+              </div>
+              <a href="/start/" class="btn btn--block rs-cta" id="ctaBtn"><span id="ctaTitle">Book my first session</span><small id="ctaText"></small></a>
+              <p class="rs-reassure">No payment now. Pick a day and I'll text you to confirm.</p>
             </div>
-            <p class="price-note">Your score is saved only on this device, so you can retest in 4 weeks and see the change.</p>
+            <ul class="rs-tiles" id="scoreList" aria-label="Your results by area"></ul>
+            <div class="rs-focus" id="rsFocus">
+              <p class="rs-focus-tag" id="rsFocusTag"></p>
+              <p class="rs-focus-drill" id="rsFocusDrill"></p>
+            </div>
+            <p class="price-note">Your score is saved on this device. Retest in 4 weeks to see the change.</p>
           </div>
 
           <div class="quiz-nav">
@@ -281,26 +291,35 @@
       if (h && !firstShow) { h.setAttribute('tabindex', '-1'); try { h.focus({ preventScroll: true }); } catch (e) {} }
       if (firstShow) { firstShow = false; return; }
       var top = root.getBoundingClientRect().top + window.pageYOffset - 90;
-      if (window.pageYOffset > top) window.scrollTo(0, top);
+      if (window.pageYOffset > top || name === 'result') window.scrollTo(0, Math.max(top, 0));
     }
 
     function result() {
       var total = ORDER.reduce(function (n, k) { return n + (scores[k] || 0); }, 0);
-      $('scoreBig').textContent = total + '/8';
+      $('scoreBig').textContent = total;
       var title, text;
       if (total >= 7) { title = 'Solid base.'; text = "Your foundation is ready. Now it's about building strength, speed and power on top of it."; }
       else if (total >= 4) { title = 'Room to build.'; text = 'One or two links are holding you back. Fix them and everything you train gets easier and safer.'; }
       else { title = 'Start from the ground.'; text = 'This is where most people start. A few minutes a day on these makes a real difference within weeks.'; }
       $('scoreTitle').textContent = title;
       $('scoreText').textContent = text;
+      var weakest = ORDER.filter(function (k) { return scores[k] < 2; }).sort(function (a, b) { return scores[a] - scores[b]; })[0];
+      var fill = $('rsFill'); var C = 2 * Math.PI * 52;
+      fill.style.strokeDasharray = C; fill.style.strokeDashoffset = C * (1 - total / 8);
       var ul = $('scoreList'); ul.innerHTML = '';
       ORDER.forEach(function (k) {
-        var li = document.createElement('li'); var b = document.createElement('b');
-        b.textContent = NAMES[k] + ': ' + LEVEL[scores[k]];
-        li.appendChild(b);
-        li.appendChild(document.createTextNode(scores[k] < 2 ? DRILLS[k] : 'Keep it up. Retest in 4 weeks to make sure it stays that way.'));
+        var v = scores[k] || 0;
+        var li = document.createElement('li');
+        li.className = 'rs-tile rs-tile--' + (v === 2 ? 'solid' : v === 1 ? 'build' : 'start') + (k === weakest ? ' is-focus' : '');
+        var n = document.createElement('span'); n.className = 'rs-tile-name'; n.textContent = NAMES[k];
+        var l = document.createElement('span'); l.className = 'rs-tile-level'; l.textContent = LEVEL[v];
+        var pips = document.createElement('span'); pips.className = 'rs-pips'; pips.setAttribute('aria-hidden', 'true');
+        for (var j = 0; j < 2; j++) { var i2 = document.createElement('i'); if (j < v) i2.className = 'on'; pips.appendChild(i2); }
+        li.appendChild(n); li.appendChild(pips); li.appendChild(l);
         ul.appendChild(li);
       });
+      $('rsFocusTag').textContent = weakest ? 'Fix first: ' + NAMES[weakest] : 'Keep it that way';
+      $('rsFocusDrill').textContent = weakest ? DRILLS[weakest] : 'Your base is solid. Retest in 4 weeks to keep it that way, and build strength and speed on top of it.';
       var last = load();
       var ch = $('scoreChange');
       if (last) {
@@ -308,13 +327,11 @@
         ch.textContent = 'Last time: ' + last.total + '/8 on ' + nice(last.at) + '. ' + (diff > 0 ? 'Up ' + diff + '.' : diff < 0 ? 'Down ' + (-diff) + '.' : 'Same score.');
         ch.hidden = false;
       } else { ch.hidden = true; }
-      var weakest = ORDER.filter(function (k) { return scores[k] < 2; }).sort(function (a, b) { return scores[a] - scores[b]; })[0];
       var bb = who === 'basketball';
       $('ctaBtn').href = '/start/?path=' + (bb ? 'basketball' : 'strength');
-      $('ctaTitle').textContent = weakest ? 'Fix ' + NAMES[weakest].toLowerCase() + ' first, with a plan built for you.' : 'Build on a solid base.';
-      $('ctaText').textContent = bb
-        ? 'In session one I measure all of this, plus vertical jump and sprint, and build the player\u2019s training on it. Semi-private groups of 3 to 4, $35 a session in a 4-week package.'
-        : 'In session one I measure all of this and build your strength and conditioning on what we find. Then we retest so you can see what changed.';
+      var lead = weakest ? 'Fix my ' + NAMES[weakest].toLowerCase() : 'Build on it';
+      $('ctaTitle').textContent = lead + (bb ? ': book semi-private' : ': start strength');
+      $('ctaText').textContent = bb ? '$35 a session in a 4-week package' : 'Intro 4-pack: 4 sessions for $240';
       save({ total: total, at: Date.now(), scores: scores, who: who });
       show('result');
     }
