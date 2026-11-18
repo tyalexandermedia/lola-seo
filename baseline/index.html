@@ -195,6 +195,8 @@
               <input type="hidden" name="who" id="rfWho" value="">
               <input type="hidden" name="weakest" id="rfWeakest" value="">
               <input type="hidden" name="results" id="rfResults" value="">
+              <input type="hidden" name="drill" id="rfDrill" value="">
+              <input type="hidden" name="book_url" id="rfBook" value="">
               <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;" tabindex="-1">
                 <label>Company (leave blank)<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
               </div>
@@ -342,7 +344,9 @@
         : 'In session one I measure all of this and build your strength and conditioning on what we find. Then we retest so you can see what changed.';
       $('rfScore').value = total + '/8';
       $('rfWho').value = who === 'basketball' ? 'Basketball player' : 'Adult, own training';
-      $('rfWeakest').value = weakest ? NAMES[weakest] : 'None';
+      $('rfWeakest').value = weakest ? NAMES[weakest] : 'Building on a solid base';
+      $('rfDrill').value = weakest ? DRILLS[weakest] : 'Your base is solid. Retest in 4 weeks to keep it that way, and build strength and speed on top of it.';
+      $('rfBook').value = 'https://coachtyalexander.com/start/?path=' + (who === 'basketball' ? 'basketball' : 'strength');
       $('rfResults').value = ORDER.map(function (k) { return NAMES[k] + ': ' + LEVEL[scores[k]]; }).join('; ');
       resetForm();
       save({ total: total, at: Date.now(), scores: scores, who: who });
