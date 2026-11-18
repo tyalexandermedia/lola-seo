@@ -7,6 +7,10 @@
 # Short basketball URL → the established basketball page
 /basketball  /basketball-performance/  301
 
+# Old semi-private waitlist page (retired Nov 2026) → homepage prices
+/founding   /#prices   301
+/founding/*  /#prices  301
+
 # ── Legacy 301s (server-side only, never shown on the site) ─────────────
 # Old local-business-marketing URLs that used to live on this domain.
 # Kept so existing Google results and backlinks forward instead of 404ing.

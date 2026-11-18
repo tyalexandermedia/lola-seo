@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Apply for Coaching | Coach Ty Alexander — Pinellas County</title>
-  <meta name="description" content="Apply to train with Coach Ty Alexander in Pinellas County, from St. Pete to Palm Harbor, or join the semi-private waitlist. I review every application personally.">
+  <meta name="description" content="Apply to train with Coach Ty Alexander in Pinellas County, from St. Pete to Palm Harbor, I review every application personally.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0C0C0D">
   <link rel="canonical" href="https://coachtyalexander.com/apply/">
@@ -69,12 +69,12 @@
         <div class="apply-grid">
           <aside class="apply-aside">
             <h1 class="h1--page">Tell me what you're training for.</h1>
-            <p class="lede">This takes about two minutes. Tell me your goals and how you'd like to train. I review every application personally and follow up to talk it through. Semi-private coaching is a waitlist right now; private 1:1 depends on current availability.</p>
+            <p class="lede">This takes about two minutes. Tell me your goals and how you'd like to train. I review every application personally and follow up to talk it through.</p>
             <h2 class="sr-only">What happens next</h2>
             <ol class="steps">
               <li><div><h3>You apply</h3><p>Share your goals, experience and availability below.</p></div></li>
               <li><div><h3>We talk</h3><p>I follow up personally to understand what you're after.</p></div></li>
-              <li><div><h3>Next step</h3><p>We sort out the right option: training now if there's availability, or a spot on the waitlist.</p></div></li>
+              <li><div><h3>Next step</h3><p>We pick the right option and set up your first session.</p></div></li>
             </ol>
           </aside>
 
@@ -136,9 +136,8 @@
                     <label for="option">Preferred coaching option <span class="req">*</span></label>
                     <select id="option" name="option" required>
                       <option value="" disabled selected>Choose one…</option>
-                      <option>Semi-Private waitlist</option>
-                      <option>Private one-on-one</option>
-                      <option>Basketball performance</option>
+                      <option>Semi-private basketball</option>
+                      <option>One-on-one basketball</option>
                       <option>Strength &amp; conditioning (at my home or gym)</option>
                       <option>HYROX &amp; hybrid performance</option>
                       <option>Not sure — help me choose</option>
@@ -221,12 +220,15 @@
 
     // Older links used earlier option labels — map them to the current ones.
     var OPTION_ALIASES = {
-      'Semi-Private (recommended)': 'Semi-Private waitlist',
-      'Semi-Private': 'Semi-Private waitlist'
+      'Semi-Private (recommended)': 'Semi-private basketball',
+      'Semi-Private': 'Semi-private basketball',
+      'Semi-Private waitlist': 'Semi-private basketball',
+      'Basketball performance': 'Semi-private basketball',
+      'Private one-on-one': 'One-on-one basketball'
     };
 
     // Pre-select from a link (?option= / ?goal= / ?experience=), e.g. the
-    // waitlist buttons or the Fit Finder.
+    // coaching page links or the Fit Finder.
     (function prefill() {
       var params = new URLSearchParams(location.search);
       function set(name, val) {
