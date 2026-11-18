@@ -174,12 +174,19 @@
               <p id="payText"></p>
               <div class="actions" id="payBtns"></div>
             </div>
+            <div class="ty-book">
+              <h3>Lock in your time now.</h3>
+              <p>Pick a time for a quick 20-minute call and we'll set your first session on it. No waiting on my text.</p>
+              <div class="ty-cal"><iframe id="tyCal" title="Book a time with Coach Ty" data-src="https://api.leadconnectorhq.com/widget/booking/5MAMMvBVsluA7U0h5jCn" scrolling="no" loading="lazy"></iframe></div>
+            </div>
+            <p class="ty-pack" id="tyPack" hidden><b>Hold your spot for 4 weeks:</b> the semi-private package is $280, $35 a session. <a class="link" href="sms:+17273006573?&amp;body=Hi%20Coach%20Ty%2C%20I%20want%20the%204-week%20semi-private%20package.">Text me to grab it</a></p>
+            <div class="actions ty-alt"><a class="btn btn--quiet" href="sms:+17273006573?&amp;body=Hi%20Coach%20Ty%2C%20I%20just%20requested%20my%20first%20session%20on%20your%20site.">Or text me instead</a></div>
             <ol class="steps">
-              <li><div><h3>I text you</h3><p>You'll hear from me at (727) 300-6573 to confirm the time for the day you picked.</p></div></li>
-              <li><div><h3>We lock in session one</h3><p>You get the exact location and what to bring.</p></div></li>
+              <li><div><h3>We lock in session one</h3><p>Book a time above or I text you at (727) 300-6573 to confirm the day you picked.</p></div></li>
+              <li><div><h3>You get the details</h3><p>The exact location and what to bring.</p></div></li>
               <li><div><h3>We start with a movement check</h3><p>Ankles, knees and hips, so the plan is built on how you move.</p></div></li>
             </ol>
-            <div class="actions"><a class="btn" href="sms:+17273006573?&amp;body=Hi%20Coach%20Ty%2C%20I%20just%20requested%20my%20first%20session%20on%20your%20site.">Text me now to lock it in faster</a><a href="https://www.instagram.com/floridarainhoops" rel="noopener" class="link">Follow @floridarainhoops</a></div>
+            <p class="ty-follow"><a href="https://www.instagram.com/floridarainhoops" rel="noopener" class="link">Follow @floridarainhoops</a></p>
           </div>
 
           <div class="quiz-nav">
@@ -350,6 +357,12 @@
             if (PAY.cashapp) { var c = document.createElement('a'); c.className = PAY.venmo ? 'btn btn--quiet' : 'btn'; c.href = 'https://cash.app/$' + PAY.cashapp + '/' + amount; c.rel = 'noopener'; c.textContent = 'Pay $' + amount + ' with Cash App'; btns.appendChild(c); }
             $('payText').textContent = (PAY.venmo || PAY.cashapp) ? 'Tap to pay. I\'ll confirm by text when it lands.' : 'I\'ll text you a Venmo or Cash App request for $' + amount + pp.per + ' with your confirmation.';
             $('payBox').hidden = false;
+          }
+          $('tyPack').hidden = !(state.path === 'basketball' && !prepay);
+          var cal = $('tyCal');
+          if (cal && !cal.src) {
+            cal.src = cal.getAttribute('data-src');
+            var fe = document.createElement('script'); fe.src = 'https://link.msgsndr.com/js/form_embed.js'; fe.async = true; document.body.appendChild(fe);
           }
           show('done');
         })

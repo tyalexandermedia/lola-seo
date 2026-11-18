@@ -779,3 +779,15 @@ h1.mc-title { margin-top: 2px; font-size: clamp(2rem, 5vw, 2.75rem); line-height
   .mc .mc-ans .cal-h { margin-top: 30px; }
 }
 .mc .quiz-nav .label { display: none; }
+
+/* Thank-you step: book the time right here */
+.ty-book { margin-top: 24px; padding: 20px 18px 8px; background: var(--ink); color: var(--paper); border-radius: 10px; }
+.ty-book h3 { font-stretch: 75%; font-size: 1.6rem; line-height: 1.1; color: var(--paper); }
+.ty-book p { margin-top: 6px; font-size: 15px; color: #B9B3A8; }
+.ty-cal { margin: 14px -10px 0; background: #fff; border-radius: 8px; overflow: hidden; }
+.ty-cal iframe { display: block; width: 100%; min-height: 640px; border: 0; }
+.ty-pack { margin-top: 16px; padding: 12px 14px; border-left: 4px solid var(--gold); background: var(--field); border-radius: 0 8px 8px 0; font-size: 16px; }
+.ty-pack[hidden] { display: none; }
+.ty-pack .link { display: inline; min-height: 0; }
+.ty-alt { margin-top: 16px; }
+.ty-follow { margin-top: 18px; font-size: 15px; }
