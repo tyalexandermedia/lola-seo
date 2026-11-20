@@ -103,6 +103,10 @@
 
           <div class="quiz-step" data-step="price" aria-live="polite">
             <p class="price-kicker" id="priceKicker"></p>
+            <div class="pack-pick" id="packPick" role="group" aria-label="Pick your pack" hidden>
+              <button type="button" class="pack-opt" data-pack="8" aria-pressed="true"><span class="pack-tag">Best value</span><b>8 sessions</b><span class="pack-line" id="pack8"></span></button>
+              <button type="button" class="pack-opt" data-pack="4" aria-pressed="false"><b>4 sessions</b><span class="pack-line" id="pack4"></span></button>
+            </div>
             <p class="price-big"><s id="priceWas"></s> <span id="priceBig"></span> <small class="price-unit" id="priceUnit"></small></p>
             <p class="price-sub" id="priceSub"></p>
             <div class="actions"><button type="button" class="btn btn--block" id="toDays">Pick my days</button></div>
@@ -179,7 +183,7 @@
               <p>Pick a time for a quick 20-minute call and we'll set your first session on it. No waiting on my text.</p>
               <div class="ty-cal"><iframe id="tyCal" title="Book a time with Coach Ty" data-src="https://api.leadconnectorhq.com/widget/booking/5MAMMvBVsluA7U0h5jCn" scrolling="no" loading="lazy"></iframe></div>
             </div>
-            <p class="ty-pack" id="tyPack" hidden><b>Hold your spot for 4 weeks:</b> the semi-private package is $280, $35 a session. <a class="link" href="sms:+17273006573?&amp;body=Hi%20Coach%20Ty%2C%20I%20want%20the%204-week%20semi-private%20package.">Text me to grab it</a></p>
+            <p class="ty-pack" id="tyPack" hidden><b>Want the better deal?</b> The semi-private 8-pack is $280, $35 a session. <a class="link" href="sms:+17273006573?&amp;body=Hi%20Coach%20Ty%2C%20I%27d%20like%20the%208-pack%20instead.">Text me to switch</a></p>
             <div class="actions ty-alt"><a class="btn btn--quiet" href="sms:+17273006573?&amp;body=Hi%20Coach%20Ty%2C%20I%20just%20requested%20my%20first%20session%20on%20your%20site.">Or text me instead</a></div>
             <ol class="steps">
               <li><div><h3>We lock in session one</h3><p>Book a time above or I text you at (727) 300-6573 to confirm the day you picked.</p></div></li>
@@ -231,18 +235,21 @@
     var tool = document.getElementById('tool');
     if (!tool) return;
     var PRICES = {
-      'basketball|Semi-private': { kicker: 'Semi-private basketball, 2 to 4 players', was: '', big: '$35', unit: 'a session', full: 280, pre: 280, per: '', save: 0, sub: 'Pay per session, or 8 sessions for $280. Set times, groups of 2 to 4.', after: '', label: '$35 a session semi-private (4 weeks, $280)' },
-      'basketball|One-on-one': { kicker: 'One-on-one basketball, limited spots', was: '', big: '$65', unit: 'a session', full: 260, pre: 260, per: '', save: 0, sub: 'Four weekly sessions: $260.', after: '', label: '$65 a session one-on-one (4 sessions, $260)' },
+      'basketball|Semi-private|8': { kicker: 'Semi-private basketball, 2 to 4 players', was: '', big: '$280', unit: 'for 8 sessions', full: 280, pre: 280, per: '', save: 0, sub: 'That\'s $35 a session, the best value. Set times, 4 players max per group. Use within 10 weeks.', after: '', label: 'Semi-private 8-pack, $280 ($35 a session)', pick: '$280, $35 a session' },
+      'basketball|Semi-private|4': { kicker: 'Semi-private basketball, 2 to 4 players', was: '', big: '$160', unit: 'for 4 sessions', full: 160, pre: 160, per: '', save: 0, sub: 'That\'s $40 a session. Set times, 4 players max per group.', after: '', label: 'Semi-private 4-pack, $160 ($40 a session)', pick: '$160, $40 a session' },
+      'basketball|One-on-one|8': { kicker: 'One-on-one basketball, limited spots', was: '', big: '$480', unit: 'for 8 sessions', full: 480, pre: 480, per: '', save: 0, sub: 'That\'s $60 a session, the best value. Use within 10 weeks.', after: '', label: 'One-on-one 8-pack, $480 ($60 a session)', pick: '$480, $60 a session' },
+      'basketball|One-on-one|4': { kicker: 'One-on-one basketball, limited spots', was: '', big: '$260', unit: 'for 4 sessions', full: 260, pre: 260, per: '', save: 0, sub: 'That\'s $65 a session.', after: '', label: 'One-on-one 4-pack, $260 ($65 a session)', pick: '$260, $65 a session' },
       'strength|At my home': { save: 0, kicker: 'Strength and conditioning, at your home', was: '', big: '$200', unit: 'for 4 sessions', full: 200, pre: 200, per: '', sub: 'Four sessions, $50 each.', after: '', label: '$200 4-pack (home)' },
       'strength|At my gym': { save: 0, kicker: 'Strength and conditioning, at your gym', was: '', big: '$200', unit: 'for 4 sessions', full: 200, pre: 200, per: '', sub: 'Four sessions, $50 each.', after: '', label: '$200 4-pack (gym)' }
     };
     var INCLUDES = {
-      basketball: ['Coached sessions at set times each week, on the court in Pinellas County. I bring the equipment.', 'Skills, functional strength and conditioning in every session.', 'A player report card: ankles, knees, hips, vertical jump and three-quarter-court sprint, tested in session one and again at the end of the four weeks.'],
+      basketball: ['Coached sessions at set times each week, on the court in Pinellas County. I bring the equipment.', 'Skills, functional strength and conditioning in every session.', 'A player report card: ankles, knees, hips, vertical jump and three-quarter-court sprint, tested in your first session and again in your last.'],
       strength: ['Four coached sessions. I come to you and bring the equipment.', 'A ground-up movement check in session one: ankles, knees, hips.', 'Strength and conditioning built on what we find.']
     };
     // Payment handles: fill these in to show Pay buttons on the confirmation screen.
     var PAY = { venmo: '', cashapp: 'coachtyalexander' };
-    var state = { path: '', format: '', day: '', dayLabel: '', time: '' };
+    var state = { path: '', format: '', pack: '8', day: '', dayLabel: '', time: '' };
+    function priceKey() { return state.path + '|' + state.format + (state.path === 'basketball' ? '|' + state.pack : ''); }
     var order = [];
     var idx = 0;
     var $ = function (id) { return document.getElementById(id); };
@@ -261,11 +268,18 @@
       if (window.pageYOffset > top) window.scrollTo(0, top);
     }
     function renderPrice() {
-      var p = PRICES[state.path + '|' + state.format]; if (!p) return;
+      var p = PRICES[priceKey()]; if (!p) return;
+      var bbPick = state.path === 'basketball';
+      $('packPick').hidden = !bbPick;
+      if (bbPick) {
+        $('pack8').textContent = PRICES[state.path + '|' + state.format + '|8'].pick;
+        $('pack4').textContent = PRICES[state.path + '|' + state.format + '|4'].pick;
+        $('packPick').querySelectorAll('.pack-opt').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-pack') === state.pack ? 'true' : 'false'); });
+      }
       $('priceKicker').textContent = p.kicker;
       $('priceBig').textContent = p.big; $('priceUnit').textContent = p.unit || '';
       $('priceWas').textContent = p.was || ''; $('priceWas').hidden = !p.was;
-      $('priceNote').textContent = state.path === 'basketball' ? 'Groups max out at 4 players, so spots are limited.' : 'I come to you, anywhere in Pinellas County.';
+      $('priceNote').textContent = state.path === 'basketball' ? "Love your first session or your next one's free." : 'I come to you, anywhere in Pinellas County.';
       $('priceSub').textContent = p.sub;
       $('priceAfter').textContent = p.after; $('priceAfter').hidden = !p.after;
       var ul = $('priceList'); ul.innerHTML = '';
@@ -280,6 +294,8 @@
       $('areaField').hidden = bb; $('tArea').required = !bb;
     }
     tool.addEventListener('click', function (e) {
+      var pk = e.target.closest('.pack-opt');
+      if (pk) { state.pack = pk.getAttribute('data-pack'); renderPrice(); return; }
       var opt = e.target.closest('.quiz-opt');
       if (opt && opt.hasAttribute('data-set')) {
         var key = opt.getAttribute('data-set'); state[key] = opt.getAttribute('data-val');
@@ -341,7 +357,7 @@
         var bad = form.querySelector(':invalid'); if (bad) bad.focus();
         return;
       }
-      var pp = PRICES[state.path + '|' + state.format]; var prepay = form.elements.pay_choice.value === 'Prepay';
+      var pp = PRICES[priceKey()]; var prepay = form.elements.pay_choice.value === 'Prepay';
       var amount = prepay ? pp.pre : pp.full; $('fAmount').value = '$' + amount + pp.per + (prepay ? ' (prepay price)' : '');
       var body = new URLSearchParams(new FormData(form)).toString();
       btn.disabled = true; var original = btn.textContent; btn.textContent = 'Sending…';
@@ -350,7 +366,7 @@
           if (!res.ok) throw new Error('Request failed: ' + res.status);
           $('doneLine').textContent = 'Thanks, ' + (form.elements.name.value.split(' ')[0] || 'got it') + '. I have you down for ' + state.dayLabel + ', ' + state.time.toLowerCase() + '.';
           if (prepay) {
-            var note = encodeURIComponent(state.path === 'basketball' ? 'Coach Ty 4-week package' : 'Coach Ty 4-pack');
+            var note = encodeURIComponent(state.path === 'basketball' ? 'Coach Ty ' + state.format.toLowerCase() + ' ' + state.pack + '-pack' : 'Coach Ty 4-pack');
             $('payTitle').textContent = 'Prepay $' + amount + pp.per + ' and your spot is held.';
             var btns = $('payBtns'); btns.innerHTML = '';
             if (PAY.venmo) { var v = document.createElement('a'); v.className = 'btn'; v.href = 'https://venmo.com/' + PAY.venmo + '?txn=pay&amount=' + amount + '&note=' + note; v.rel = 'noopener'; v.textContent = 'Pay $' + amount + ' with Venmo'; btns.appendChild(v); }
@@ -358,7 +374,7 @@
             $('payText').textContent = (PAY.venmo || PAY.cashapp) ? 'Tap to pay. I\'ll confirm by text when it lands.' : 'I\'ll text you a Venmo or Cash App request for $' + amount + pp.per + ' with your confirmation.';
             $('payBox').hidden = false;
           }
-          $('tyPack').hidden = !(state.path === 'basketball' && !prepay);
+          $('tyPack').hidden = !(state.path === 'basketball' && state.format === 'Semi-private' && state.pack === '4');
           var cal = $('tyCal');
           if (cal && !cal.src) {
             cal.src = cal.getAttribute('data-src');
@@ -373,6 +389,7 @@
         });
     });
     var qs = new URLSearchParams(location.search), pre = qs.get('path'), fmt = qs.get('format');
+    if (qs.get('pack') === '4') state.pack = '4';
     if (pre === 'basketball' && (fmt === 'Semi-private' || fmt === 'One-on-one')) {
       state.path = pre; state.format = fmt;
       tool.querySelectorAll('[data-set="format"]').forEach(function (o) { o.classList.toggle('sel', o.getAttribute('data-val') === fmt); });

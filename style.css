@@ -973,3 +973,16 @@ h1.mc-title { margin-top: 2px; font-size: clamp(2rem, 5vw, 2.75rem); line-height
 .rs-focus-tag { font-stretch: 87%; font-weight: 800; font-size: 15px; }
 .rs-focus-drill { margin-top: 4px; font-size: 16px; line-height: 1.45; max-width: none; }
 .mc .quiz-step[data-step="result"] .price-note { margin-top: 10px; }
+
+/* Pack picker on the price step */
+.pack-pick { display: grid; grid-template-columns: 1.15fr 1fr; gap: 10px; margin: 12px 0 6px; }
+.pack-opt { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 14px 14px 12px; text-align: left; background: var(--field); border: 1px solid var(--fg-muted); border-radius: 10px; color: var(--fg); cursor: pointer; }
+.pack-opt b { font-stretch: 75%; font-weight: 800; font-size: 1.25rem; line-height: 1.1; }
+.pack-line { font-size: 14px; color: var(--fg-muted); }
+.pack-tag { font-stretch: 87%; font-weight: 700; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: var(--gold); color: var(--ink); }
+.pack-opt[aria-pressed="true"] { background: var(--ink); color: var(--paper); border: 2px solid var(--gold); }
+.pack-opt[aria-pressed="true"] .pack-line { color: var(--paper); opacity: .85; }
+.pack-opt:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.h-adults { margin-top: 18px; text-align: center; font-size: 16px; color: var(--fg-muted); max-width: none; }
+.h-fine { display: block; margin-top: 10px; text-align: center; font-size: 13px; opacity: .75; }
+.h-note b { color: var(--fg); }
