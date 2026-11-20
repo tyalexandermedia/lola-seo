@@ -986,3 +986,13 @@ h1.mc-title { margin-top: 2px; font-size: clamp(2rem, 5vw, 2.75rem); line-height
 .h-adults { margin-top: 18px; text-align: center; font-size: 16px; color: var(--fg-muted); max-width: none; }
 .h-fine { display: block; margin-top: 10px; text-align: center; font-size: 13px; opacity: .75; }
 .h-note b { color: var(--fg); }
+
+/* Credentials and tagline */
+.h-tag { margin-top: 14px; font-weight: 800; font-stretch: 87%; font-size: 1.2em; color: var(--fg); }
+.h-creds { list-style: none; margin: 24px 0 8px; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0; max-width: none; border-top: 1px solid var(--line, rgba(0,0,0,.14)); }
+.h-creds li { display: flex; flex-direction: column; gap: 2px; padding: 12px 0 12px 22px; border-bottom: 1px solid var(--line, rgba(0,0,0,.14)); position: relative; }
+.h-creds li::before { content: ""; position: absolute; left: 2px; top: 19px; width: 9px; height: 9px; border-radius: 50%; background: var(--gold-deep); }
+.h-creds b { font-weight: 700; }
+.h-creds span { font-size: 15px; color: var(--fg-muted); }
+@media (min-width: 800px) { .h-creds { grid-template-columns: repeat(2, 1fr); column-gap: 32px; } }
+.about-areas { margin-top: 28px; max-width: 62ch; }
