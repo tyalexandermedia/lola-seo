@@ -999,7 +999,7 @@ h1.mc-title { margin-top: 2px; font-size: clamp(2rem, 5vw, 2.75rem); line-height
 
 /* ── Funnel and look pass (Nov 20) ─────────────────────── */
 /* Hero: court photo, framed on Coach Ty and the banner */
-.hero-media--court img { object-position: 74% 40%; }
+.hero-media--court img { object-position: 97% 40%; }
 @media (max-width: 899px) { .hero-media--court img { object-position: 72% 30%; } }
 /* Low-risk entry right under the main button */
 .hero-copy .hero-try { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px; font-size: 15px; line-height: 1.45; color: var(--fg); max-width: 46ch; }
