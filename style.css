@@ -996,3 +996,50 @@ h1.mc-title { margin-top: 2px; font-size: clamp(2rem, 5vw, 2.75rem); line-height
 .h-creds span { font-size: 15px; color: var(--fg-muted); }
 @media (min-width: 800px) { .h-creds { grid-template-columns: repeat(2, 1fr); column-gap: 32px; } }
 .about-areas { margin-top: 28px; max-width: 62ch; }
+
+/* ── Funnel and look pass (Nov 20) ─────────────────────── */
+/* Hero: court photo, framed on Coach Ty and the banner */
+.hero-media--court img { object-position: 74% 40%; }
+@media (max-width: 899px) { .hero-media--court img { object-position: 72% 30%; } }
+/* Low-risk entry right under the main button */
+.hero-copy .hero-try { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px; font-size: 15px; line-height: 1.45; color: var(--fg); max-width: 46ch; }
+.hero-try .h-tick { margin-top: 2px; }
+.hero-try a { color: var(--gold); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+/* Text Ty and socials on the first screen */
+.hero-contact { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; max-width: none; }
+.hero-contact li { max-width: none; }
+.hero-contact a { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border: 1px solid rgba(244,239,231,.3); border-radius: 999px; color: #F4EFE7; font-weight: 600; font-size: 14px; text-decoration: none; }
+.hero-contact a:hover { border-color: var(--gold); color: var(--gold); }
+.hero-contact svg { width: 16px; height: 16px; flex: none; }
+.nav-links .nav-text { color: var(--gold) !important; }
+/* Phone booking bar: book plus text */
+.h-sticky { display: flex; gap: 10px; }
+.h-sticky .btn--block { flex: 1 1 auto; width: auto; }
+.h-sticky-text { flex: none; min-height: 52px; padding: 0 18px; color: #F4EFE7; }
+
+/* Team strip */
+.h-team { position: relative; }
+.h-team-strip { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 4px; }
+.h-team-strip figure { margin: 0; overflow: hidden; }
+.h-team-strip img { display: block; width: 100%; height: clamp(180px, 26vw, 340px); object-fit: cover; filter: saturate(.85); }
+@media (max-width: 699px) {
+  .h-team-strip { grid-template-columns: 1fr 1fr; }
+  .h-team-strip figure:first-child { grid-column: 1 / -1; }
+  .h-team-strip img { height: 200px; }
+  .h-team-strip figure:not(:first-child) img { height: 150px; }
+}
+.h-team-copy { padding-block: clamp(36px, 5vw, 60px); max-width: 640px; }
+.h-team-kicker { font-stretch: 87%; font-weight: 700; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
+.h-team-copy h2 { margin-top: 10px; }
+.h-team-copy p:not(.h-team-kicker) { margin-top: 14px; color: var(--fg-muted); font-size: 1.125rem; }
+.h-team-links { display: flex; flex-wrap: wrap; gap: 4px 24px; margin-top: 12px; }
+.h-team-links .link { color: var(--gold); }
+
+/* Video and review slots: hidden until real clips and quotes arrive */
+.h-video-grid { display: grid; gap: 12px; margin-top: 24px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.h-video-grid > * { aspect-ratio: 9 / 16; width: 100%; border: 0; border-radius: 10px; background: #000; }
+.h-review-list { display: grid; gap: 16px; margin-top: 24px; padding: 0; list-style: none; max-width: none; }
+@media (min-width: 800px) { .h-review-list { grid-template-columns: repeat(3, 1fr); } }
+.h-review-list li { max-width: none; padding: 20px; background: var(--field); border: 1px solid var(--rule); border-radius: 10px; }
+.h-videos[hidden], .h-reviews[hidden] { display: none !important; }
+.next-line { margin: 4px 0 14px; font-size: 15px; line-height: 1.45; color: var(--fg-muted); max-width: none; } .next-line b { color: var(--fg); }

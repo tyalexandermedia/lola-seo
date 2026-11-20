@@ -116,8 +116,8 @@
           </div>
 
           <div class="quiz-step" data-step="days">
-            <h2 class="quiz-q">Pick your first day.</h2>
-            <p class="form-note">These are the days I have open. I'll text you to confirm the exact time.</p>
+            <h2 class="quiz-q" id="daysQ">Pick your first day.</h2>
+            <p class="form-note" id="daysNote">These are the days I have open. I'll text you to confirm the exact time.</p>
             <div class="cal" id="cal" role="group" aria-label="Choose a day"></div>
             <div id="timeWrap" hidden>
               <h3 class="cal-h">What time of day?</h3>
@@ -163,6 +163,7 @@
                   <label class="pay-opt"><input type="radio" name="pay_choice" value="Prepay" checked><span><b id="payPreLabel">Prepay now and save $20</b><small id="payPreSub"></small></span></label>
                   <label class="pay-opt"><input type="radio" name="pay_choice" value="Pay at session one"><span><b id="payLaterLabel">Pay at session one</b><small id="payLaterSub"></small></span></label>
                 </fieldset>
+                <p class="next-line"><b>What happens next:</b> I text you to confirm the time, the location and what to bring. Nothing is booked until we agree.</p>
                 <button type="submit" class="btn btn--block" id="toolBtn">Request my first session</button>
                 <p class="form-note">Nothing is charged on this page. Venmo, Cash App, Zelle or card.</p>
               </div>
@@ -341,7 +342,14 @@
       if (WINDOWS[dow].length === 1) { state.time = WINDOWS[dow][0]; box.firstChild.classList.add('sel'); }
       $('timeWrap').hidden = false;
     }
-    $('toDays').addEventListener('click', function () { buildCal(); show('days'); });
+    $('toDays').addEventListener('click', function () {
+      var group = state.path === 'basketball' && state.format === 'Semi-private';
+      $('daysQ').textContent = group ? 'Pick the day that works best.' : 'Pick your first day.';
+      $('daysNote').textContent = group
+        ? 'Groups are 4 players max. I\'ll place your player in a group that fits this day and text you the exact time.'
+        : 'These are the days I have open. I\'ll text you to confirm the exact time.';
+      buildCal(); show('days');
+    });
     $('toContact').addEventListener('click', function () {
       if (!state.day || !state.time) { $('daysStatus').textContent = state.day ? 'Pick a time of day.' : 'Pick a day.'; $('daysStatus').className = 'form-status show err'; return; }
       renderPrice(); show('contact');
