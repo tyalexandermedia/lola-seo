@@ -1043,3 +1043,4 @@ h1.mc-title { margin-top: 2px; font-size: clamp(2rem, 5vw, 2.75rem); line-height
 .h-review-list li { max-width: none; padding: 20px; background: var(--field); border: 1px solid var(--rule); border-radius: 10px; }
 .h-videos[hidden], .h-reviews[hidden] { display: none !important; }
 .next-line { margin: 4px 0 14px; font-size: 15px; line-height: 1.45; color: var(--fg-muted); max-width: none; } .next-line b { color: var(--fg); }
+.h-team-strip figure:first-child img { object-position: 50% 12%; }
